@@ -3,7 +3,9 @@ import { SafeAreaView } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import SignInScreen from './screens/SignInScreen';
+import SignInScreen from './Screens/SignInScreen';
+import FirstPage from './Screens/firstPage';
+import SignUpScreen from './Screens/SignUpScreen';
 // import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 // const AppNavigator = createStackNavigator(
