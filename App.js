@@ -28,7 +28,9 @@ export default function App() {
     //   </h3>
     // </div>
 
-    <SignInScreen></SignInScreen>
+    <FirstPage></FirstPage>
+    //<SignUpScreen></SignUpScreen>
+    //<SignInScreen></SignInScreen>
 
     // <AppContainer />
   )
