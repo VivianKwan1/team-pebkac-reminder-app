@@ -5,7 +5,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 function SignInScreen(props) {
     return (
-        <SafeAreaView>
+        <SafeAreaView style = {styles.page}>
             <Pressable style = {styles.cancelButton}>
               <Text style = {styles.cancelText}>X
               </Text>
@@ -29,12 +29,12 @@ function SignInScreen(props) {
               </Text>
             </Pressable>
 
-            <Pressable style = {styles.googfbButton}>
+            <Pressable style = {styles.googButton}>
               <Text style = {styles.text}>Google
               </Text>
             </Pressable>
 
-            <Pressable style = {styles.googfbButton}>
+            <Pressable style = {styles.fbButton}>
               <Text style = {styles.text}>Facebook
               </Text>
             </Pressable>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#0080FF',
       marginBottom: 15,
       marginHorizontal:120,
-      borderRadius:50,
+      borderRadius:10,
       marginTop: 30
     },
 
@@ -69,10 +69,10 @@ const styles = StyleSheet.create({
       elevation: 3,
       marginBottom: 15,
       marginHorizontal:120,
-      borderRadius:50
+      borderRadius:10
     },
     
-    googfbButton: {
+    googButton: {
       alignItems: 'center',
       justifyContent: 'center',
       paddingVertical: 18,
@@ -80,7 +80,18 @@ const styles = StyleSheet.create({
       backgroundColor: '#0080FF',
       marginBottom: 15,
       marginHorizontal:110,
-      borderRadius:50
+      borderRadius:10
+    },
+
+    fbButton: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 18,
+      elevation: 3,
+      backgroundColor: '#0080FF',
+      marginBottom: 300,
+      marginHorizontal:110,
+      borderRadius:10
     },
 
     text: {
@@ -109,6 +120,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     letterSpacing: 0.25,
     color: 'red',
+    },
+    
+    page: {
+    backgroundColor: '#95FF80'
     },
 
 })
