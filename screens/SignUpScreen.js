@@ -6,10 +6,10 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 function SignUpScreen(props) {
     return (
         <SafeAreaView>
-            <Button
-                title='X'
-            // onPress={() => this.props.navigation.goBack()}
-            />
+            <Pressable style = {styles.cancelButton}>
+              <Text style = {styles.cancelText}>X
+              </Text>
+            </Pressable>
             <Text style={styles.texts}>Have an Account? Sign In</Text>
             <Text style={styles.accountText}>First Name</Text>
             <TextInput
@@ -63,35 +63,45 @@ function SignUpScreen(props) {
 
 const styles = StyleSheet.create({
     texts: {
-        fontSize:20,
+        fontSize:15,
         marginHorizontal: 10,
         fontWeight: 'bold'
     },
     createButton: {
       alignItems: 'center',
       justifyContent: 'center',
-      paddingVertical: 18,
+      paddingVertical: 15,
       elevation: 3,
       backgroundColor: '#0080FF',
-      marginBottom: 15,
+      marginBottom: 10,
       marginHorizontal:90,
       borderRadius:50,
-      marginTop: 30
+      marginTop: 20
     },
     
     googfbButton: {
       alignItems: 'center',
       justifyContent: 'center',
-      paddingVertical: 18,
+      paddingVertical: 15,
       elevation: 3,
       backgroundColor: '#0080FF',
-      marginBottom: 15,
+      marginBottom: 10,
       marginHorizontal:120,
       borderRadius:50
     },
 
+    cancelButton: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 15,
+      elevation: 3,
+      marginBottom: 10,
+      marginHorizontal:120,
+      borderRadius:20
+    },
+
     text: {
-    fontSize:18,
+    fontSize:13,
     fontWeight: 'bold',
     letterSpacing: 0.25,
     color: 'white',
@@ -101,15 +111,21 @@ const styles = StyleSheet.create({
         margin: 5,
         borderWidth: 2,
         borderRadius:10,
-        fontSize:20,
+        fontSize:15,
         backgroundColor: '#E0E0E0'
     },
 
     accountText: {
         margin: 2,
-        fontSize:18,
+        fontSize:13,
         marginHorizontal: 10
-    }
+    }, 
+    cancelText: {
+    fontSize:25,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'red',
+    },
 
 })
 
