@@ -26,27 +26,25 @@ const styles = StyleSheet.create({
     appName: {
         fontWeight: 'bold',
         fontSize:60,
-        marginBottom:400,
+        marginBottom:200,
         textAlign: 'center'
     },
     
     signInbutton: {
       alignItems: 'center',
       justifyContent: 'center',
-      paddingVertical: 25,
-      paddingHorizontal: 32,
+      paddingVertical: 15,
       elevation: 3,
       backgroundColor: '#0080FF',
       marginBottom: 20,
-      marginHorizontal:120,
+      marginHorizontal:110,
       borderRadius:50
     },
 
     signUpbutton: {
       alignItems: 'center',
       justifyContent: 'center',
-      paddingVertical: 25,
-      paddingHorizontal: 32,
+      paddingVertical: 15,
       elevation: 3,
       backgroundColor: '#0080FF',
       marginBottom: 20,
@@ -55,7 +53,7 @@ const styles = StyleSheet.create({
     },
 
     text: {
-    fontSize:25,
+    fontSize:20,
     lineHeight: 27,
     fontWeight: 'bold',
     letterSpacing: 0.25,
