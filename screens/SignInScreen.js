@@ -6,10 +6,10 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 function SignInScreen(props) {
     return (
         <SafeAreaView>
-            <Button
-                title='X'
-            // onPress={() => this.props.navigation.goBack()}
-            />
+            <Pressable style = {styles.cancelButton}>
+              <Text style = {styles.cancelText}>X
+              </Text>
+            </Pressable>
             <Text style={styles.texts}>Don't Have Account? Sign Up</Text>
             <Text style={styles.accountText}>Email Address</Text>
             <TextInput
@@ -38,6 +38,7 @@ function SignInScreen(props) {
               <Text style = {styles.text}>Facebook
               </Text>
             </Pressable>
+
         </SafeAreaView>
     );
 }
@@ -46,7 +47,8 @@ const styles = StyleSheet.create({
     texts: {
         fontSize:20,
         marginHorizontal: 10,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginTop: 20,
     },
     signButton: {
       alignItems: 'center',
@@ -59,6 +61,16 @@ const styles = StyleSheet.create({
       borderRadius:50,
       marginTop: 30
     },
+
+    cancelButton: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 18,
+      elevation: 3,
+      marginBottom: 15,
+      marginHorizontal:120,
+      borderRadius:50
+    },
     
     googfbButton: {
       alignItems: 'center',
@@ -67,7 +79,7 @@ const styles = StyleSheet.create({
       elevation: 3,
       backgroundColor: '#0080FF',
       marginBottom: 15,
-      marginHorizontal:120,
+      marginHorizontal:110,
       borderRadius:50
     },
 
@@ -90,7 +102,14 @@ const styles = StyleSheet.create({
         margin: 2,
         fontSize:18,
         marginHorizontal: 10
-    }
+    },
+
+    cancelText: {
+    fontSize:30,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'red',
+    },
 
 })
 
