@@ -5,7 +5,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 function SignUpScreen(props) {
     return (
-        <SafeAreaView>
+        <SafeAreaView style = {styles.page}>
             <Pressable style = {styles.cancelButton}>
               <Text style = {styles.cancelText}>X
               </Text>
@@ -48,12 +48,12 @@ function SignUpScreen(props) {
               </Text>
             </Pressable>
 
-            <Pressable style = {styles.googfbButton}>
+            <Pressable style = {styles.googButton}>
               <Text style = {styles.text}>Google
               </Text>
             </Pressable>
 
-            <Pressable style = {styles.googfbButton}>
+            <Pressable style = {styles.fbButton}>
               <Text style = {styles.text}>Facebook
               </Text>
             </Pressable>
@@ -75,19 +75,30 @@ const styles = StyleSheet.create({
       backgroundColor: '#0080FF',
       marginBottom: 10,
       marginHorizontal:90,
-      borderRadius:50,
+      borderRadius:10,
       marginTop: 20
     },
     
-    googfbButton: {
+    googButton: {
       alignItems: 'center',
       justifyContent: 'center',
-      paddingVertical: 15,
+      paddingVertical: 18,
       elevation: 3,
       backgroundColor: '#0080FF',
-      marginBottom: 10,
-      marginHorizontal:120,
-      borderRadius:50
+      marginBottom: 15,
+      marginHorizontal:110,
+      borderRadius:10
+    },
+
+    fbButton: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 18,
+      elevation: 3,
+      backgroundColor: '#0080FF',
+      marginBottom: 300,
+      marginHorizontal:110,
+      borderRadius:10
     },
 
     cancelButton: {
@@ -97,7 +108,7 @@ const styles = StyleSheet.create({
       elevation: 3,
       marginBottom: 10,
       marginHorizontal:120,
-      borderRadius:20
+      borderRadius:10
     },
 
     text: {
@@ -127,6 +138,9 @@ const styles = StyleSheet.create({
     color: 'red',
     },
 
+    page: {
+    backgroundColor: '#95FF80'
+    },
 })
 
 export default SignUpScreen;
