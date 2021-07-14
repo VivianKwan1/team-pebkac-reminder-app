@@ -1,65 +1,92 @@
 import React from 'react';
-import { Button, TextInput, SafeAreaView, Text, StyleSheet, Pressable } from 'react-native';
+import {Button, TextInput, SafeAreaView, Text, StyleSheet, Pressable, Image, Dimensions, View} from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import SignInScreen from './SignInScreen';
 import SignUpScreen from './SignUpScreen';
 
 function FirstPage(props) {
-    return (
-        <SafeAreaView style={styles.page}>
-            <Text style={styles.appName}>Reminder App Name</Text>
-            <Pressable style = {styles.signInbutton}>
-              <Text style = {styles.text}>Sign In
-              </Text>
-            </Pressable>
-            <Pressable style = {styles.signUpbutton}>
-              <Text style = {styles.text}>Sign Up
-              </Text>
-            </Pressable>
-        </SafeAreaView>
-    );
+  return (
+    <SafeAreaView style={styles.page}>
+      <Image source={require('../assets/firstPage1.png')} style = {styles.backImage1}/>
+      <Image source={require('../assets/firstPage2.png')} style = {styles.backImage2}/>
+      <Text style={styles.appName}>Reminder App Name</Text>
+      <View style={styles.parent}>
+          <Pressable style={styles.signInbutton}>
+        <Text style={styles.text}>Sign In</Text>
+      </Pressable>
+      <Pressable style={styles.signUpbutton}>
+        <Text style={styles.text}>Sign Up</Text>
+      </Pressable>
+      </View>
+    </SafeAreaView>
+  );
 }
 
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
+
 const styles = StyleSheet.create({
-    appName: {
-        fontWeight: 'bold',
-        fontSize:60,
-        marginBottom:200,
-        textAlign: 'center'
-    },
-    
-    signInbutton: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingVertical: 15,
-      elevation: 3,
-      backgroundColor: '#0080FF',
-      marginBottom: 20,
-      marginHorizontal:110,
-      borderRadius:10
-    },
+  appName: {
+    fontWeight: 'bold',
+    fontSize: height*0.07,
+    marginBottom: height*0.43,
+    marginTop: height*0.07,
+    textAlign: 'center',
+    color: 'white',
+    marginHorizontal: width*0.01,
+  },
 
-    signUpbutton: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingVertical: 15,
-      elevation: 3,
-      backgroundColor: '#0080FF',
-      marginBottom: 300,
-      marginHorizontal:110,
-      borderRadius:10
-    },
+  signInbutton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: height*0.06,
+    backgroundColor: '#FAF9C7',
+    marginBottom: height*0.02,
+    marginHorizontal: width*0.05,
+    borderRadius: 50,
+    width: width*0.25,
+  },
 
-    text: {
-    fontSize:20,
+  signUpbutton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FAF9C7',
+    marginBottom: height*0.02,
+    //marginHorizontal: width*0.35,
+    borderRadius: 50,
+    height: height*0.06,
+    width: width*0.25
+  },
+
+  text: {
+    fontSize: 20,
     lineHeight: 27,
     fontWeight: 'bold',
     letterSpacing: 0.25,
-    color: 'white',
+    color: 'gray',
   },
-    page: {
-    backgroundColor: '#95FF80',
+  page: {
+    backgroundColor: 'green',
+    width: width,
+    height: height,
   },
-})
+  backImage1: {
+    width: '100%', height: '60%', flex: 1, resizeMode: 'stretch',
+    position:'absolute',
+    marginTop: height*0.3,
+    marginHorizontal: width*0.1
+  },
+  parent: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginTop: height *0.19
+  },
+  backImage2: {
+    width: '40%', height: '50%', flex: 1, resizeMode: 'stretch',
+    position:'absolute',
+    marginTop: height*0.07
+  },
+});
 
 export default FirstPage;
