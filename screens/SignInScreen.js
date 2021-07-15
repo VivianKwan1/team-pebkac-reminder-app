@@ -1,11 +1,12 @@
 import React from 'react';
 import { TextInput } from 'react-native';
-import { Button, SafeAreaView, Text, StyleSheet, Pressable } from 'react-native';
+import { Button, SafeAreaView, Text, StyleSheet, Pressable, Dimensions, View, Image } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 function SignInScreen(props) {
     return (
         <SafeAreaView style = {styles.page}>
+          <Image source={require('../assets/secondPage.png')} style = {styles.backImage}/>
             <Pressable style = {styles.cancelButton}>
               <Text style = {styles.cancelText}>X
               </Text>
@@ -14,13 +15,11 @@ function SignInScreen(props) {
             <Text style={styles.accountText}>Email Address</Text>
             <TextInput
                 style={styles.accountInput}
-                placeholder='  Email Address'
             />
 
             <Text style={styles.accountText}>Password</Text>
             <TextInput
                 style={styles.accountInput}
-                placeholder='  Password'
                 secureTextEntry={true}
             />
 
@@ -43,32 +42,34 @@ function SignInScreen(props) {
     );
 }
 
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
+
 const styles = StyleSheet.create({
     texts: {
         fontSize:20,
-        marginHorizontal: 10,
-        fontWeight: 'bold',
-        marginTop: 20,
+        marginHorizontal: width*0.1,
+        marginTop: height*0.1,
+        marginBottom: height*0.01
     },
     signButton: {
       alignItems: 'center',
       justifyContent: 'center',
       paddingVertical: 18,
       elevation: 3,
-      backgroundColor: '#0080FF',
+      backgroundColor: '#8A873B',
       marginBottom: 15,
-      marginHorizontal:120,
+      marginHorizontal: width*0.1,
       borderRadius:10,
       marginTop: 30
     },
 
     cancelButton: {
-      alignItems: 'center',
-      justifyContent: 'center',
+      alignItems: 'flex-end',
       paddingVertical: 18,
       elevation: 3,
       marginBottom: 15,
-      marginHorizontal:120,
+      marginHorizontal: width*0.1,
       borderRadius:10
     },
     
@@ -77,9 +78,9 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       paddingVertical: 18,
       elevation: 3,
-      backgroundColor: '#0080FF',
+      backgroundColor: '#8A873B',
       marginBottom: 15,
-      marginHorizontal:110,
+      marginHorizontal: width*0.1,
       borderRadius:10
     },
 
@@ -88,9 +89,9 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       paddingVertical: 18,
       elevation: 3,
-      backgroundColor: '#0080FF',
+      backgroundColor: '#8A873B',
       marginBottom: 300,
-      marginHorizontal:110,
+      marginHorizontal: width*0.1,
       borderRadius:10
     },
 
@@ -102,29 +103,35 @@ const styles = StyleSheet.create({
     },
 
     accountInput: {
-        margin: 5,
-        borderWidth: 2,
-        borderRadius:10,
-        fontSize:20,
-        backgroundColor: '#E0E0E0'
+        marginHorizontal: width*0.1,
+        borderWidth: 1,
+        //borderRadius:10,
+        fontSize:20
     },
 
     accountText: {
-        margin: 2,
+        fontWeight: 'bold',
+        margin: 10, 
         fontSize:18,
-        marginHorizontal: 10
+        marginHorizontal: width*0.1,
     },
 
     cancelText: {
     fontSize:30,
     fontWeight: 'bold',
-    letterSpacing: 0.25,
     color: 'red',
     },
     
     page: {
-    backgroundColor: '#95FF80'
+    backgroundColor: '#FFFFE2'
     },
+
+    backImage: {
+    width: '90%', height: '60%', flex: 1, resizeMode: 'stretch', 
+    alignContent:'center',
+    position:'absolute',
+    marginTop: height*0.3
+  },
 
 })
 
