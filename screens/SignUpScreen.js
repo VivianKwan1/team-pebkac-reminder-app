@@ -1,11 +1,12 @@
 import React from 'react';
 import { TextInput } from 'react-native';
-import { Button, SafeAreaView, Text, StyleSheet, Pressable } from 'react-native';
+import { Button, SafeAreaView, Text, StyleSheet, Pressable, Image, Dimensions, View} from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 function SignUpScreen(props) {
     return (
         <SafeAreaView style = {styles.page}>
+        <Image source={require('../assets/thirdPage.png')} style = {styles.backImage}/>
             <Pressable style = {styles.cancelButton}>
               <Text style = {styles.cancelText}>X
               </Text>
@@ -14,32 +15,27 @@ function SignUpScreen(props) {
             <Text style={styles.accountText}>First Name</Text>
             <TextInput
                 style={styles.accountInput}
-                placeholder='  First Name'
             />
 
             <Text style={styles.accountText}>Last Name</Text>
             <TextInput
                 style={styles.accountInput}
-                placeholder='  Last Name'
             />
 
             <Text style={styles.accountText}>Email</Text>
             <TextInput
                 style={styles.accountInput}
-                placeholder='  Email Adress'
             />
 
             <Text style={styles.accountText}>Password</Text>
             <TextInput
                 style={styles.accountInput}
-                placeholder='  Password'
                 secureTextEntry={true}
             />
 
             <Text style={styles.accountText}>Re-enter Password</Text>
             <TextInput
                 style={styles.accountInput}
-                placeholder='  Re-enter Password'
                 secureTextEntry={true}
             />
 
@@ -61,86 +57,90 @@ function SignUpScreen(props) {
     );
 }
 
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
+
 const styles = StyleSheet.create({
     texts: {
-        fontSize:15,
-        marginHorizontal: 10,
-        fontWeight: 'bold'
+        fontSize:height*0.03,
+        marginHorizontal: width*0.1,
+        marginBottom: height*0.01
     },
     createButton: {
       alignItems: 'center',
       justifyContent: 'center',
-      paddingVertical: 15,
-      elevation: 3,
-      backgroundColor: '#0080FF',
-      marginBottom: 10,
-      marginHorizontal:90,
+      paddingVertical: height*0.025,
+      backgroundColor: '#8A873B',
+      marginBottom: 15,
+      marginHorizontal: width*0.1,
       borderRadius:10,
-      marginTop: 20
+      marginTop: 30
     },
     
     googButton: {
       alignItems: 'center',
       justifyContent: 'center',
-      paddingVertical: 18,
-      elevation: 3,
-      backgroundColor: '#0080FF',
+      paddingVertical: height*0.025,
+      backgroundColor: '#8A873B',
       marginBottom: 15,
-      marginHorizontal:110,
+      marginHorizontal: width*0.1,
       borderRadius:10
     },
 
     fbButton: {
       alignItems: 'center',
       justifyContent: 'center',
-      paddingVertical: 18,
-      elevation: 3,
-      backgroundColor: '#0080FF',
-      marginBottom: 300,
-      marginHorizontal:110,
+      paddingVertical: height*0.025,
+      backgroundColor: '#8A873B',
+      marginBottom: height*0.2,
+      marginHorizontal: width*0.1,
       borderRadius:10
     },
 
     cancelButton: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingVertical: 15,
-      elevation: 3,
-      marginBottom: 10,
-      marginHorizontal:120,
+      alignItems: 'flex-end',
+      paddingVertical: 18,
+      marginBottom: height*0.0001,
+      marginHorizontal: width*0.1,
       borderRadius:10
     },
 
     text: {
-    fontSize:13,
+    fontSize:18,
     fontWeight: 'bold',
     letterSpacing: 0.25,
     color: 'white',
     },
 
     accountInput: {
-        margin: 5,
-        borderWidth: 2,
-        borderRadius:10,
+        marginHorizontal: width*0.1,
+        borderWidth: 1,
         fontSize:15,
-        backgroundColor: '#E0E0E0'
     },
 
     accountText: {
-        margin: 2,
-        fontSize:13,
-        marginHorizontal: 10
-    }, 
+        fontWeight: 'bold',
+        margin: height*0.005, 
+        fontSize:height*0.025,
+        marginHorizontal: width*0.1,
+    },
+
     cancelText: {
-    fontSize:25,
+    fontSize:height*0.03,
     fontWeight: 'bold',
-    letterSpacing: 0.25,
     color: 'red',
     },
 
     page: {
-    backgroundColor: '#95FF80'
+    backgroundColor: '#FFFFE2'
     },
+
+    backImage: {
+    width: '90%', height: '60%', flex: 1, resizeMode: 'stretch', 
+    alignContent:'center',
+    position:'absolute',
+    marginTop: height*0.3
+  },
 })
 
 export default SignUpScreen;
