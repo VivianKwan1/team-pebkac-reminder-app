@@ -1,10 +1,16 @@
 import React from "react";
-import { View } from "react-native";
 import { TouchableOpacity } from "react-native";
-import { Button, SafeAreaView, Text, StyleSheet } from "react-native";
+import { Button, SafeAreaView, Text, StyleSheet, Pressable, Dimensions, View, Image } from "react-native";
+import { createStackNavigator, createAppContainer } from 'react-navigation';
+import {useNavigation} from '@react-navigation/native';
+import TaskCategory from "./TaskCategory";
+
+
+
 
 function GroupTasksScreen(props) {
   const labels = ["things", "things1"];
+  const navigation = useNavigation();
   const labelbuttons = labels.map(function (labels) {
     return (
       <TouchableOpacity style={styles.button} activeOpacity={0.5}>
@@ -21,8 +27,11 @@ function GroupTasksScreen(props) {
         <Text style={styles.otherText}>You have x tasks for today</Text>
       </View>
 
+
+
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} activeOpacity={0.5}>
+      
+        <TouchableOpacity onPress={()=> navigation.navigate('TaskCategory')} style={styles.button} activeOpacity={0.5}>
           <Text style={styles.text}>All Tasks</Text>
         </TouchableOpacity>
 
@@ -91,6 +100,16 @@ const styles = StyleSheet.create({
   textContainer: {
     padding: 10,
     marginTop: 20,
+  },
+  signButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 18,
+    elevation: 3,
+    backgroundColor: '#8A873B',
+    marginBottom: 15,
+    borderRadius:10,
+    marginTop: 30
   },
 });
 
