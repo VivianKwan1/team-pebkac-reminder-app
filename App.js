@@ -11,6 +11,7 @@ import SignInScreen from './screens/SignInScreen';
 import FirstPage from './screens/FirstPage';
 import SignUpScreen from './screens/SignUpScreen';
 import HomeScreen from'./screens/HomeScreen';
+import SettingsScreen from'./screens/SettingsScreen';
 
 const Stack = createStackNavigator();
 
@@ -42,6 +43,7 @@ export default function App() {
         <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ headerShown: false }} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="SettingsScreen" component={SettingsScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
     }
     </NavigationContainer>
