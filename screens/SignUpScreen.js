@@ -1,74 +1,146 @@
 import React from 'react';
 import { TextInput } from 'react-native';
-import { Button, SafeAreaView, Text, StyleSheet } from 'react-native';
+import { Button, SafeAreaView, Text, StyleSheet, Pressable, Image, Dimensions, View} from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
-function SignUpScreen({ navigation }) {
+function SignUpScreen({navigation}) {
     return (
-        <SafeAreaView>
-            <Button
-                title='X'
-            // onPress={() => this.props.navigation.goBack()}
-            />
-            <Text>Have an Account? Sign In</Text>
+        <SafeAreaView style = {styles.page}>
+        <Image source={require('../assets/thirdPage.png')} style = {styles.backImage}/>
+            <Pressable style = {styles.cancelButton} onPress={() => navigation.navigate('FirstPage')}>
+              <Text style = {styles.cancelText}>X
+              </Text>
+            </Pressable>
+            <Text style={styles.texts}>Have an Account? Sign In</Text>
             <Text style={styles.accountText}>First Name</Text>
             <TextInput
                 style={styles.accountInput}
-                placeholder='First Name'
             />
 
             <Text style={styles.accountText}>Last Name</Text>
             <TextInput
                 style={styles.accountInput}
-                placeholder='Last Name'
             />
 
             <Text style={styles.accountText}>Email</Text>
             <TextInput
                 style={styles.accountInput}
-                placeholder='Email Adress'
             />
 
             <Text style={styles.accountText}>Password</Text>
             <TextInput
                 style={styles.accountInput}
-                placeholder='Password'
                 secureTextEntry={true}
             />
 
             <Text style={styles.accountText}>Re-enter Password</Text>
             <TextInput
                 style={styles.accountInput}
-                placeholder='Re-enter Password'
                 secureTextEntry={true}
             />
 
-            <Button
-                title='Create Account'
-                onPress={() => navigation.navigate('HomeScreen')}
-            />
+            <Pressable style = {styles.createButton} onPress={() => navigation.navigate('HomeScreen')}>
+              <Text style = {styles.text}>Create Account
+              </Text>
+            </Pressable>
 
-            <Button
-                title='Google'
-            />
-            <Button
-                title='Facebook'
-            />
+            <Pressable style = {styles.googButton}>
+              <Text style = {styles.text}>Google
+              </Text>
+            </Pressable>
+
+            <Pressable style = {styles.fbButton}>
+              <Text style = {styles.text}>Facebook
+              </Text>
+            </Pressable>
         </SafeAreaView>
     );
 }
 
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
+
 const styles = StyleSheet.create({
+    texts: {
+        fontSize:height*0.03,
+        marginHorizontal: width*0.1,
+        marginBottom: height*0.01
+    },
+    createButton: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: height*0.025,
+      backgroundColor: '#8A873B',
+      marginBottom: 15,
+      marginHorizontal: width*0.1,
+      borderRadius:10,
+      marginTop: 30
+    },
+    
+    googButton: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: height*0.025,
+      backgroundColor: '#8A873B',
+      marginBottom: 15,
+      marginHorizontal: width*0.1,
+      borderRadius:10
+    },
+
+    fbButton: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: height*0.025,
+      backgroundColor: '#8A873B',
+      marginBottom: height*0.2,
+      marginHorizontal: width*0.1,
+      borderRadius:10
+    },
+
+    cancelButton: {
+      alignItems: 'flex-end',
+      paddingVertical: 18,
+      marginBottom: height*0.0001,
+      marginHorizontal: width*0.1,
+      borderRadius:10
+    },
+
+    text: {
+    fontSize:18,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+    },
+
     accountInput: {
-        margin: 12,
+        marginHorizontal: width*0.1,
         borderWidth: 1,
+        fontSize:15,
     },
 
     accountText: {
-        margin: 5,
         fontWeight: 'bold',
-    }
+        margin: height*0.005, 
+        fontSize:height*0.025,
+        marginHorizontal: width*0.1,
+    },
 
+    cancelText: {
+    fontSize:height*0.03,
+    fontWeight: 'bold',
+    color: 'red',
+    },
+
+    page: {
+    backgroundColor: '#FFFFE2'
+    },
+
+    backImage: {
+    width: '90%', height: '60%', flex: 1, resizeMode: 'stretch', 
+    alignContent:'center',
+    position:'absolute',
+    marginTop: height*0.3
+  },
 })
 
 export default SignUpScreen;
