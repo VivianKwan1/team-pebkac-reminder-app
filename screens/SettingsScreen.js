@@ -61,6 +61,11 @@ function SettingsScreen({ navigation, settingOptions }) {
 }
 
 const styles = StyleSheet.create({
+
+    background:{
+        backgroundColor: '#709c6c'
+    },
+
     titleStyle:{
       fontSize: 25,
       color: 'white',

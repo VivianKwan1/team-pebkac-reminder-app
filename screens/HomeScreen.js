@@ -7,9 +7,10 @@ import HealthScreen from './HealthScreen';
 import SettingsScreen from './SettingsScreen';
 import GroupTasksScreen from './GroupTasksScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 
-const MyComponent = () => {
+const MyComponent = ({navigation}) => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'home', title: 'Home', icon: 'home' , color: '#b29c6f'},
@@ -31,7 +32,7 @@ const MyComponent = () => {
 
   return (
     <BottomNavigation
-      navigationState={{ index, routes }}
+      navigationState={{ index, routes, navigation }}
       onIndexChange={setIndex}
       renderScene={renderScene}
     />
