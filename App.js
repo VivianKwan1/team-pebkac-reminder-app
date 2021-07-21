@@ -1,24 +1,26 @@
-import 'react-native-gesture-handler';
-import React, { useState, useEffect, useRef } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet, Text, View } from 'react-native';
-import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import "react-native-gesture-handler";
+import React, { useState, useEffect, useRef } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { StatusBar } from "expo-status-bar";
+import { Platform, StyleSheet, Text, View } from "react-native";
+import { Button } from "react-native-elements";
+import Icon from "react-native-vector-icons/FontAwesome";
 import { Notifications } from "expo";
 import * as Permissions from "expo-permissions";
-import SignInScreen from './screens/SignInScreen';
-import FirstPage from './screens/FirstPage';
-import SignUpScreen from './screens/SignUpScreen';
-import HomeScreen from'./screens/HomeScreen';
-import TaskCategory from './screens/TaskCategory';
-import GroupTasksScreen from './screens/GroupTasksScreen';
+import * as firebase from "firebase";
+import { firebaseConfig } from "./config";
+import SignInScreen from "./screens/SignInScreen";
+import FirstPage from "./screens/FirstPage";
+import SignUpScreen from "./screens/SignUpScreen";
+import HomeScreen from "./screens/HomeScreen";
+import TaskCategory from "./screens/TaskCategory";
+import GroupTasksScreen from "./screens/GroupTasksScreen";
 
 const Stack = createStackNavigator();
+firebase.initializeApp(firebaseConfig);
 
 export default function App() {
-
   // useEffect(() => {
   //   this.getPushNotificationPermissions();
   // });
@@ -52,33 +54,51 @@ export default function App() {
   //   );
   // };
 
-
-
   return (
     <NavigationContainer>
-    {
-      <Stack.Navigator initialRouteName="FirstPage">
-        <Stack.Screen name="FirstPage" component={FirstPage} options={{ headerShown: false }}/>
-        <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="GroupTasksScreen" component={GroupTasksScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="TaskCategory" component={TaskCategory} options={{ headerShown: false }} />
-    </Stack.Navigator>
-    }
+      {
+        <Stack.Navigator initialRouteName="FirstPage">
+          <Stack.Screen
+            name="FirstPage"
+            component={FirstPage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="SignInScreen"
+            component={SignInScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="SignUpScreen"
+            component={SignUpScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="HomeScreen"
+            component={HomeScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="GroupTasksScreen"
+            component={GroupTasksScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="TaskCategory"
+            component={TaskCategory}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      }
     </NavigationContainer>
-
-  )
-
+  );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
