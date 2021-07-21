@@ -1,19 +1,16 @@
 import * as React from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
+import CalendarScreen from './CalendarScreen';
+import NewTaskScreen from './NewTaskScreen';
+import TasksScreen from './TasksScreen';
+import HealthScreen from './HealthScreen';
+import SettingsScreen from './SettingsScreen';
+import GroupTasksScreen from './GroupTasksScreen';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
-const HomeRoute = () => <Text>Home page!</Text>;
 
-const CalendarRoute = () => <Text>Calendar page!</Text>;
-
-const NewTaskRoute = () => <Text>New Task page!</Text>;
-
-const TasksRoute = () => <Text>Tasks page!</Text>;
-
-const HealthRoute = () => <Text>Settings page!</Text>;
-
-const SettingsRoute = () => <Text>Settings page!</Text>;
-
-const MyComponent = () => {
+const MyComponent = ({navigation}) => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'home', title: 'Home', icon: 'home' , color: '#b29c6f'},
@@ -25,17 +22,17 @@ const MyComponent = () => {
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
-    home: HomeRoute,
-    calendar: CalendarRoute,
-    newtask: NewTaskRoute,
-    tasks: TasksRoute,
-    health: HealthRoute,
-    settings: SettingsRoute,
+    home: GroupTasksScreen,
+    calendar: CalendarScreen,
+    newtask: NewTaskScreen,
+    tasks: TasksScreen,
+    health: HealthScreen,
+    settings: SettingsScreen,
   });
 
   return (
     <BottomNavigation
-      navigationState={{ index, routes }}
+      navigationState={{ index, routes, navigation }}
       onIndexChange={setIndex}
       renderScene={renderScene}
     />
