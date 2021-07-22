@@ -14,12 +14,14 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import firebase from "firebase";
 
 import * as Google from "expo-google-app-auth";
+import * as Facebook from "expo-facebook";
 
 function SignInScreen({ navigation }) {
   signInWithGoogleAsync = async () => {
     try {
       const result = await Google.logInAsync({
-        // androidClientId: YOUR_CLIENT_ID_HERE,
+        androidClientId:
+          "312108100120-5guu03vb7lm1hbkv6204k0d38skgm0t0.apps.googleusercontent.com",
         behavior: "web",
         iosClientId:
           "312108100120-g0fq8ie5tfgv0qbnudr189bf799qilrv.apps.googleusercontent.com",
@@ -30,6 +32,28 @@ function SignInScreen({ navigation }) {
         return result.accessToken;
       } else {
         return { cancelled: true };
+      }
+    } catch (e) {
+      return { error: true };
+    }
+  };
+
+  signInWithFacebookAsync = async () => {
+    try {
+      await Facebook.initializeAsync({ appId: "5996710610369778" });
+      const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ["public_profile"],
+      });
+
+      if (type === "success") {
+        const credentials =
+          firebase.auth.FacebookAuthProvider.credential(token);
+        firebase
+          .auth()
+          .signInWithCredential(credentials)
+          .catch((e) => {
+            console.log(e);
+          });
       }
     } catch (e) {
       return { error: true };
@@ -69,7 +93,10 @@ function SignInScreen({ navigation }) {
         <Text style={styles.text}>Google</Text>
       </Pressable>
 
-      <Pressable style={styles.fbButton}>
+      <Pressable
+        style={styles.fbButton}
+        onPress={() => this.signInWithFacebookAsync()}
+      >
         <Text style={styles.text}>Facebook</Text>
       </Pressable>
     </SafeAreaView>

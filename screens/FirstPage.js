@@ -13,6 +13,7 @@ import {
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import SignInScreen from "./SignInScreen";
 import SignUpScreen from "./SignUpScreen";
+// import HomeScreen from "./HomeScreen";
 import firebase from "firebase";
 
 function FirstPage({ navigation }) {
