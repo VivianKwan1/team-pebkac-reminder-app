@@ -5,10 +5,11 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { Button, SafeAreaView, Text, StyleSheet, Pressable } from "react-native";
 import TaskCategory from "./TaskCategory";
 import FirstPage from "./FirstPage";
+import NewCategoryScreen from "./NewCategoryScreen";
 import { useNavigation } from '@react-navigation/native';
 
 
-function GroupTasksScreen(props) {
+function GroupTasksScreen() {
   const navigation = useNavigation(); 
   const labels = ["things", "things1"];
   const labelbuttons = labels.map(function (labels) {
@@ -34,7 +35,7 @@ function GroupTasksScreen(props) {
 
         {labelbuttons}
 
-        <TouchableOpacity style={styles.plusButton} activeOpacity={0.5}>
+        <TouchableOpacity style={styles.plusButton} activeOpacity={0.5} onPress={() => navigation.navigate('NewCategoryScreen')}>
           <Text style={styles.plusText}>+</Text>
         </TouchableOpacity>
 

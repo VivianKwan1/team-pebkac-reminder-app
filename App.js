@@ -14,6 +14,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import HomeScreen from'./screens/HomeScreen';
 import TaskCategory from './screens/TaskCategory';
 import GroupTasksScreen from './screens/GroupTasksScreen';
+import NewCategoryScreen from './screens/NewCategoryScreen';
 
 const Stack = createStackNavigator();
 
@@ -64,6 +65,7 @@ export default function App() {
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="GroupTasksScreen" component={GroupTasksScreen} options={{ headerShown: false }} />
         <Stack.Screen name="TaskCategory" component={TaskCategory} options={{ headerShown: false }} />
+        <Stack.Screen name="NewCategoryScreen" component={NewCategoryScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
     }
     </NavigationContainer>
