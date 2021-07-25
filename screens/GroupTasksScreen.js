@@ -1,11 +1,12 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { Button, SafeAreaView, Text, StyleSheet, Pressable, Dimensions, View, Image } from "react-native";
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import {useNavigation} from '@react-navigation/native';
+import { Button, SafeAreaView, Text, StyleSheet, Pressable, View } from "react-native";
 import TaskCategory from "./TaskCategory";
-
-
+import FirstPage from "./FirstPage";
+import NewTask from "../components/NewTask";
+import { useNavigation } from '@react-navigation/native';
+import { Image } from "react-native";
 
 
 function GroupTasksScreen(props) {
@@ -21,17 +22,15 @@ function GroupTasksScreen(props) {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
+
       <View style={styles.textContainer}>
         <Text style={styles.mainText}>Hello Person!</Text>
         <Text style={styles.otherText}>You are hardly working</Text>
         <Text style={styles.otherText}>You have x tasks for today</Text>
       </View>
 
-
-
       <View style={styles.buttonContainer}>
-      
-        <TouchableOpacity onPress={()=> navigation.navigate('TaskCategory')} style={styles.button} activeOpacity={0.5}>
+        <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => navigation.navigate('TaskCategory')}>
           <Text style={styles.text}>All Tasks</Text>
         </TouchableOpacity>
 
@@ -40,6 +39,7 @@ function GroupTasksScreen(props) {
         <TouchableOpacity style={styles.plusButton} activeOpacity={0.5}>
           <Text style={styles.plusText}>+</Text>
         </TouchableOpacity>
+
       </View>
     </SafeAreaView>
   );
@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F5FCFF",
   },
-
   button: {
     backgroundColor: "green",
     borderRadius: 10,

@@ -6,33 +6,53 @@ import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import * as Notifications from 'expo-notifications';
+import { Notifications } from "expo";
+import * as Permissions from "expo-permissions";
 import SignInScreen from './screens/SignInScreen';
 import FirstPage from './screens/FirstPage';
 import SignUpScreen from './screens/SignUpScreen';
 import HomeScreen from'./screens/HomeScreen';
+import TaskCategory from './screens/TaskCategory';
+import GroupTasksScreen from './screens/GroupTasksScreen';
 
 const Stack = createStackNavigator();
 
 export default function App() {
 
-  // const [expoPushToken, setExpoPushToken] = useState('');
-
   // useEffect(() => {
-  //   (async() => {
-  //     if(Platform.OS === 'ios'){
-  //       const {status} = Notifications.requestPermissionsAsync();
-  //       if(status !== 'granted'){
-  //         alert('not granted notification permissions');
-  //         return (
-  //           <View>
-  //             <Text>thing</Text>
-  //           </View>
-  //         )
-  //       }
-  //     }
-  //   })();
-  // }, []);
+  //   this.getPushNotificationPermissions();
+  // });
+
+  // getPushNotificationPermissions = async () => {
+  //   const { status: existingStatus } = await Permissions.getAsync(
+  //     Permissions.NOTIFICATIONS
+  //   );
+  //   let finalStatus = existingStatus;
+
+  //   // only ask if permissions have not already been determined, because
+  //   // iOS won't necessarily prompt the user a second time.
+  //   if (existingStatus !== "granted") {
+  //     // Android remote notification permissions are granted during the app
+  //     // install, so this will only ask on iOS
+  //     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+  //     finalStatus = status;
+  //   }
+
+  //   // Stop here if the user did not grant permissions
+  //   if (finalStatus !== "granted") {
+  //     alert("did not grant permissions");
+  //     return;
+  //   }
+  //   console.log(finalStatus);
+
+  //   // Get the token that uniquely identifies this device
+  //   console.log(
+  //     "Notification Token: ",
+  //     await Notifications.getExpoPushTokenAsync()
+  //   );
+  // };
+
+
 
   return (
     <NavigationContainer>
@@ -42,6 +62,8 @@ export default function App() {
         <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ headerShown: false }} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="GroupTasksScreen" component={GroupTasksScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="TaskCategory" component={TaskCategory} options={{ headerShown: false }} />
     </Stack.Navigator>
     }
     </NavigationContainer>

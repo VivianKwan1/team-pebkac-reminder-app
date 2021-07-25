@@ -8,16 +8,20 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^3.5.2",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
     "bootstrap": "^5.0.2",
     "date-utils": "^1.2.21",
-    "expo": "~42.0.0",
+    "expo": "^41.0.1",
     "expo-notifications": "^0.12.3",
+    "expo-permissions": "^12.1.1",
     "expo-status-bar": "~1.0.4",
     "react": "16.13.1",
+    "react-datepicker": "^4.1.1",
     "react-dom": "16.13.1",
+    "react-mobile-datepicker": "^4.0.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-calendars": "^1.1264.0",
     "react-native-elements": "^3.4.2",
@@ -26,13 +30,17 @@
     "react-native-reanimated": "^2.2.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.4.0",
-    "react-native-web": "~0.13.12",
+    "react-native-web": "^0.17.1",
     "react-navigation": "^4.4.4",
     "react-select": "^4.3.1",
     "stack-navigator": "0.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0"
+    "@babel/core": "^7.9.0",
+    "css-loader": "^6.2.0",
+    "less": "^4.1.1",
+    "less-loader": "^10.0.1",
+    "style-loader": "^3.2.1"
   },
   "private": true
 }
