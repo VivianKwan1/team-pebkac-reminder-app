@@ -11,7 +11,11 @@ function SignInScreen({navigation}) {
               <Text style = {styles.cancelText}>X
               </Text>
             </Pressable>
-            <Text style={styles.texts}>Don't Have Account? Sign Up</Text>
+            <Pressable style = {styles.signupButton} onPress = {() => navigation.navigate('SignUpScreen')}>
+              <Text style = {styles.texts}>Don't have an account? Sign up
+              </Text>
+            </Pressable>
+
             <Text style={styles.accountText}>Email Address</Text>
             <TextInput
                 style={styles.accountInput}
@@ -51,6 +55,11 @@ const styles = StyleSheet.create({
         marginHorizontal: width*0.1,
         marginTop: height*0.1,
         marginBottom: height*0.01
+    },
+    signupButton: {
+      marginBottom: 5,
+      marginHorizontal: width*0.05,
+      borderRadius:10
     },
     signButton: {
       alignItems: 'center',
