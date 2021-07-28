@@ -14,9 +14,22 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import firebase from "firebase";
 
 import * as Google from "expo-google-app-auth";
+import * as GoogleSignIn from "expo-google-sign-in";
 import * as Facebook from "expo-facebook";
 
 function SignInScreen({ navigation }) {
+  // checkIfLoggedIn = () => {
+  //   firebase.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       navigation.navigate("HomeScreen");
+  //     }
+  //   });
+  // };
+
+  onLoginSuccess = () => {
+    navigation.navigate("FirstPage");
+  };
+
   signInWithGoogleAsync = async () => {
     try {
       const result = await Google.logInAsync({
@@ -29,34 +42,63 @@ function SignInScreen({ navigation }) {
       });
 
       if (result.type === "success") {
-        return result.accessToken;
-      } else {
-        return { cancelled: true };
+        await firebase
+          .auth()
+          .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        const credential = firebase.auth.GoogleAuthProvider.credential(
+          data.idToken,
+          data.accessToken
+        );
+        const googleProfileData = await firebase
+          .auth()
+          .signInWithCredential(credential);
+        this.onLoginSuccess.bind(this);
+        console.log(googleProfileData);
       }
     } catch (e) {
-      return { error: true };
+      alert("login: Error:" + message);
     }
   };
 
   signInWithFacebookAsync = async () => {
+    // try {
+    //   await Facebook.initializeAsync({ appId: "5996710610369778" });
+    //   const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+    //     permissions: ["public_profile"],
+    //   });
+
+    //   if (type === "success") {
+    //     const credentials =
+    //       firebase.auth.FacebookAuthProvider.credential(token);
+    //     firebase
+    //       .auth()
+    //       .signInWithCredential(credentials)
+    //       .catch((e) => {
+    //         console.log(token);
+    //         console.log(e);
+    //       });
+    //   }
+    // } catch (e) {
+    //   return { error: true };
+    // }
+
     try {
       await Facebook.initializeAsync({ appId: "5996710610369778" });
       const { type, token } = await Facebook.logInWithReadPermissionsAsync({
         permissions: ["public_profile"],
       });
-
       if (type === "success") {
-        const credentials =
-          firebase.auth.FacebookAuthProvider.credential(token);
-        firebase
+        await firebase
           .auth()
-          .signInWithCredential(credentials)
-          .catch((e) => {
-            console.log(e);
-          });
+          .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        const credential = firebase.auth.FacebookAuthProvider.credential(token);
+        const facebookProfileData = await firebase
+          .auth()
+          .signInWithCredential(credential);
+        this.onLoginSuccess.bind(this);
       }
-    } catch (e) {
-      return { error: true };
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
     }
   };
 

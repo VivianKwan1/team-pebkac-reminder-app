@@ -18,7 +18,17 @@ import TaskCategory from "./screens/TaskCategory";
 import GroupTasksScreen from "./screens/GroupTasksScreen";
 
 const Stack = createStackNavigator();
-firebase.initializeApp(firebaseConfig);
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+} else {
+  firebase.app(); // if already initialized, use that one
+}
+
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) console.log("Logged in with user: ", user);
+  else console.log("Not logged in");
+});
 
 export default function App() {
   // useEffect(() => {
@@ -52,6 +62,14 @@ export default function App() {
   //     "Notification Token: ",
   //     await Notifications.getExpoPushTokenAsync()
   //   );
+  // };
+
+  // checkIfLoggedIn = () => {
+  //   firebase.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       return <HomeScreen></HomeScreen>;
+  //     }
+  //   });
   // };
 
   return (
