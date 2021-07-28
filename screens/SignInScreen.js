@@ -12,10 +12,9 @@ function SignInScreen({navigation}) {
               </Text>
             </Pressable>
             <Pressable style = {styles.signupButton} onPress = {() => navigation.navigate('SignUpScreen')}>
-              <Text style = {styles.texts}>Don't have an account? Sign up
+              <Text style = {styles.texts}>Don't have an account? Sign up here
               </Text>
             </Pressable>
-
             <Text style={styles.accountText}>Email Address</Text>
             <TextInput
                 style={styles.accountInput}
@@ -51,10 +50,11 @@ const height = Dimensions.get('window').height
 
 const styles = StyleSheet.create({
     texts: {
-        fontSize:20,
-        marginHorizontal: width*0.1,
-        marginTop: height*0.1,
-        marginBottom: height*0.01
+        fontSize:18,
+        marginHorizontal: width*0.05,
+        marginTop: height*0.01,
+        marginBottom: height*0.01,
+        color: '#3399FF',
     },
     signupButton: {
       marginBottom: 5,
@@ -141,6 +141,12 @@ const styles = StyleSheet.create({
     position:'absolute',
     marginTop: height*0.3
   },
+
+    accountText: {
+        margin: 2,
+        fontSize:18,
+        marginHorizontal: 10
+    }
 
 })
 
