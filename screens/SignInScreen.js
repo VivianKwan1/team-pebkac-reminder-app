@@ -16,6 +16,8 @@ import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import * as GoogleSignIn from "expo-google-sign-in";
 import * as Facebook from "expo-facebook";
+// import auth from "@react-native-firebase/auth";
+// import { LoginManager, AccessToken } from "react-native-fbsdk";
 
 function SignInScreen({ navigation }) {
   // checkIfLoggedIn = () => {
@@ -100,6 +102,47 @@ function SignInScreen({ navigation }) {
     } catch ({ message }) {
       alert(`Facebook Login Error: ${message}`);
     }
+
+    // try {
+    //   const provider = new firebase.auth.FacebookAuthProvider();
+    //   firebase.auth().signInWithRedirect(provider);
+    //   firebase
+    //     .auth()
+    //     .getRedirectResult()
+    //     .then((result) => {
+    //       if (result.credential) {
+    //         const credential = result.credential;
+    //         const accessToken = credential.accessToken;
+    //       }
+    //       const user = result.user;
+    //     });
+    //   // firebase.auth().signInWithPopup(provider).then((result) => {
+    //   //   const credential = result.credential;
+    //   //   const user = result.user;
+    //   //   const accessToken = credential.accessToken;
+    //   // })
+
+    //   // const result = await LoginManager.logInWithPermissions([
+    //   //   "public_profile",
+    //   //   "email",
+    //   // ]);
+    //   // if (result.isCancelled) {
+    //   //   throw "User cancelled the login process";
+    //   // }
+
+    //   // const data = await AccessToken.getCurrentAccessToken();
+    //   // if (!data) {
+    //   //   throw "something went wrong throwing access token";
+    //   // }
+
+    //   // const facebookCredential = auth.FacebookAuthProvider.credential(
+    //   //   data.accessToken
+    //   // );
+
+    //   // return auth().signInWithCredential(facebookCredential);
+    // } catch ({ message }) {
+    //   alert(`Facebook Login Error: ${message}`);
+    // }
   };
 
   return (
