@@ -7,7 +7,6 @@ import TaskCategory from "./TaskCategory";
 import FirstPage from "./FirstPage";
 import { useNavigation } from '@react-navigation/native';
 
-
 function GroupTasksScreen(props) {
   const navigation = useNavigation(); 
   const labels = ["things", "things1"];
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    backgroundColor: "green",
+    backgroundColor: "#709c6c",
     borderRadius: 10,
     margin: 30,
     width: 100,
