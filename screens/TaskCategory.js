@@ -1,11 +1,12 @@
 
 import React, {useState} from 'react';
-import Lottie from 'lottie-react-native';
 import { Button, KeyboardAvoidingView, StyleSheet, Text, Image, View, TextInput, TouchableOpacity, Keyboard, ScrollView, Platform, SafeAreaView } from 'react-native';
 import Task from '../components/Task'
 import GroupTasksScreen from './GroupTasksScreen';
 import { useNavigation } from '@react-navigation/native';
-import peas from '../assets/20587-peas-playground-of-love.json';
+{/* lottie animation imports */}
+// import Lottie from 'lottie-react-native';
+// import peas from '../assets/20587-peas-playground-of-love.json';
 
 
 
@@ -68,11 +69,11 @@ export default function TaskCategory({}) {
       </TouchableOpacity>
       </KeyboardAvoidingView>
 
-     
-      <SafeAreaView style = {styles.gifstyle}>
+     {/* Reward animation peas */}
+      {/* <SafeAreaView style = {styles.gifstyle}>
         <Lottie resizeMode = "contain" autoSize source = {peas} autoPlay loop/>
       </SafeAreaView>
-    
+     */}
 
     </View>
     
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     top: -200,
     left: 100,
-    width: '20%',
+    
   },
 
   items: {
