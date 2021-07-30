@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button, Platform,Switch } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 import GroupTasksScreen from '../screens/GroupTasksScreen';
+import { SafeAreaView } from 'react-navigation';
 
 
 const NewTask = (props) => {
@@ -31,8 +32,7 @@ const NewTask = (props) => {
     showMode('time');
   };
 
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  
 
   const navigation = useNavigation();
 
@@ -45,14 +45,27 @@ const NewTask = (props) => {
 
         <View style={styles.circular}></View>
 
+        <SafeAreaView>
+          <Text style = {styles.startText}>Starts</Text>
+        </SafeAreaView>
+
+        <SafeAreaView>
+          <Text style = {styles.endText}>Ends</Text>
+        </SafeAreaView>
 
         <View style = {styles.dateBox}>
-       
-
           <Button  onPress={showDatepicker} title="Date" />
+        </View>
+       
+        <View style = {styles.dateBox1}>
+         <Button  onPress={showDatepicker} title="Date" />
         </View>
 
         <View style = {styles.timeBox}>
+          <Button onPress={showTimepicker} title="Time" />
+        </View>
+
+        <View style = {styles.timeBox1}>
           <Button onPress={showTimepicker} title="Time" />
         </View>
         {show && (
@@ -67,13 +80,7 @@ const NewTask = (props) => {
         />
         
         )}
-<Switch
-        trackColor={{ false: "#767577", true: "#81b0ff" }}
-        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-        ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
-        value={isEnabled}
-      />
+
       
     </View>
   )
@@ -110,7 +117,8 @@ const styles = StyleSheet.create({
   },
   dateBox: {
     backgroundColor: '#fff',
-    top: 200,
+    top: -250,
+    left:130,
     position: "absolute",
     paddingLeft: 10,
     paddingRight: 10,
@@ -120,14 +128,29 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginLeft:20,
     marginRight:20,
-    marginTop:20,
+    marginTop:30,
+  },
+  dateBox1: {
+    backgroundColor: '#fff',
+    top: -300,
+    left:130,
+    position: "absolute",
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    marginLeft:20,
+    marginRight:20,
+    marginTop:30,
   },
   timeBox:{
     backgroundColor: '#fff',
     paddingLeft: 10,
     paddingRight: 10,
-    top: 200,
-    left: 100,
+    top: -250,
+    left: 215,
     position: "absolute",
     borderRadius: 10,
     flexDirection: 'row',
@@ -135,21 +158,68 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginLeft:20,
     marginRight:20,
-    marginTop:20,
+    marginTop:30,
   },
-  dateTimeBox:{
+  timeBox1:{
     backgroundColor: '#fff',
-    // padding: 40,
-    top: 200,
-    left: 200,
+    paddingLeft: 10,
+    paddingRight: 10,
+    top: -300,
+    left: 215,
+    position: "absolute",
     borderRadius: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
     marginLeft:20,
     marginRight:20,
-    marginTop:20,
+    marginTop:30,
+  },
+  dateTimeBox:{
+    backgroundColor: '#fff',
+    paddingLeft: 10,
+    paddingRight: 10,
+    top: -300,
+    left: 300,
+    borderRadius: 10,
+    position: "absolute",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft:20,
+    marginRight:20,
+    marginTop:30,
     width: 80,
+  },
+  dateTimeBox1:{
+    backgroundColor: '#fff',
+    paddingLeft: 10,
+    paddingRight: 10,
+    top:-410,
+    left: 300,
+    borderRadius: 10,
+    position: "absolute",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft:20,
+    marginRight:20,
+    marginTop:30,
+    width: 80,
+  },
+  startText:{
+    fontSize: 20,
+    fontWeight: 'bold',
+    top: -300,
+    left: 80,
+    color: '#fff',
+    marginTop: 35,
+  },
+  endText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    top: -340,
+    left: 80,
+    color: '#fff',
+    marginTop: 35,
   },
 //   circular: {
 //     width: 12,
