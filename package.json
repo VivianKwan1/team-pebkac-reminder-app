@@ -1,9 +1,8 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
     "web": "expo start --web",
     "eject": "expo eject"
   },
@@ -17,19 +16,26 @@
     "expo": "^41.0.1",
     "expo-notifications": "^0.12.3",
     "expo-permissions": "^12.1.1",
+    "expo-splash-screen": "~0.10.2",
     "expo-status-bar": "~1.0.4",
+    "expo-updates": "~0.5.4",
+    "firebase": "8.2.3",
     "react": "16.13.1",
     "react-datepicker": "^4.1.1",
     "react-dom": "16.13.1",
     "react-mobile-datepicker": "^4.0.2",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native": "~0.63.4",
+    "react-native-activity-rings": "^1.1.2",
     "react-native-calendars": "^1.1264.0",
+    "react-native-chart-kit": "^6.11.0",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-paper": "^4.9.2",
     "react-native-reanimated": "^2.2.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.4.0",
+    "react-native-svg": "^12.1.1",
+    "react-native-unimodules": "~0.13.3",
     "react-native-web": "^0.17.1",
     "react-navigation": "^4.4.4",
     "react-select": "^4.3.1",
@@ -42,5 +48,7 @@
     "less-loader": "^10.0.1",
     "style-loader": "^3.2.1"
   },
-  "private": true
+  "private": true,
+  "name": "reminder-app",
+  "version": "1.0.0"
 }

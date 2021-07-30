@@ -26,11 +26,13 @@ export default class SignUp extends Component {
   }
 
   registerUser = () => {
-    if(this.state.email === '' && this.state.password === '') {
+    if((this.state.email === '') || (this.state.password === '')) {
       Alert.alert('Enter details to signup!')
+      return;
     } else if (this.state.password !== this.state.confirmPassword) {
       Alert.alert('Passwords do not match')
-    } else {
+      return;
+    }
       this.setState({
         isLoading: true,
       })
@@ -50,10 +52,10 @@ export default class SignUp extends Component {
           email: '', 
           password: ''
         })
-        this.props.navigation.navigate('SignInScreen')
+        //  this.props.navigation.navigate('SignInScreen')
       })
+      this.props.navigation.navigate('SignInScreen')
       .catch(error => this.setState({ errorMessage: error.message }))      
-    }
   }
 
   render() {
