@@ -67,8 +67,6 @@ const styles = StyleSheet.create({
     cancelButton: {
       alignItems: 'flex-end',
       paddingVertical: 18,
-      elevation: 3,
-      marginBottom: 15,
       marginHorizontal: width*0.1,
       borderRadius:10
     },
