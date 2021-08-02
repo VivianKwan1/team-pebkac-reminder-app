@@ -13,9 +13,12 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.teampebkac.ReminderApp"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,9 +29,8 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "facebookSchema": {
-      "appId": "5996710610369778",
-      "redirectURI": "https://reminderapp-45c3a.firebaseapp.com/__/auth/handler"
-    }
+    "facebookScheme": "fb5996710610369778",
+    "facebookAppId": "5996710610369778",
+    "facebookDisplayName": "ReminderApp"
   }
 }

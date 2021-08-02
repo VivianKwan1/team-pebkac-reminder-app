@@ -16,22 +16,8 @@ import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import * as GoogleSignIn from "expo-google-sign-in";
 import * as Facebook from "expo-facebook";
-// import auth from "@react-native-firebase/auth";
-// import { LoginManager, AccessToken } from "react-native-fbsdk";
 
 function SignInScreen({ navigation }) {
-  // checkIfLoggedIn = () => {
-  //   firebase.auth().onAuthStateChanged((user) => {
-  //     if (user) {
-  //       navigation.navigate("HomeScreen");
-  //     }
-  //   });
-  // };
-
-  onLoginSuccess = () => {
-    navigation.navigate("FirstPage");
-  };
-
   signInWithGoogleAsync = async () => {
     try {
       const result = await Google.logInAsync({
@@ -48,47 +34,30 @@ function SignInScreen({ navigation }) {
           .auth()
           .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         const credential = firebase.auth.GoogleAuthProvider.credential(
-          data.idToken,
-          data.accessToken
+          result.idToken,
+          result.accessToken
         );
         const googleProfileData = await firebase
           .auth()
           .signInWithCredential(credential);
-        this.onLoginSuccess.bind(this);
-        console.log(googleProfileData);
+        navigation.navigate("HomeScreen");
+        // console.log(googleProfileData);
       }
     } catch (e) {
-      alert("login: Error:" + message);
+      alert("login: Error:" + e);
     }
   };
 
   signInWithFacebookAsync = async () => {
-    // try {
-    //   await Facebook.initializeAsync({ appId: "5996710610369778" });
-    //   const { type, token } = await Facebook.logInWithReadPermissionsAsync({
-    //     permissions: ["public_profile"],
-    //   });
-
-    //   if (type === "success") {
-    //     const credentials =
-    //       firebase.auth.FacebookAuthProvider.credential(token);
-    //     firebase
-    //       .auth()
-    //       .signInWithCredential(credentials)
-    //       .catch((e) => {
-    //         console.log(token);
-    //         console.log(e);
-    //       });
-    //   }
-    // } catch (e) {
-    //   return { error: true };
-    // }
-
     try {
-      await Facebook.initializeAsync({ appId: "5996710610369778" });
-      const { type, token } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ["public_profile"],
-      });
+      const appId = { appId: "fb5996710610369778" };
+      await Facebook.initializeAsync(appId);
+      const { type, token } = await Facebook.logInWithReadPermissionsAsync(
+        appId,
+        {
+          permissions: ["public_profile"],
+        }
+      );
       if (type === "success") {
         await firebase
           .auth()
@@ -97,52 +66,10 @@ function SignInScreen({ navigation }) {
         const facebookProfileData = await firebase
           .auth()
           .signInWithCredential(credential);
-        this.onLoginSuccess.bind(this);
       }
     } catch ({ message }) {
       alert(`Facebook Login Error: ${message}`);
     }
-
-    // try {
-    //   const provider = new firebase.auth.FacebookAuthProvider();
-    //   firebase.auth().signInWithRedirect(provider);
-    //   firebase
-    //     .auth()
-    //     .getRedirectResult()
-    //     .then((result) => {
-    //       if (result.credential) {
-    //         const credential = result.credential;
-    //         const accessToken = credential.accessToken;
-    //       }
-    //       const user = result.user;
-    //     });
-    //   // firebase.auth().signInWithPopup(provider).then((result) => {
-    //   //   const credential = result.credential;
-    //   //   const user = result.user;
-    //   //   const accessToken = credential.accessToken;
-    //   // })
-
-    //   // const result = await LoginManager.logInWithPermissions([
-    //   //   "public_profile",
-    //   //   "email",
-    //   // ]);
-    //   // if (result.isCancelled) {
-    //   //   throw "User cancelled the login process";
-    //   // }
-
-    //   // const data = await AccessToken.getCurrentAccessToken();
-    //   // if (!data) {
-    //   //   throw "something went wrong throwing access token";
-    //   // }
-
-    //   // const facebookCredential = auth.FacebookAuthProvider.credential(
-    //   //   data.accessToken
-    //   // );
-
-    //   // return auth().signInWithCredential(facebookCredential);
-    // } catch ({ message }) {
-    //   alert(`Facebook Login Error: ${message}`);
-    // }
   };
 
   return (

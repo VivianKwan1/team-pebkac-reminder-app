@@ -26,8 +26,9 @@ if (!firebase.apps.length) {
 }
 
 firebase.auth().onAuthStateChanged((user) => {
-  if (user) console.log("Logged in with user: ", user);
-  else console.log("Not logged in");
+  if (user) {
+    console.log("Logged in with user: ", user);
+  } else console.log("Not logged in");
 });
 
 export default function App() {
