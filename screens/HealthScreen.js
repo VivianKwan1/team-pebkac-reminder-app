@@ -1,67 +1,16 @@
 import React from 'react';
-import {Button, TextInput, SafeAreaView, Text, StyleSheet, ScrollView, Pressable, Image, Dimensions, View} from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
-import {LineChart} from "react-native-chart-kit";
-import ActivityRings from "react-native-activity-rings";  
+import {SafeAreaView, Text, StyleSheet, ScrollView, Pressable, TouchableOpacity , Dimensions, View} from 'react-native';
+import ActivityRings from "react-native-activity-rings";
+import * as Progress from 'react-native-progress';
+import { useNavigation } from '@react-navigation/native';
+import WaterLine from './WaterLine';
+import WorkLine from './WorkLine';
+import ExerciseLine from './ExerciseLine';
+import SleepLine from './SleepLine';
 
 /* current progress is tracked weekly. currently includes 4 categories: water, exercise
   sleep and work. right now, random values are used as placeholders for user data.  */
 
-// data for the water line chart
-// replace with user's water completion data for an entire week 
-// i.e. completed water tasks/all water tasks
-const waterData = {
-  labels: ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"],
-  datasets: [
-    {
-      data: [0.7, 0.6, 0.7, 0.8, 0.7, 0.5],
-      color: (opacity = 1) => `rgba(0, 128, 255, ${opacity})`,
-    }
-  ],
-  legend: ["Water"],
-};
-
-// data for the exercise line chart
-// replace with user's exercise completion data for an entire week 
-// i.e. completed exercise tasks/all exercise tasks
-const exerciseData = {
-  labels: ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"],
-  datasets: [
-    {
-      data: [0.7, 0.6, 0.7, 0.8, 0.7, 0.5],
-      color: (opacity = 1) => `rgba(153, 255, 51, ${opacity})`,
-    }
-  ],
-  legend: ["Exercise"],
-};
-
-// data for the sleep line chart
-// replace with user's sleep completion data for an entire week 
-// i.e. completed sleep tasks/all sleep tasks
-const sleepData = {
-  labels: ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"],
-  datasets: [
-    {
-      data: [0.7, 0.6, 0.7, 0.8, 0.7, 0.5],
-      color: (opacity = 1) => `rgba(134, 4, 15, ${opacity})`,
-    }
-  ],
-  legend: ["Sleep"],
-};
-
-// data for the work line chart
-// replace with user's work completion data for an entire week 
-// i.e. completed work tasks/all work tasks
-const workData = {
-  labels: ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"],
-  datasets: [
-    {
-      data: [0.7, 0.6, 0.7, 0.8, 0.7, 0.5],
-      color: (opacity = 1) => `rgba(255, 51, 51, ${opacity})`,
-    }
-  ],
-  legend: ["Work"],
-};
 
 // activity rings data, color selection and label
 const activityData = [
@@ -106,66 +55,27 @@ function HealthTrack({navigation}) {
         data={activityData} 
         config={activityConfig}
         />
-        <LineChart
-        data={waterData}
-        marginTop={100}
-        width={width*0.9}
-        height={height*0.3}
-        chartConfig={lineConfig}
-        bezier
-        style = {{
-          marginTop: height*0.05,
-        }}
-        />
-        <LineChart
-        data={exerciseData}
-        marginTop={100}
-        width={width*0.9}
-        height={height*0.3}
-        chartConfig={lineConfig}
-        bezier
-        style = {{
-          marginTop: height*0.05,
-        }}
-        />
-        <LineChart
-        data={sleepData}
-        marginTop={100}
-        width={width*0.9}
-        height={height*0.3}
-        chartConfig={lineConfig}
-        bezier
-        style = {{
-          marginTop: height*0.05,
-        }}
-        />
-        <LineChart
-        data={workData}
-        marginTop={100}
-        width={width*0.9}
-        height={height*0.3}
-        chartConfig={lineConfig}
-        bezier
-        style = {{
-          marginTop: height*0.05,
-        }}
-        />
+        <Text style={styles.text}> Water Goals </Text>
+        <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress = {() => navigation.navigate('WaterLine')}>
+        <Progress.Bar progress={0.3} width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={4}/>
+        </TouchableOpacity>
+        <Text style={styles.text}> Exercise Goals </Text>
+        <TouchableOpacity style={styles.button} activeOpacity={0.5} style = {styles.exerciseButton} onPress = {() => navigation.navigate('ExerciseLine')}>
+        <Progress.Bar progress={0.3} color={"#99FF33"} width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={4}/>
+        </TouchableOpacity>
+        <Text style={styles.text}> Sleep Goals </Text>
+        <TouchableOpacity style={styles.button} activeOpacity={0.5} style = {styles.exerciseButton} onPress = {() => navigation.navigate('SleepLine')}>
+        <Progress.Bar progress={0.3} color = {"#86040f"}  width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={4}/>
+        </TouchableOpacity>
+        <Text style={styles.text}> Work Goals </Text>
+        <TouchableOpacity style={styles.button} activeOpacity={0.5} style = {styles.exerciseButton} onPress = {() => navigation.navigate('WorkLine')}>
+        <Progress.Bar progress={0.3} color = {"#FF3333"} width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={4} marginBottom={height*0.07}/>
+        </TouchableOpacity>
       </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
-
-// styling for label color, dot size, and area under the plot color
-const lineConfig = {
-  color: (opacity = 1) => `rgba(255, 178, 102, ${opacity})`,
-  width:width*0.8,
-  fillShadowGradientOpacity: 1,
-  labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-  propsForDots: {
-        r: "5",
-      },
-};
 
 
 const width = Dimensions.get('window').width
@@ -173,7 +83,11 @@ const height = Dimensions.get('window').height
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: '#FFFFE2'
+    backgroundColor: '#FFFFE2',
+  },
+  text: {
+    fontSize: 20,
+    margin: height*0.03
   },
   container: {
     flex: 1,
