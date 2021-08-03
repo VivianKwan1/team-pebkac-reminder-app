@@ -39,7 +39,13 @@ function SignInScreen({ navigation }) {
         );
         const googleProfileData = await firebase
           .auth()
-          .signInWithCredential(credential);
+          .signInWithCredential(credential)
+          .then((result) => {
+            firebase
+              .database()
+              .ref("/users/" + result.user.uid)
+              .set({ gmail: result.user.email });
+          });
         navigation.navigate("HomeScreen");
         // console.log(googleProfileData);
       }
