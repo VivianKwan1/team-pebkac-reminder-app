@@ -1,12 +1,15 @@
-
 import React, {useState} from 'react';
-import { Button, KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView, Platform, SafeAreaView } from 'react-native';
+import { Button, KeyboardAvoidingView, StyleSheet, Text, Image, View, TextInput, TouchableOpacity, Keyboard, ScrollView, Platform, SafeAreaView } from 'react-native';
 import Task from '../components/Task'
+import { useNavigation } from '@react-navigation/native';
+{/* lottie animation imports */}
+// import Lottie from 'lottie-react-native';
+// import peas from '../assets/20587-peas-playground-of-love.json';
 
 
 
-export default function TaskCategory({navigation}) {
-
+export default function TaskCategory({}) {
+    const navigation = useNavigation();
     const [task, setTask] = useState();
     const [taskItems, setTaskItems] = useState([]);
   
@@ -33,7 +36,11 @@ export default function TaskCategory({navigation}) {
 
       {/* Today's Tasks */}
       <View style={styles.tasksWrapper}>
+      <TouchableOpacity activeOpacity = {0.5} onPress = {() => navigation.navigate('GroupTasksScreen')}>
+        <Image source = {require ('../assets/arrow.png')} style = {styles.ImageIconStyle}  />
         <Text style={styles.sectionTitle}>Today's tasks</Text>
+      </TouchableOpacity>
+        
         <View style={styles.items}>
           {/* This is where the tasks will go! */}
           {
@@ -47,13 +54,11 @@ export default function TaskCategory({navigation}) {
           }
         </View>
       </View>
-        
+
       </ScrollView>
       <KeyboardAvoidingView behavior = {Platform.OS === "ios"? "padding ": "height"}
                             style ={styles.writeTaskWrapper} >
        <TextInput style = {styles.input} placeholder = {'Write '} value = {task} onChangeText= {text => setTask(text )}/>
-      
-
 
       <TouchableOpacity onPress={() => handleAddTask()}>
         <View style = {styles.addWrapper}>
@@ -61,10 +66,13 @@ export default function TaskCategory({navigation}) {
         </View>
       </TouchableOpacity>
       </KeyboardAvoidingView>
-   
-  
-     
-    
+
+     {/* Reward animation peas */}
+      {/* <SafeAreaView style = {styles.gifstyle}>
+        <Lottie resizeMode = "contain" autoSize source = {peas} autoPlay loop/>
+      </SafeAreaView>
+     */}
+
     </View>
     
   );
@@ -79,10 +87,26 @@ const styles = StyleSheet.create({
     paddingTop: 80,
     paddingHorizontal: 20,
   },
-
+  ImageIconStyle: {
+    paddingLeft: 12,
+    marginLeft: 10,
+    height: 15,
+    width: 10,
+    resizeMode: 'stretch',
+  },
   sectionTitle: {
+    marginTop:-22,
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginLeft: 40,
+  },
+  gifstyle:{
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    top: -200,
+    left: 100,
+    
   },
 
   items: {
