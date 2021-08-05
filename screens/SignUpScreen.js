@@ -39,7 +39,9 @@ export default class SignUp extends Component {
       })
       await firebase
       .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .createUserWithEmailAndPassword(this.state.email, this.state.password).then((resp) => {
+        firebase.database().ref("/users/" + resp.user.uid).set({ email: resp.user.email });
+      })
       Alert.alert('User registered successfully!');
       this.setState({
           isLoading: false,

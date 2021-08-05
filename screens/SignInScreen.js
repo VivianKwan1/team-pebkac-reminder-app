@@ -9,10 +9,8 @@ export default class SignIn extends Component {
   constructor() {
     super();
     this.state = {
-      isLoading: false,
       email: '', 
-      password: '',
-      isLoading: false
+      password: ''
     }
   }
 
@@ -23,9 +21,6 @@ export default class SignIn extends Component {
   }
 
   emailLogin = async () => {
-    this.setState({
-      isLoading: true,
-    })
     try {
       if((this.state.email === '') || (this.state.password === '')) {
         Alert.alert('Enter your email and password to sign in!')
@@ -33,12 +28,11 @@ export default class SignIn extends Component {
       }
         const resp = await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
         this.setState({
-          isLoading: false,
           email: '', 
           password: ''
         })
         if(resp.user) {
-            this.props.navigation.navigate('HomeScreen');
+          this.props.navigation.navigate('HomeScreen');
         } else {
           Alert.alert('The email or password is incorrect.')
         }
@@ -52,20 +46,14 @@ export default class SignIn extends Component {
       Alert.alert('Please enter an email address to reset your password')
       return;
     }
-    this.setState({
-      isLoading: true,
-    })
     try {
       await firebase.auth().sendPasswordResetEmail(this.state.email)
       this.setState({
-        isLoading: false,
+        email: ''
       })
       Alert.alert('We have sent you a password reset email')
       this.props.navigation.navigate('SignIn')
     } catch (error) {
-      this.setState({
-        isLoading: false,
-      })
       Alert.alert(`Reset Password Error: ${e}`);
     }
   };
