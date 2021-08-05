@@ -65,14 +65,6 @@ export default function App() {
   //   );
   // };
 
-  // checkIfLoggedIn = () => {
-  //   firebase.auth().onAuthStateChanged((user) => {
-  //     if (user) {
-  //       return <HomeScreen></HomeScreen>;
-  //     }
-  //   });
-  // };
-
   return (
     <NavigationContainer>
       {

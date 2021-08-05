@@ -44,9 +44,10 @@ function SignInScreen({ navigation }) {
             firebase
               .database()
               .ref("/users/" + result.user.uid)
-              .set({ gmail: result.user.email });
+              .set({ gmail: result.user.email, name: result.user.displayName });
+            navigation.navigate("HomeScreen");
           });
-        navigation.navigate("HomeScreen");
+
         // console.log(googleProfileData);
       }
     } catch (e) {
