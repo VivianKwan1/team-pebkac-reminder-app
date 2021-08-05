@@ -1,32 +1,109 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { TextInput } from 'react-native';
-import { Button, SafeAreaView, Text, StyleSheet, Pressable, Dimensions, View, Image } from 'react-native';
+import { Button, SafeAreaView, Text, StyleSheet, Pressable, Dimensions, View, Image, Alert } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
+import firebase from "firebase";
 
-function SignInScreen({navigation}) {
+export default class SignIn extends Component {
+  
+  constructor() {
+    super();
+    this.state = {
+      isLoading: false,
+      email: '', 
+      password: '',
+      isLoading: false
+    }
+  }
+
+  updateInputVal = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  }
+
+  emailLogin = async () => {
+    this.setState({
+      isLoading: true,
+    })
+    try {
+      if((this.state.email === '') || (this.state.password === '')) {
+        Alert.alert('Enter your email and password to sign in!')
+        return;
+      }
+        const resp = await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
+        this.setState({
+          isLoading: false,
+          email: '', 
+          password: ''
+        })
+        if(resp.user) {
+            this.props.navigation.navigate('HomeScreen');
+        } else {
+          Alert.alert('The email or password is incorrect.')
+        }
+    } catch (e) {
+        Alert.alert(e.message);
+    }
+  };
+
+  handlePasswordReset = async () => {
+    if (this.state.email === '') {
+      Alert.alert('Please enter an email address to reset your password')
+      return;
+    }
+    this.setState({
+      isLoading: true,
+    })
+    try {
+      await firebase.auth().sendPasswordResetEmail(this.state.email)
+      this.setState({
+        isLoading: false,
+      })
+      Alert.alert('We have sent you a password reset email')
+      this.props.navigation.navigate('SignIn')
+    } catch (error) {
+      this.setState({
+        isLoading: false,
+      })
+      Alert.alert(`Reset Password Error: ${e}`);
+    }
+  };
+
+  render() {
     return (
         <SafeAreaView style = {styles.page}>
           <Image source={require('../assets/secondPage.png')} style = {styles.backImage}/>
-            <Pressable style = {styles.cancelButton} onPress = {() => navigation.navigate('FirstPage')}>
+            <Pressable style = {styles.cancelButton} onPress = {() => this.props.navigation.navigate('FirstPage')}>
               <Text style = {styles.cancelText}>X
               </Text>
             </Pressable>
-            <Pressable style = {styles.signupButton} onPress = {() => navigation.navigate('SignUpScreen')}>
+            <Pressable style = {styles.signupButton} onPress = {() => this.props.navigation.navigate('SignUpScreen')}>
               <Text style = {styles.texts}>Don't have an account? Sign up here
               </Text>
             </Pressable>
-            <Text style={styles.accountText}>Email Address</Text>
+
+            <Text style={styles.accountText}>Email</Text>
             <TextInput
                 style={styles.accountInput}
+                value={this.state.email}
+                onChangeText={(val) => this.updateInputVal(val, 'email')}
             />
 
             <Text style={styles.accountText}>Password</Text>
             <TextInput
                 style={styles.accountInput}
                 secureTextEntry={true}
+                value={this.state.password}
+                onChangeText={(val) => this.updateInputVal(val, 'password')}
             />
 
-            <Pressable style = {styles.signButton} onPress = {() => navigation.navigate('HomeScreen')}>
+            <Pressable style = {styles.forgotPassword} onPress = {() => this.handlePasswordReset()}>
+              <Text style = {styles.forgotText}>Forgot password?
+              </Text>
+            </Pressable>
+
+            <Pressable style = {styles.signButton} onPress = {() => this.emailLogin()}>
               <Text style = {styles.text}>Sign In
               </Text>
             </Pressable>
@@ -43,6 +120,7 @@ function SignInScreen({navigation}) {
 
         </SafeAreaView>
     );
+  }
 }
 
 const width = Dimensions.get('window').width
@@ -50,7 +128,7 @@ const height = Dimensions.get('window').height
 
 const styles = StyleSheet.create({
     texts: {
-        fontSize:18,
+        fontSize:15,
         marginHorizontal: width*0.05,
         marginTop: height*0.01,
         marginBottom: height*0.01,
@@ -61,11 +139,19 @@ const styles = StyleSheet.create({
       marginHorizontal: width*0.05,
       borderRadius:10
     },
+    forgotPassword: {
+      marginLeft: width*0.25,
+    },
+    forgotText: {
+      fontSize:18,
+        marginHorizontal: width*0.045,
+        marginTop: height*0.01,
+        color: '#3399FF',
+    },
     signButton: {
       alignItems: 'center',
       justifyContent: 'center',
       paddingVertical: 18,
-      elevation: 3,
       backgroundColor: '#8A873B',
       marginBottom: 15,
       marginHorizontal: width*0.1,
@@ -150,4 +236,3 @@ const styles = StyleSheet.create({
 
 })
 
-export default SignInScreen;

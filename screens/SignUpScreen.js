@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { TextInput } from 'react-native';
 import { Button, SafeAreaView, Text, StyleSheet, Pressable, Image, Dimensions, View, Alert, ActivityIndicator} from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import firebase from '../database/firebase';
+import firebase from "firebase";
 
 
 export default class SignUp extends Component {
@@ -25,7 +25,7 @@ export default class SignUp extends Component {
     this.setState(state);
   }
 
-  registerUser = () => {
+  registerUser = async() => {
     if((this.state.email === '') || (this.state.password === '')) {
       Alert.alert('Enter details to signup!')
       return;
@@ -33,29 +33,26 @@ export default class SignUp extends Component {
       Alert.alert('Passwords do not match')
       return;
     }
+    try {
       this.setState({
         isLoading: true,
       })
-      firebase
+      await firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then((res) => {
-        res.user.updateProfile({
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-        })
-        console.log('User registered successfully!')
-        this.setState({
+      Alert.alert('User registered successfully!');
+      this.setState({
           isLoading: false,
           firstName: '',
           lastName: '',
           email: '', 
           password: ''
-        })
-        //  this.props.navigation.navigate('SignInScreen')
       })
       this.props.navigation.navigate('SignInScreen')
-      .catch(error => this.setState({ errorMessage: error.message }))      
+    } catch(e) {
+      Alert.alert("Sign Up Error: " + e)
+      return;
+    }    
   }
 
   render() {
@@ -101,7 +98,6 @@ export default class SignUp extends Component {
           secureTextEntry={true}
           value={this.state.password}
           onChangeText={(val) => this.updateInputVal(val, 'password')}
-          secureTextEntry={true}
         />
         <Text style={styles.accountText}>Re-enter Password</Text>
           <TextInput

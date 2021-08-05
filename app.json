@@ -18,7 +18,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.alilu243.ReminderApp"
+      "bundleIdentifier": "com.teampebkac.ReminderApp"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +28,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "facebookScheme": "fb5996710610369778",
+    "facebookAppId": "5996710610369778",
+    "facebookDisplayName": "ReminderApp"
   }
 }
