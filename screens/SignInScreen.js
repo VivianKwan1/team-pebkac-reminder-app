@@ -3,6 +3,10 @@ import { TextInput } from 'react-native';
 import { Button, SafeAreaView, Text, StyleSheet, Pressable, Dimensions, View, Image, Alert } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import firebase from "firebase";
+import * as Google from "expo-google-app-auth";
+import * as GoogleSignIn from "expo-google-sign-in";
+import * as Facebook from "expo-facebook";
+
 
 export default class SignIn extends Component {
   
@@ -19,6 +23,68 @@ export default class SignIn extends Component {
     state[prop] = val;
     this.setState(state);
   }
+
+  signInWithGoogleAsync = async () => {
+    try {
+      const result = await Google.logInAsync({
+        androidClientId:
+          "312108100120-5guu03vb7lm1hbkv6204k0d38skgm0t0.apps.googleusercontent.com",
+        behavior: "web",
+        iosClientId:
+          "312108100120-g0fq8ie5tfgv0qbnudr189bf799qilrv.apps.googleusercontent.com",
+        scopes: ["profile", "email"],
+      });
+
+      if (result.type === "success") {
+        await firebase
+          .auth()
+          .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        const credential = firebase.auth.GoogleAuthProvider.credential(
+          result.idToken,
+          result.accessToken
+        );
+        const googleProfileData = await firebase
+          .auth()
+          .signInWithCredential(credential)
+          .then((result) => {
+            firebase
+              .database()
+              .ref("/users/" + result.user.uid)
+              .set({ gmail: result.user.email, name: result.user.displayName });
+            this.props.navigation.navigate("HomeScreen");
+          });
+
+        // console.log(googleProfileData);
+      }
+    } catch (e) {
+      alert("login: Error:" + e);
+    }
+  };
+
+  signInWithFacebookAsync = async () => {
+    try {
+      const appId = { appId: "fb5996710610369778" };
+      await Facebook.initializeAsync(appId);
+      const { type, token } = await Facebook.logInWithReadPermissionsAsync(
+        appId,
+        {
+          permissions: ["public_profile"],
+        }
+      );
+      if (type === "success") {
+        await firebase
+          .auth()
+          .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        const credential = firebase.auth.FacebookAuthProvider.credential(token);
+        const facebookProfileData = await firebase
+          .auth()
+          .signInWithCredential(credential);
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
+  };
+
 
   emailLogin = async () => {
     try {
@@ -96,12 +162,12 @@ export default class SignIn extends Component {
               </Text>
             </Pressable>
 
-            <Pressable style = {styles.googButton}>
+            <Pressable style = {styles.googButton} onPress={() => this.signInWithGoogleAsync()}>
               <Text style = {styles.text}>Google
               </Text>
             </Pressable>
 
-            <Pressable style = {styles.fbButton}>
+            <Pressable style = {styles.fbButton} onPress={() => this.signInWithFacebookAsync()}>
               <Text style = {styles.text}>Facebook
               </Text>
             </Pressable>
@@ -150,8 +216,7 @@ const styles = StyleSheet.create({
     cancelButton: {
       alignItems: 'flex-end',
       paddingVertical: 18,
-      elevation: 3,
-      marginBottom: 15,
+      marginBottom: height*0.0001,
       marginHorizontal: width*0.1,
       borderRadius:10
     },
@@ -200,9 +265,9 @@ const styles = StyleSheet.create({
     },
 
     cancelText: {
-    fontSize:30,
-    fontWeight: 'bold',
-    color: 'red',
+      fontSize:height*0.03,
+      fontWeight: 'bold',
+      color: 'red',
     },
     
     page: {

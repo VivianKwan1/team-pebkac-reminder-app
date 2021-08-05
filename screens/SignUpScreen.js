@@ -40,7 +40,7 @@ export default class SignUp extends Component {
       await firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password).then((resp) => {
-        firebase.database().ref("/users/" + resp.user.uid).set({ email: resp.user.email });
+        firebase.database().ref("/users/" + resp.user.uid).set({ email: resp.user.email, name: this.state.firstName + " " + this.state.lastName });
       })
       Alert.alert('User registered successfully!');
       this.setState({
@@ -112,16 +112,7 @@ export default class SignUp extends Component {
             <Text style = {styles.text}>Create Account
             </Text>
           </Pressable>
-
-          <Pressable style = {styles.googButton}>
-            <Text style = {styles.text}>Google
-            </Text>
-          </Pressable>
-
-          <Pressable style = {styles.fbButton}>
-            <Text style = {styles.text}>Facebook
-            </Text>
-          </Pressable>                        
+                       
       </SafeAreaView>
     );
   }
@@ -147,30 +138,10 @@ texts: {
     justifyContent: 'center',
     paddingVertical: height*0.025,
     backgroundColor: '#8A873B',
-    marginBottom: 15,
+    marginBottom: height*0.9,
     marginHorizontal: width*0.1,
     borderRadius:10,
     marginTop: 30
-  },
-  
-  googButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: height*0.025,
-    backgroundColor: '#8A873B',
-    marginBottom: 15,
-    marginHorizontal: width*0.1,
-    borderRadius:10
-  },
-
-  fbButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: height*0.025,
-    backgroundColor: '#8A873B',
-    marginBottom: height*0.2,
-    marginHorizontal: width*0.1,
-    borderRadius:10
   },
 
   cancelButton: {
