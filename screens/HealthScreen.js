@@ -9,7 +9,7 @@ function HealthTrack({navigation}) {
     <ScrollView>
       <View style={styles.container}>
         <View>
-          Health Page!!!
+          <Text>Health Page</Text>
         </View>
       </View>
       </ScrollView>

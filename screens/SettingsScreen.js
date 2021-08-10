@@ -1,118 +1,185 @@
 import React from 'react';
 import { TextInput } from 'react-native';
-import { PermissionsAndroid } from 'react-native';
-import { Image, Alert, ScrollView, TouchableOpacity, View, Button, SafeAreaView, Text, StyleSheet, Pressable } from 'react-native';
-import { createStackNavigator, createAppContainer, withNavigation } from 'react-navigation';
-import FirstPage from "./FirstPage";
-import GroupTasksScreen from "./GroupTasksScreen";
-//import arrow from './assets/arrow.png';
-import head from '../assets/head.png';
+import { Dimensions, Image, ScrollView, TouchableOpacity, View, Button, SafeAreaView, Text, StyleSheet, Pressable } from 'react-native';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { useNavigation } from '@react-navigation/native';
-// import bell from './assets/bell.png';
-// import shield from './assets/shield.png';
-// import location from './assets/location.png';
-// import connection from './assets/connection.png';
-// import account from './assets/account.png';
-// import trash from './assets/trash.png';
-// import logout from './assets/logout.png';
-function SettingsScreen(props) {
-  
-  const navigation = useNavigation();
+import { Icon } from 'react-native-elements'
 
-  const settingsOptions=[
-    {title: 'Daily Reminders', onPress: () => {}, image: {head}},
-    {title: 'Appearance', onPress: () => {}, image: {head}},
-    {title: 'Notifications', onPress: () => {}, image: {head}},
-    {title: 'Security and Privacy', onPress: () => {}, image: {head}},
-    {title: 'Location', onPress: () => {}, image: {head}},
-    {title: 'Connection', onPress: () => {}, image: {head}},
-    {title: 'Account', onPress: () => {}, image: {head}},
-    {title: 'Delete All Tasks', onPress: () => {confirm('delete all tasks?', 'GroupTasksScreen')}, image: {head}},
-    {title: 'Delete Account', onPress: () => {confirm('delete your account? All data will be permanently deleted.', 'FirstPage')}, image: {head}},
-    {title: 'Logout', onPress: () => {confirm('log out?', 'FirstPage')}, image: {head}}
-  ]
-
-  const confirm = (procedure, nav) =>{
-    return(
-      Alert.alert(
-        null, "Are you sure you want to " + procedure,
-        [{text: "Cancel", onPress: () => console.log("Cancel Pressed"), style: "cancel"},
-        {text: "Confirm" , onPress: () => navigation.navigate(nav)}]
-      )
-    );
-  }
-
-  return (
+function SettingsScreen() {
+    const navigation = useNavigation(); 
+    return (
     <SafeAreaView style={styles.background}>
-      {/* <Text>Settings Page!!!</Text> */}
-      <ScrollView style={styles.options} endFillColor={'709c6c'}>
-        <TouchableOpacity>
-        {/* <Image source={head} style={{
-              width: 20,
-              height: 20,
-              //tintColor:"transparent",
-              paddingHorizontal: 100,
-              paddingBottom: 100,
-              paddingTop: 100
-            }}></Image> */}
-          <Text 
-          style={styles.titleStyle}
-          //onPress = {() => navigation.navigate('HomeScreen')}
-          >
-            Settings
-            ____________________
-            </Text>
+        <ScrollView>
+        <View style={styles.view}>
+          <Pressable onPress={() => navigation.goBack('MenuScreen')}>
+          <Icon
+              name='arrow-left'
+              type='material-community'
+              color='white'
+              size={30}
+              style={styles.backButton}/>
+          </Pressable>
+          <Text style={styles.title}>Settings</Text>
+        </View>
+
+        <TouchableOpacity style={styles.button}>
+        <View style={styles.view}>
+        <Icon
+              name='emoticon-excited'
+              type='material-community'
+              color='white'
+              size={35}
+              style={styles.icon}/>
+        <Text style={styles.text}>Appearance</Text>
+        </View>
         </TouchableOpacity>
-        {settingsOptions.map(({title, onPress, image}, index) => (
-          <TouchableOpacity key={title} onPress={onPress}>
-            <View
-              style={styles.optBorders}>
-              <Text style={styles.text}>{title}</Text>
-            </View>
+
+        <TouchableOpacity style={styles.button}>
+        <View style={styles.view}>
+        <Icon
+              name='bell'
+              type='material-community'
+              color='white'
+              size={30}
+              style={styles.icon}/>
+        <Text style={styles.text}>Notifications</Text>
+        </View>
           </TouchableOpacity>
-        ))}
-      </ScrollView>
-    </SafeAreaView>
-  );
+
+        <TouchableOpacity style={styles.button}>
+        <View style={styles.view}>
+        <Icon
+              name='security'
+              type='material-community'
+              color='white'
+              size={30}
+              style={styles.icon}/>
+        <Text style={styles.text}>Security and Privacy</Text>
+        </View>
+          </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button}>
+        <View style={styles.view}>
+        <Icon
+              name='transit-connection-variant'
+              type='material-community'
+              color='white'
+              size={30}
+              style={styles.icon}/>
+        <Text style={styles.text}>Connection</Text>
+        </View>
+          </TouchableOpacity>  
+
+        <TouchableOpacity style={styles.button}>
+        <View style={styles.view}>
+        <Icon
+              name='account-box-outline'
+              type='material-community'
+              color='white'
+              size={30}
+              style={styles.icon}/>
+        <Text style={styles.text}>Account</Text>
+        </View>
+        </TouchableOpacity>  
+
+        <TouchableOpacity style={styles.button}>
+        <View style={styles.view}>
+        <Icon
+              name='delete'
+              type='material-community'
+              color='white'
+              size={30}
+              style={styles.icon}/>
+        <Text style={styles.text}>Delete All Tasks</Text>
+        </View>
+        </TouchableOpacity>  
+
+        <TouchableOpacity style={styles.button}>
+        <View style={styles.view}>
+        <Icon
+              name='logout'
+              type='material-community'
+              color='white'
+              size={30}
+              style={styles.icon}/>
+        <Text style={styles.text}>Logout</Text>
+        </View>
+        </TouchableOpacity>  
+        </ScrollView>
+      </SafeAreaView>
+    );
 }
+
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
+
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "flex-end",
-    marginTop: 22
-  },
+
+     icon:{
+      paddingLeft:25
+    },
+
+    backButton:{
+      paddingHorizontal: 20,
+      paddingTop: 5,
+    },
+
+    button:{
+      borderWidth : 1.5,
+      borderRadius: 25,
+      marginBottom: 10,
+      marginHorizontal: width*0.05,
+      paddingVertical: 2,
+      borderColor:"white",
+      alignItems:"stretch"
+    },
+  
+    view:{
+      flexDirection: "row",
+      alignItems: "center",
+      alignContent: 'flex-start'
+    },
+
     background:{
-        backgroundColor: '#709C6C'
+        backgroundColor: '#709c6c',
+        flex:1,
     },
-    titleStyle:{
+
+    title:{
       fontSize: 25,
+      fontWeight: '600',
       color: 'white',
-      fontWeight: 'bold',
-      paddingHorizontal: 40,
-      paddingBottom: 20,
-      paddingTop: 20
+      paddingHorizontal: 20,
+      paddingBottom: 35,
+      paddingTop: 30,
     },
+
     text: {
       fontSize: 17,
       color: 'white',
-      fontWeight: 'bold'
+      fontWeight: '500',
+      paddingHorizontal: 40,
+      paddingBottom: 20,
+      paddingTop: 20,
     },
-    options:{
-      backgroundColor: '#709C6C', //this is the exact color green of Subash's design
-    },
+  
+
     optBorders: {
       paddingHorizontal: 45,
       paddingBottom: 20,
       paddingTop: 20,
     },
+
     accountInput: {
         margin: 12,
         borderWidth: 1,
     },
+
     accountText: {
         margin: 5,
         fontWeight: 'bold',
     }
+
 })
+
 export default SettingsScreen;

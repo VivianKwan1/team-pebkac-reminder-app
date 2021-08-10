@@ -2,10 +2,7 @@ import "react-native-gesture-handler";
 import React, { useState, useEffect, useRef } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StatusBar } from "expo-status-bar";
 import { Platform, StyleSheet, Text, View } from "react-native";
-import { Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/FontAwesome";
 import { Notifications } from "expo";
 import * as Permissions from "expo-permissions";
 import * as firebase from "firebase";
@@ -17,6 +14,10 @@ import HomeScreen from "./screens/HomeScreen";
 import TaskCategory from "./screens/TaskCategory";
 import GroupTasksScreen from "./screens/GroupTasksScreen";
 import SettingsScreen from "./screens/SettingsScreen";
+import MenuScreen from './screens/MenuScreen';
+import FriendsScreen from './screens/FriendsScreen';
+import BirthdayScreen from './screens/BirthdayScreen';
+import AboutScreen from './screens/AboutScreen';
 
 const Stack = createStackNavigator();
 
@@ -75,47 +76,23 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {
-        <Stack.Navigator initialRouteName="FirstPage">
-          <Stack.Screen
-            name="FirstPage"
-            component={FirstPage}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="SignInScreen"
-            component={SignInScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="SignUpScreen"
-            component={SignUpScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="HomeScreen"
-            component={HomeScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="GroupTasksScreen"
-            component={GroupTasksScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="TaskCategory"
-            component={TaskCategory}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="SettingsScreen"
-            component={SettingsScreen}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      }
+      <Stack.Navigator initialRouteName="FirstPage">
+        <Stack.Screen name="FirstPage" component={FirstPage} options={{ headerShown: false }}/>
+        <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="GroupTasksScreen" component={GroupTasksScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="TaskCategory" component={TaskCategory} options={{ headerShown: false }} />
+
+        <Stack.Screen name="MenuScreen" component={MenuScreen} options={{ headerShown: true }} />
+        <Stack.Screen name="FriendsScreen" component={FriendsScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="BirthdayScreen" component={BirthdayScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="SettingsScreen" component={SettingsScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="AboutScreen" component={AboutScreen} options={{ headerShown: false }} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
+
 }
 
 const styles = StyleSheet.create({
