@@ -5,10 +5,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import NewTask from '../components/NewTask'
 
 function NewTaskScreen({ navigation }) {
-  
-
     return (
-        
         <SafeAreaView style = {styles.container}>
             <Text style = {styles.sectionTitle}> New Tasks</Text>
             <NewTask></NewTask>

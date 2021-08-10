@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   page: {
-    backgroundColor: 'green',
+    backgroundColor: '#406c34',
     width: width,
     height: height,
   },

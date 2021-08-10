@@ -14,8 +14,8 @@ import SignUpScreen from './screens/SignUpScreen';
 import HomeScreen from'./screens/HomeScreen';
 import TaskCategory from './screens/TaskCategory';
 import GroupTasksScreen from './screens/GroupTasksScreen';
-
-const Stack = createStackNavigator();
+import { MainStackNavigator } from './navigation/StackNavigator'
+import { MainDrawerNavigator } from './navigation/DrawerNavigator'
 
 export default function App() {
 
@@ -56,16 +56,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-    {
-      <Stack.Navigator initialRouteName="FirstPage">
-        <Stack.Screen name="FirstPage" component={FirstPage} options={{ headerShown: false }}/>
-        <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="GroupTasksScreen" component={GroupTasksScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="TaskCategory" component={TaskCategory} options={{ headerShown: false }} />
-    </Stack.Navigator>
-    }
+        <MainStackNavigator/> 
     </NavigationContainer>
 
   )

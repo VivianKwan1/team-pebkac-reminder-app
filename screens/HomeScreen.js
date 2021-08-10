@@ -4,11 +4,10 @@ import CalendarScreen from './CalendarScreen';
 import NewTaskScreen from './NewTaskScreen';
 import TasksScreen from './TasksScreen';
 import HealthScreen from './HealthScreen';
-import SettingsScreen from './SettingsScreen';
+import MenuScreen from './MenuScreen';
 import GroupTasksScreen from './GroupTasksScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-
 
 const MyComponent = ({navigation}) => {
   const [index, setIndex] = React.useState(0);
@@ -18,7 +17,7 @@ const MyComponent = ({navigation}) => {
     { key: 'newtask', title: 'New Task', icon: 'pencil-plus' , color: '#b29c6f'},
     { key: 'tasks', title: 'Tasks', icon: 'checkbox-marked-outline' , color: '#b29c6f'},
     { key: 'health', title: 'Health', icon: 'heart' , color: '#b29c6f'},
-    { key: 'settings', title: 'Settings', icon: 'menu' , color: '#b29c6f'},
+    { key: 'settings', title: 'Menu', icon: 'menu' , color: '#b29c6f'},
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
@@ -27,7 +26,7 @@ const MyComponent = ({navigation}) => {
     newtask: NewTaskScreen,
     tasks: TasksScreen,
     health: HealthScreen,
-    settings: SettingsScreen,
+    settings: MenuScreen
   });
 
   return (
