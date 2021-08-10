@@ -20,16 +20,16 @@ import SettingsScreen from "./screens/SettingsScreen";
 
 const Stack = createStackNavigator();
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-} else {
-  firebase.app(); // if already initialized, use that one
-}
+// if (!firebase.apps.length) {
+//   firebase.initializeApp(firebaseConfig);
+// } else {
+//   firebase.app(); // if already initialized, use that one
+// }
 
-firebase.auth().onAuthStateChanged((user) => {
-  if (user) console.log("Logged in with user: ", user);
-  else console.log("Not logged in");
-});
+// firebase.auth().onAuthStateChanged((user) => {
+//   if (user) console.log("Logged in with user: ", user);
+//   else console.log("Not logged in");
+// });
 
 export default function App() {
   // useEffect(() => {
@@ -74,47 +74,48 @@ export default function App() {
   // };
 
   return (
-    <NavigationContainer>
-      {
-        <Stack.Navigator initialRouteName="FirstPage">
-          <Stack.Screen
-            name="FirstPage"
-            component={FirstPage}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="SignInScreen"
-            component={SignInScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="SignUpScreen"
-            component={SignUpScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="HomeScreen"
-            component={HomeScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="GroupTasksScreen"
-            component={GroupTasksScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="TaskCategory"
-            component={TaskCategory}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="SettingsScreen"
-            component={SettingsScreen}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      }
-    </NavigationContainer>
+    // <NavigationContainer>
+    //   {
+    //     <Stack.Navigator initialRouteName="FirstPage">
+    //       <Stack.Screen
+    //         name="FirstPage"
+    //         component={FirstPage}
+    //         options={{ headerShown: false }}
+    //       />
+    //       <Stack.Screen
+    //         name="SignInScreen"
+    //         component={SignInScreen}
+    //         options={{ headerShown: false }}
+    //       />
+    //       <Stack.Screen
+    //         name="SignUpScreen"
+    //         component={SignUpScreen}
+    //         options={{ headerShown: false }}
+    //       />
+    //       <Stack.Screen
+    //         name="HomeScreen"
+    //         component={HomeScreen}
+    //         options={{ headerShown: false }}
+    //       />
+    //       <Stack.Screen
+    //         name="GroupTasksScreen"
+    //         component={GroupTasksScreen}
+    //         options={{ headerShown: false }}
+    //       />
+    //       <Stack.Screen
+    //         name="TaskCategory"
+    //         component={TaskCategory}
+    //         options={{ headerShown: false }}
+    //       />
+    //       <Stack.Screen
+    //         name="SettingsScreen"
+    //         component={SettingsScreen}
+    //         options={{ headerShown: false }}
+    //       />
+    //     </Stack.Navigator>
+    //   }
+    // </NavigationContainer>
+    <GroupTasksScreen></GroupTasksScreen>
   );
 }
 
