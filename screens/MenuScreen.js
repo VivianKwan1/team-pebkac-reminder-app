@@ -12,6 +12,8 @@ import { useNavigation } from '@react-navigation/native';
 function MenuScreen() {
   return (
       <SafeAreaView style={styles.background}>
+        <Image source={require('../assets/leaves.png')} style = {styles.backImage}/>
+
         <Text style={styles.title}>Menu</Text>
 
         <MenuComponent
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
 
   button:{
     borderWidth : 1.5,
-    borderRadius: 50,
+    borderRadius: 25,
     marginBottom: 8,
     marginHorizontal: width*0.03,
     paddingVertical: 2,
