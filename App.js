@@ -26,11 +26,11 @@ import SleepLine from "./screens/SleepLine";
 
 const Stack = createStackNavigator();
 
-// if (!firebase.apps.length) {
-//   firebase.initializeApp(firebaseConfig);
-// } else {
-//   firebase.app(); // if already initialized, use that one
-// }
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+} else {
+  firebase.app(); // if already initialized, use that one
+}
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) console.log("Logged in");
