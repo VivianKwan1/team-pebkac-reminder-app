@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 
 function GroupTasksScreen(props) {
   const navigation = useNavigation(); 
-  const labels = ["things", "things1"];
+  const labels = ["Work", "Personal"];
   const labelbuttons = labels.map(function (labels) {
     return (
       <TouchableOpacity style={styles.button} activeOpacity={0.5}>
