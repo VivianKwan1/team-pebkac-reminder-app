@@ -5,14 +5,13 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 
-//Didn't know if I should leave this
-//Could use it or another background if it looks too bland
-//<Image source={require('../assets/leaves.png')} style = {styles.backImage}/>
+
 
 function MenuScreen() {
   const navigation = useNavigation(); 
   return (
       <SafeAreaView style={styles.background}>
+        <Image source={require('../assets/leaves.png')} style = {styles.backImage}/>
         <Text style={styles.title}>Menu</Text>
         <TouchableOpacity 
         onPress={() => navigation.navigate('FriendsScreen')}
@@ -137,8 +136,8 @@ const styles = StyleSheet.create({
     flex:1, 
     opacity:0.2,
     position:'absolute',
-    marginTop: height*0.01,
-    marginHorizontal: width*0.01
+    marginTop: height*0.05,
+    marginHorizontal: 0
   },
 
 })

@@ -82,7 +82,7 @@ const height = Dimensions.get('window').height
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: '#FFFFE2',
+    backgroundColor: '#faf0e6',
   },
   text: {
     fontSize: 20,
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFFFE2',
+    backgroundColor: '#faf0e6',
     marginBottom: height*0.1,
   }
 });

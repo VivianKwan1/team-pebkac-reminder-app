@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
     },
     
     page: {
-    backgroundColor: '#FFFFE2'
+    backgroundColor: '#faf0e6'
     },
 
     backImage: {

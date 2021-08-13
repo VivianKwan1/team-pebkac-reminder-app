@@ -8,13 +8,17 @@ import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
 function CalendarScreen({ navigation }) {
     return (
-        <SafeAreaView>
+        <SafeAreaView style = {styles.mainContainer}>
             <Calendar/>
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    mainContainer: {
+        flex: 1,
+        backgroundColor: "#EAE3C9",
+    },
     accountInput: {
         margin: 12,
         borderWidth: 1,

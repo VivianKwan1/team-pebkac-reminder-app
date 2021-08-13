@@ -1,17 +1,15 @@
 import React from "react";
+import { View } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import { Button, SafeAreaView, Text, StyleSheet, Pressable, View } from "react-native";
+import { Button, SafeAreaView, Text, StyleSheet, Pressable } from "react-native";
 import TaskCategory from "./TaskCategory";
 import FirstPage from "./FirstPage";
-import NewTask from "../components/NewTask";
 import { useNavigation } from '@react-navigation/native';
-import { Image } from "react-native";
-
 
 function GroupTasksScreen(props) {
+  const navigation = useNavigation(); 
   const labels = ["things", "things1"];
-  const navigation = useNavigation();
   const labelbuttons = labels.map(function (labels) {
     return (
       <TouchableOpacity style={styles.button} activeOpacity={0.5}>
@@ -22,11 +20,10 @@ function GroupTasksScreen(props) {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-
       <View style={styles.textContainer}>
         <Text style={styles.mainText}>Hello Person!</Text>
-        <Text style={styles.otherText}>You are hardly working</Text>
-        <Text style={styles.otherText}>You have x tasks for today</Text>
+        <Text style={styles.otherText}>You are not very busy today are you?</Text>
+        <Text style={styles.otherText}>You have 0 tasks for today.</Text>
       </View>
 
       <View style={styles.buttonContainer}>
@@ -48,10 +45,11 @@ function GroupTasksScreen(props) {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: "#F5FCFF",
+    backgroundColor: "#faf0e6",
   },
+
   button: {
-    backgroundColor: "green",
+    backgroundColor: "#709c6c",
     borderRadius: 10,
     margin: 30,
     width: 100,
@@ -60,7 +58,7 @@ const styles = StyleSheet.create({
   },
 
   plusButton: {
-    backgroundColor: "white",
+    backgroundColor: "#faf0e6",
     borderRadius: 10,
     margin: 30,
     width: 100,
@@ -83,11 +81,13 @@ const styles = StyleSheet.create({
   mainText: {
     fontWeight: "bold",
     fontSize: 50,
+    textAlign: "center",
   },
 
   otherText: {
     opacity: 100,
     fontSize: 15,
+    textAlign: "center",
   },
 
   buttonContainer: {
@@ -99,16 +99,6 @@ const styles = StyleSheet.create({
   textContainer: {
     padding: 10,
     marginTop: 20,
-  },
-  signButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 18,
-    elevation: 3,
-    backgroundColor: '#8A873B',
-    marginBottom: 15,
-    borderRadius:10,
-    marginTop: 30
   },
 });
 
