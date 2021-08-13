@@ -18,13 +18,11 @@ export default function NewTaskScreen() {
 
   startRecording = async () => {
     try {
-      Alert.alert('Requesting permissions..');
       await Audio.requestPermissionsAsync();
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
       }); 
-      Alert.alert('Starting recording..')
       const recording = new Audio.Recording();
       await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
       await recording.startAsync();
