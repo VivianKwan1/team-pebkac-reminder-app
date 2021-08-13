@@ -44,7 +44,8 @@
     "react-select": "^4.3.1",
     "stack-navigator": "0.0.0",
     "expo-google-sign-in": "~9.1.0",
-    "expo-facebook": "~11.0.5"
+    "expo-facebook": "~11.0.5",
+    "expo-av": "~9.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

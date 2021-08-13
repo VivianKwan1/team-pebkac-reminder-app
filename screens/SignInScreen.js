@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     width: '90%', height: '60%', flex: 1, resizeMode: 'stretch', 
     alignContent:'center',
     position:'absolute',
-    marginTop: height*0.3
+    marginTop: height*0.2
   },
 
     accountText: {

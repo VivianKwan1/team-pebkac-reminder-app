@@ -2,146 +2,80 @@ import React, {useState} from 'react';
 import ReactDOM from "react-dom";
 import { View } from 'react-native';
 import { TextInput } from 'react-native';
-import { Button, SafeAreaView, Text, StyleSheet, KeyboardAvoidingView,TouchableOpacity, Keyboard, ScrollView, Platform, Image } from 'react-native';
+import { Button, SafeAreaView, Text, StyleSheet, Alert, KeyboardAvoidingView,TouchableOpacity, Dimensions, Keyboard, ScrollView, Platform, Image } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { useNavigation } from '@react-navigation/native';
 import NewTask from '../components/NewTask'
 import TaskCategory from './TaskCategory';
-import Task from '../components/Task'
+import Task from '../components/Task';
+import { Audio } from 'expo-av';
+import SignIn from './SignInScreen';
 
-const NewTaskScreen =(props) =>{
 
-    const navigation = useNavigation();
-    const [task, setTask] = useState();
-    const [taskItems, setTaskItems] = useState([]);
-  
-    const handleAddTask = () => {
-      Keyboard.dismiss();
-      setTaskItems([...taskItems, task])
-      setTask(null);
+export default function NewTaskScreen() {
+
+  const [recording, setRecording] = useState();
+
+  startRecording = async () => {
+    try {
+      Alert.alert('Requesting permissions..');
+      await Audio.requestPermissionsAsync();
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      }); 
+      Alert.alert('Starting recording..')
+      const recording = new Audio.Recording();
+      await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
+      await recording.startAsync();
+      setRecording(recording);
+    } catch (err) {
+      Alert.alert('Recording failed to start', err);
     }
-  
-    const completeTask = (index) => {
-      let itemsCopy = [...taskItems];
-      itemsCopy.splice(index, 1);
-      setTaskItems(itemsCopy)
-    }
+  }
 
+  stopRecording = async () => {
+    setRecording(undefined);
+    await recording.stopAndUnloadAsync();
+    const uri = recording.getURI();
+    
+  }
 
-    return (
-        <View style = {styles.container}>
-        <SafeAreaView >
-            
-            <Text style = {styles.sectionTitle}> New Tasks</Text>
-            <NewTask></NewTask>
-            {
-            taskItems.map((item, index) => {
-              return (
-                <TouchableOpacity key={index}  onPress={() => completeTask(index)}>
-                  <Task text={item} /> 
-                </TouchableOpacity>
-              )
-            })
-          }
-           
-        </SafeAreaView>
-
-      <KeyboardAvoidingView behavior = {Platform.OS === "ios"? "padding ": "height"}
-                             >
-      <TextInput style = {styles.input} placeholder = {'Write '} value = {task} onChangeText= {text => setTask(text )}/>
-
-      <TouchableOpacity onPress={() => handleAddTask()}>
-        <View style = {styles.addWrapper}>
-          <Text style = {styles.addText}>Create</Text>
-          
-        </View>
+  return (
+    <View style={styles.container}>
+    <View style={{ flexDirection:"row" }}>
+      <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => startRecording()}>
+          <Text style={styles.texts}>Record</Text>
       </TouchableOpacity>
-
-      <View style={styles.cancleBox}>
-        <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => navigation.navigate('GroupTasksScreen')}>
-        <Text > Cancle  {props.text}</Text>
-        </TouchableOpacity>
-         
-        </View>
-
-      </KeyboardAvoidingView>
-   
-
-
-
-        </View>
-
-    );
+      <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => stopRecording()}>
+          <Text style={styles.texts}>Stop</Text>
+      </TouchableOpacity>
+      </View>
+    </View>
+  );
 }
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor: '#756EDC',
+  container:{
+    flex:1,
+    backgroundColor: '#756EDC',
+  },
+  button: {
+    marginTop: height*0.1,
+    marginBottom: height*0.01,
+    marginHorizontal: width*0.05,
+    height: 30,
+    borderRadius:10,
+    backgroundColor: '#ff0000',
+    borderColor: '#000000',
+    borderWidth: 2
+  },
+  texts: {
+    fontSize:20,
+    marginHorizontal: width*0.05,
+    color: '#FFFFFF',
+  },
+}); 
 
-    },
-    accountInput: {
-        margin: 12,
-        borderWidth: 1,
-    },
-    sectionTitle: {
-        fontSize: 24,
-        color: '#fff',
-        fontWeight: 'bold',
-        paddingLeft:60,
-        paddingTop:30,
-      },
-    accountText: {
-        margin: 5,
-        fontWeight: 'bold',
-    }
-    ,writeTaskWrapper: {
-        position: 'absolute',
-        bottom: 10,
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center'
-    },
-    cancleBox: {
-        width: 110,
-        height: 50,
-        backgroundColor: '#F35E5E',
-        borderRadius: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderColor: '#C0C0C0',
-        borderWidth: 1,
-        position: "absolute",
-        top: 450,
-        left: 280,
-    },
-    input: {
-        position:"absolute",
-        top: -100,
-        paddingVertical: 15,
-        paddingHorizontal: 15,
-        backgroundColor: '#FFF',
-        borderRadius: 10,
-        borderColor: '#C0C0C0',
-        borderWidth: 1,
-        width: 360,
-        marginLeft: 20,
-    },
-    addWrapper: {
-        width: 110,
-        height: 50,
-        backgroundColor: '#759873',
-        borderRadius: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderColor: '#C0C0C0',
-        borderWidth: 1,
-        position: "absolute",
-        top: 450,
-        left: 20,
-    },
-
-})
-
-export default NewTaskScreen;
