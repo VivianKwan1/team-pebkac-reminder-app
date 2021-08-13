@@ -25,11 +25,11 @@ if (!firebase.apps.length) {
   firebase.app(); // if already initialized, use that one
 }
 
-firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    console.log("Logged in with user: ", user);
-  } else console.log("Not logged in");
-});
+// firebase.auth().onAuthStateChanged((user) => {
+//   if (user) {
+//     console.log("Logged in with user: ", user);
+//   } else console.log("Not logged in");
+// });
 
 export default function App() {
   // useEffect(() => {

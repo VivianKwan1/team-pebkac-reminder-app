@@ -18,6 +18,13 @@ import * as GoogleSignIn from "expo-google-sign-in";
 import * as Facebook from "expo-facebook";
 
 function SignInScreen({ navigation }) {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      console.log("Logged in with user: ", user);
+      navigation.navigate("HomeScreen");
+    } else console.log("Not logged in");
+  });
+
   signInWithGoogleAsync = async () => {
     try {
       const result = await Google.logInAsync({
@@ -40,7 +47,7 @@ function SignInScreen({ navigation }) {
         const googleProfileData = await firebase
           .auth()
           .signInWithCredential(credential);
-        navigation.navigate("HomeScreen");
+        // navigation.navigate("HomeScreen");
         // console.log(googleProfileData);
       }
     } catch (e) {

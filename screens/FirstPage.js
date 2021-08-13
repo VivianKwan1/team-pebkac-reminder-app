@@ -17,13 +17,12 @@ import SignUpScreen from "./SignUpScreen";
 import firebase from "firebase";
 
 function FirstPage({ navigation }) {
-  // checkIfLoggedIn = () => {
-  //   firebase.auth().onAuthStateChanged((user) => {
-  //     if (user) {
-  //       navigation.navigate("HomeScreen");
-  //     }
-  //   });
-  // };
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      console.log("Logged in with user: ", user);
+      navigation.navigate("HomeScreen");
+    } else console.log("Not logged in");
+  });
 
   return (
     <SafeAreaView style={styles.page}>
