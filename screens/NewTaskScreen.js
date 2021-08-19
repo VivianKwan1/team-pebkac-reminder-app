@@ -4,8 +4,10 @@ import { Button, SafeAreaView, Text, StyleSheet } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import NewTask from "../components/NewTask";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import * as Location from "expo-location";
 
 function NewTaskScreen({ navigation }) {
+  Location.installWebGeolocationPolyfill();
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.sectionTitle}> New Tasks</Text>
@@ -16,6 +18,7 @@ function NewTaskScreen({ navigation }) {
         returnKeyType={"search"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
         listViewDisplayed="auto" // true/false/undefined
         fetchDetails={true}
+        enablePoweredByContainer={false}
         renderDescription={(row) => row.description} // custom description render
         onPress={(data, details = null) => {
           console.log(data);
@@ -26,9 +29,9 @@ function NewTaskScreen({ navigation }) {
         }}
         query={{
           // available options: https://developers.google.com/places/web-service/autocomplete
-          key: "AIzaSyAOpL4n5ZJvd49hitBFoqJKgeZl9rC00Ws",
+          key: "AIzaSyCeY0yEUBWLbsXilFD3N3nIeuZV-SuIom8",
           language: "en", // language of the results
-          types: "(cities)", // default: 'geocode'
+          // types: '(cities)', // default: 'geocode'
         }}
         styles={{
           description: {
@@ -49,12 +52,13 @@ function NewTaskScreen({ navigation }) {
         GooglePlacesSearchQuery={{
           // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
           rankby: "distance",
-          types: "food",
+          // types: "food",
         }}
-        filterReverseGeocodingByTypes={[
-          "locality",
-          "administrative_area_level_3",
-        ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+        // filterReverseGeocodingByTypes={[
+        //   "locality",
+        //   "administrative_area_level_3",
+        // ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+        // predefinedPlaces={[homePlace, workPlace]}
         debounce={200}
       />
       <NewTask></NewTask>
