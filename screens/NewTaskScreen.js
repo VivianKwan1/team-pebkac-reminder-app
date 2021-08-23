@@ -97,7 +97,7 @@ import Task from '../components/Task'
 
         <KeyboardAvoidingView behavior = {Platform.OS === "ios"? "padding ": "height"}>
         <Image source = {require ('../assets/newtaskicon.png')} style = {styles.ImageIconStyle}  />
-        <TextInput style = {styles.inputTask} placeholder = {'Taks Name '} value = {task} onChangeText= {text => setTask(text )}/>
+        <TextInput style = {styles.inputTask} placeholder = {'Task Name '} value = {task} onChangeText= {text => setTask(text )}/>
 
         <TouchableOpacity onPress={() => handleAddTask()}>
           <View style = {styles.addWrapper}>

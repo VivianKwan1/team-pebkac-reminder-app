@@ -1,8 +1,6 @@
-
 import React, {useState} from 'react';
 import { Button, KeyboardAvoidingView, StyleSheet, Text, Image, View, TextInput, TouchableOpacity, Keyboard, ScrollView, Platform, SafeAreaView } from 'react-native';
 import Task from '../components/Task'
-import GroupTasksScreen from './GroupTasksScreen';
 import { useNavigation } from '@react-navigation/native';
 {/* lottie animation imports */}
 // import Lottie from 'lottie-react-native';

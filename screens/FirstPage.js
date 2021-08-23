@@ -1,31 +1,53 @@
-import React from 'react';
-import {Button, TextInput, SafeAreaView, Text, StyleSheet, Pressable, Image, Dimensions, View} from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
-import SignInScreen from './SignInScreen';
-import SignUpScreen from './SignUpScreen';
+import React from "react";
+import {SafeAreaView,Text,StyleSheet,Pressable,Image,Dimensions,View} from "react-native";
+import { createStackNavigator, createAppContainer } from "react-navigation";
+import SignInScreen from "./SignInScreen";
+import SignUpScreen from "./SignUpScreen";
+// import HomeScreen from "./HomeScreen";
+import firebase from "firebase";
 
-function FirstPage({navigation}) {
+function FirstPage({ navigation }) {
+  // checkIfLoggedIn = () => {
+  //   firebase.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       navigation.navigate("HomeScreen");
+  //     }
+  //   });
+  // };
+
   return (
     <SafeAreaView style={styles.page}>
-      <Image source={require('../assets/firstPage1.png')} style = {styles.backImage1}/>
-      <Image source={require('../assets/firstPage2.png')} style = {styles.backImage2}/>
-      <Text style={styles.appName}>Reminder App Name</Text>
+      <Image
+        source={require("../assets/firstPage1.png")}
+        style={styles.backImage1}
+      />
+      <Image
+        source={require("../assets/firstPage2.png")}
+        style={styles.backImage2}
+      />
+      <Text style={styles.appName}>Mind / Matter</Text>
 
-    <View style={styles.parent}>
-        <Pressable style={styles.signInbutton} onPress={() => navigation.navigate('SignInScreen')}>
-            <Text style={styles.text}>Sign In</Text>
+      <View style={styles.parent}>
+        <Pressable
+          style={styles.signInbutton}
+          onPress={() => navigation.navigate("SignInScreen")}
+        >
+          <Text style={styles.text}>Sign In</Text>
         </Pressable>
 
-        <Pressable style={styles.signUpbutton} onPress = {() => navigation.navigate('SignUpScreen')}>
-            <Text style={styles.text}>Sign Up</Text>
+        <Pressable
+          style={styles.signUpbutton}
+          onPress={() => navigation.navigate("SignUpScreen")}
+        >
+          <Text style={styles.text}>Sign Up</Text>
         </Pressable>
-    </View>
+      </View>
     </SafeAreaView>
   );
 }
 
-const width = Dimensions.get('window').width
-const height = Dimensions.get('window').height
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   appName: {
@@ -42,7 +64,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: height*0.06,
-    backgroundColor: '#FAF9C7',
+    backgroundColor: '#faf0e6',
     marginBottom: height*0.02,
     marginHorizontal: width*0.05,
     borderRadius: 50,
@@ -52,7 +74,7 @@ const styles = StyleSheet.create({
   signUpbutton: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FAF9C7',
+    backgroundColor: '#faf0e6',
     marginBottom: height*0.02,
     //marginHorizontal: width*0.35,
     borderRadius: 50,
@@ -68,7 +90,7 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   page: {
-    backgroundColor: 'green',
+    backgroundColor: '#406c34',
     width: width,
     height: height,
   },
@@ -90,5 +112,6 @@ const styles = StyleSheet.create({
     marginTop: height*0.07
   },
 });
+
 
 export default FirstPage;
