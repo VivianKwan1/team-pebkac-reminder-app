@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, Text, StyleSheet, ScrollView, Pressable, TouchableOpacity , Dimensions, View} from 'react-native';
+import {SafeAreaView, Text, StyleSheet, ScrollView, TouchableOpacity , Dimensions, View} from 'react-native';
 import ActivityRings from "react-native-activity-rings";
 import * as Progress from 'react-native-progress';
 import { useNavigation } from '@react-navigation/native';

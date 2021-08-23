@@ -14,7 +14,7 @@ export default class SignIn extends Component {
     super();
     this.state = {
       email: '', 
-      password: ''
+      password: '',
     }
   }
 
@@ -50,7 +50,7 @@ export default class SignIn extends Component {
             firebase
               .database()
               .ref("/users/" + result.user.uid)
-              .set({ gmail: result.user.email, name: result.user.displayName });
+              .set({ gmail: result.user.email, name: result.user.displayName, id: result.user.uid });
             this.props.navigation.navigate("HomeScreen");
           });
 

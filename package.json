@@ -7,7 +7,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "@react-native-community/datetimepicker": "^3.5.2",
+    "@react-native-community/datetimepicker": "github:react-native-community/datetimepicker",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/drawer": "^5.11.5",
     "@react-navigation/native": "^5.9.4",
@@ -15,7 +15,11 @@
     "bootstrap": "^5.0.2",
     "date-utils": "^1.2.21",
     "expo": "^41.0.1",
+    "expo-av": "~9.1.2",
+    "expo-facebook": "~11.0.5",
     "expo-google-app-auth": "^8.2.2",
+    "expo-google-sign-in": "~9.1.0",
+    "expo-location": "^12.1.2",
     "expo-notifications": "^0.12.3",
     "expo-permissions": "^12.1.1",
     "expo-splash-screen": "~0.10.2",
@@ -28,10 +32,12 @@
     "react-mobile-datepicker": "^4.0.2",
     "react-native": "~0.63.4",
     "react-native-activity-rings": "^1.1.2",
+    "react-native-calendar-strip": "^2.2.4",
     "react-native-calendars": "^1.1264.0",
     "react-native-chart-kit": "^6.11.0",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-google-places-autocomplete": "^2.4.1",
     "react-native-paper": "^4.9.2",
     "react-native-progress": "^5.0.0",
     "react-native-reanimated": "^2.2.0",
@@ -42,10 +48,7 @@
     "react-native-web": "^0.17.1",
     "react-navigation": "^4.4.4",
     "react-select": "^4.3.1",
-    "stack-navigator": "0.0.0",
-    "expo-google-sign-in": "~9.1.0",
-    "expo-facebook": "~11.0.5",
-    "expo-av": "~9.1.2"
+    "stack-navigator": "0.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
