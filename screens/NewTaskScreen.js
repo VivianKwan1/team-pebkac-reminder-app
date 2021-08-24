@@ -15,6 +15,10 @@ import Task from '../components/Task'
     const [taskLocation, setTaskLocation] = useState();
     const [taskNotes, setTaskNotes] = useState();
     const [taskItems, setTaskItems] = useState([]);
+    function addTask() {
+      console.log('you are trying to add a')
+
+    }
   
     const handleAddTask = () => {
       Keyboard.dismiss();
@@ -30,6 +34,8 @@ import Task from '../components/Task'
 
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+    
 
 
     return (
@@ -80,9 +86,9 @@ import Task from '../components/Task'
 
         
         <SafeAreaView >
-            
+            <Task></Task>
             {/* <Text style = {styles.sectionTitle}> New Tasks</Text> */}
-            <NewTask></NewTask>
+            {/* <NewTask></NewTask>
             {
             taskItems.map((item, index) => {
               return (
@@ -90,8 +96,8 @@ import Task from '../components/Task'
                   <Task text={item} /> 
                 </TouchableOpacity>
               )
-            })
-          }
+            }) */}
+          {/* } */}
            
         </SafeAreaView>
 
@@ -99,7 +105,7 @@ import Task from '../components/Task'
         <Image source = {require ('../assets/newtaskicon.png')} style = {styles.ImageIconStyle}  />
         <TextInput style = {styles.inputTask} placeholder = {'Task Name '} value = {task} onChangeText= {text => setTask(text )}/>
 
-        <TouchableOpacity onPress={() => handleAddTask()}>
+        <TouchableOpacity type = "sumbit" onPress={() => handleAddTask()}>
           <View style = {styles.addWrapper}>
             <Text style = {styles.addText}>Create</Text>
           
@@ -112,6 +118,9 @@ import Task from '../components/Task'
           </TouchableOpacity>
          
           </View>
+
+            
+          
 
         </KeyboardAvoidingView>
    
