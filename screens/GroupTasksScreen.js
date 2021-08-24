@@ -1,14 +1,21 @@
 import React from "react";
 import { View } from "react-native";
 import { TouchableOpacity } from "react-native";
-import { createStackNavigator, createAppContainer } from 'react-navigation';
-import { Button, SafeAreaView, Text, StyleSheet, Pressable } from "react-native";
+import { createStackNavigator, createAppContainer } from "react-navigation";
+import {
+  Button,
+  SafeAreaView,
+  Text,
+  StyleSheet,
+  Pressable,
+} from "react-native";
 import TaskCategory from "./TaskCategory";
 import FirstPage from "./FirstPage";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
+import firebase from "firebase";
 
 function GroupTasksScreen(props) {
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
   const labels = ["Work", "Personal"];
   const labelbuttons = labels.map(function (labels) {
     return (
@@ -18,16 +25,24 @@ function GroupTasksScreen(props) {
     );
   });
 
+  // const name = firebase.database().ref();
+
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.textContainer}>
         <Text style={styles.mainText}>Hello Person!</Text>
-        <Text style={styles.otherText}>You are not very busy today are you?</Text>
+        <Text style={styles.otherText}>
+          You are not very busy today are you?
+        </Text>
         <Text style={styles.otherText}>You have 0 tasks for today.</Text>
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => navigation.navigate('TaskCategory')}>
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate("TaskCategory")}
+        >
           <Text style={styles.text}>All Tasks</Text>
         </TouchableOpacity>
 
@@ -36,7 +51,6 @@ function GroupTasksScreen(props) {
         <TouchableOpacity style={styles.plusButton} activeOpacity={0.5}>
           <Text style={styles.plusText}>+</Text>
         </TouchableOpacity>
-
       </View>
     </SafeAreaView>
   );
