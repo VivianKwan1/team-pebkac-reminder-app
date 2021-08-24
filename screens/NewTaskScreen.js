@@ -2,12 +2,18 @@ import React, {useState, Component}  from 'react';
 import ReactDOM from "react-dom";
 import { View } from 'react-native';
 import { TextInput } from 'react-native';
-import { Button, SafeAreaView, Text, StyleSheet, KeyboardAvoidingView, TouchableOpacity, Keyboard,Switch, ScrollView, Platform, Image } from 'react-native';
+import { Button, SafeAreaView, Text, StyleSheet, KeyboardAvoidingView, TouchableOpacity, Keyboard,Switch, ScrollView, Platform, Image, Dimensions } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { useNavigation } from '@react-navigation/native';
 import NewTask from '../components/NewTask'
 import TaskCategory from './TaskCategory';
-import Task from '../components/Task'
+import Task from '../components/Task';
+import { Audio } from 'expo-av';
+import firebase from "firebase";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import * as Location from "expo-location";
+
+
 
     const NewTaskScreen =(props) =>{
     const navigation = useNavigation();
@@ -15,7 +21,51 @@ import Task from '../components/Task'
     const [taskLocation, setTaskLocation] = useState();
     const [taskNotes, setTaskNotes] = useState();
     const [taskItems, setTaskItems] = useState([]);
+
+    let storageRef = firebase.storage().ref();
+
+  const [recording, setRecording] = useState();
   
+    startRecording = async () => {
+      try {
+        await Audio.requestPermissionsAsync();
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: true,
+          playsInSilentModeIOS: true,
+        }); 
+        const recording = new Audio.Recording();
+        await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
+        await recording.startAsync();
+        setRecording(recording);
+      } catch (err) {
+        Alert.alert('Recording failed to start', err);
+      }
+    }
+
+  stopRecording = async () => {
+    setRecording(undefined);
+    await recording.stopAndUnloadAsync();
+    const uri = recording.getURI();
+    // const res = await fetch(uri);
+    // const recordBlob = await res.blob();
+    const clientuid = firebase.auth().currentUser.uid
+    const audioName = `${Date.now}.m4a`;
+    // const ref = firebase.storage().ref().child('audio/test.m4a');
+    // ref.put(blob)
+    // blob.close()
+    const extension = uri.split('.').pop();
+    const ref = firebase.storage().ref(`${clientuid}`).child('testing.mp3');
+
+    try {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      await ref.put(blob, {contentType: "audio/mp3"});
+    } catch (e) {
+      console.log(e);
+    }
+    
+  }
+
     const handleAddTask = () => {
       Keyboard.dismiss();
       setTaskItems([...taskItems, task])
@@ -34,12 +84,63 @@ import Task from '../components/Task'
 
     return (
       <View style = {styles.container}>
+        <ScrollView>
         <Image source={require('../assets/newTask.png')} style = {styles.backImage}/>
         <SafeAreaView></SafeAreaView>
 
         {/*Location  */}
         <SafeAreaView>
-          <TextInput style = {styles.inputLocation} placeholder = {"Location"} value = {taskLocation} onChangeText = {text => setTaskLocation(text)}/>
+          <GooglePlacesAutocomplete
+        placeholder="Location"
+        minLength={2} // minimum length of text to search
+        autoFocus={false}
+        returnKeyType={"search"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+        listViewDisplayed="auto" // true/false/undefined
+        fetchDetails={true}
+        enablePoweredByContainer={false}
+        renderDescription={(row) => row.description} // custom description render
+        onPress={(data, details = null) => {
+          console.log(data);
+          console.log(details);
+        }}
+        getDefaultValue={() => {
+          return ""; // text input default value
+        }}
+        query={{
+          // available options: https://developers.google.com/places/web-service/autocomplete
+          key: "AIzaSyCeY0yEUBWLbsXilFD3N3nIeuZV-SuIom8",
+          language: "en", // language of the results
+          // types: '(cities)', // default: 'geocode'
+        }}
+        styles={{
+          description: {
+            fontWeight: "bold",
+          },
+          predefinedPlacesDescription: {
+            color: "#1faadb",
+          },
+        }}
+        currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+        currentLocationLabel="Current location"
+        nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+        GoogleReverseGeocodingQuery={
+          {
+            // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+          }
+        }
+        GooglePlacesSearchQuery={{
+          // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+          rankby: "distance",
+          // types: "food",
+        }}
+        // filterReverseGeocodingByTypes={[
+        //   "locality",
+        //   "administrative_area_level_3",
+        // ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+        // predefinedPlaces={[homePlace, workPlace]}
+        debounce={200}
+      />
+
         </SafeAreaView>
 
         {/*Notes  */}
@@ -114,12 +215,25 @@ import Task from '../components/Task'
           </View>
 
         </KeyboardAvoidingView>
-   
 
+      <View style={{ flexDirection:"row" }}>
+      <TouchableOpacity style={styles.button2} activeOpacity={0.5} onPress={() => startRecording()}>
+          <Text style={styles.texts}>Record</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button2} activeOpacity={0.5} onPress={() => stopRecording()}>
+          <Text style={styles.texts}>Stop</Text>
+      </TouchableOpacity>
+      </View>
+
+   
+        </ScrollView>
       </View>
 
     );
 }
+
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
 
 const styles = StyleSheet.create({
     container:{
@@ -327,6 +441,16 @@ dropDownStyle: {
   position: "absolute",
   top: -375,
   marginLeft: 80,
+},
+button2: {
+  marginTop: height*0.1,
+  marginBottom: height*0.01,
+  marginHorizontal: width*0.05,
+  height: 30,
+  borderRadius:10,
+  backgroundColor: '#ff0000',
+  borderColor: '#000000',
+  borderWidth: 2
 },
 })
 

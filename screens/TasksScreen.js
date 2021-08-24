@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import { Button, KeyboardAvoidingView, StyleSheet, Text, Image, View, TextInput, TouchableOpacity, Keyboard, ScrollView, Platform, SafeAreaView } from 'react-native';
 import Task from '../components/Task'
 import { useNavigation } from '@react-navigation/native';
+import firebase from"firebase"
+import { db } from './firebase';
 {/* lottie animation imports */}
 // import Lottie from 'lottie-react-native';
 // import peas from '../assets/20587-peas-playground-of-love.json';
@@ -10,7 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function TaskCategory({}) {
     const navigation = useNavigation();
-    const [task, setTask] = useState();
+    const [task, setTask] = useState("");
     const [taskItems, setTaskItems] = useState([]);
   
     const handleAddTask = () => {
@@ -25,6 +27,16 @@ export default function TaskCategory({}) {
       setTaskItems(itemsCopy)
     }
 
+    function addTodo(e) {
+      e.preventDefault();
+
+      db.collection("todo").add({
+        inprogress: true,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        todo:task,
+      });
+      // setTodoInput("");
+    }
   return (
     <View style={styles.container}>
      <ScrollView
@@ -60,7 +72,7 @@ export default function TaskCategory({}) {
                             style ={styles.writeTaskWrapper} >
        <TextInput style = {styles.input} placeholder = {'Write '} value = {task} onChangeText= {text => setTask(text )}/>
 
-      <TouchableOpacity onPress={() => handleAddTask()}>
+      <TouchableOpacity type = "sumbit" onPress={() => handleAddTask(), addTodo}>
         <View style = {styles.addWrapper}>
           <Text style = {styles.addText}>+</Text>
         </View>
