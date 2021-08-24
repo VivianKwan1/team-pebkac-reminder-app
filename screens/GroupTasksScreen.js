@@ -25,12 +25,21 @@ function GroupTasksScreen(props) {
     );
   });
 
-  // const name = firebase.database().ref();
+  const dailyLabels = ["Yesterday", "Today", "Tomorrow"];
+  const dailyButtons = dailyLabels.map(function (dailyLabels) {
+    return (
+      <TouchableOpacity style={styles.button} activeOpacity={0.5}>
+        <Text style={styles.text}>{dailyLabels}</Text>
+      </TouchableOpacity>
+    );
+  });
+
+  const name = firebase.auth().currentUser.displayName;
 
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.textContainer}>
-        <Text style={styles.mainText}>Hello Person!</Text>
+        <Text style={styles.mainText}>Hello {name}!</Text>
         <Text style={styles.otherText}>
           You are not very busy today are you?
         </Text>
@@ -48,9 +57,19 @@ function GroupTasksScreen(props) {
 
         {labelbuttons}
 
-        <TouchableOpacity style={styles.plusButton} activeOpacity={0.5}>
+        <TouchableOpacity
+          style={styles.plusButton}
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate("NewTaskScreen")}
+        >
           <Text style={styles.plusText}>+</Text>
         </TouchableOpacity>
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <Text>Daily Tasks</Text>
+
+        {dailyButtons}
       </View>
     </SafeAreaView>
   );
