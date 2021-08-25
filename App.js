@@ -20,9 +20,8 @@ import FriendsScreen from './screens/FriendsScreen';
 import BirthdayScreen from './screens/BirthdayScreen';
 import AboutScreen from './screens/AboutScreen';
 import WaterLine from './screens/WaterLine';
-import WorkLine from './screens/WorkLine';
-import ExerciseLine from './screens/ExerciseLine';
-import SleepLine from './screens/SleepLine';
+import StretchLine from './screens/StretchLine';
+import BreatheLine from './screens/BreatheLine';
 
 const Stack = createStackNavigator();
 
@@ -97,9 +96,8 @@ export default function App() {
 
         <Stack.Screen name="HealthScreen" component={HealthScreen} options={{ headerShown: false }} />
         <Stack.Screen name="WaterLine" component={WaterLine} options={{ headerShown: false }} />
-        <Stack.Screen name="ExerciseLine" component={ExerciseLine} options={{ headerShown: false }} />
-        <Stack.Screen name="SleepLine" component={SleepLine} options={{ headerShown: false }} />
-        <Stack.Screen name="WorkLine" component={WorkLine} options={{ headerShown: false }} />
+        <Stack.Screen name="StretchLine" component={StretchLine} options={{ headerShown: false }} />
+        <Stack.Screen name="BreatheLine" component={BreatheLine} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -19,18 +19,18 @@ const data = {
   labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
   datasets: [
     {
-      data: [20, 45, 28, 60, 64, 43], //hard coded in ounces
+      data: [20, 45, 28, 60, 64, 43], //hard coded in hours
     }
   ],
-  legend: ["Water Intake (in ounces) From the Last 12 Months"]
+  legend: ["Breathe (in hours) From the Last 12 Months"]
 };
 const chartConfig = {
   backgroundGradientFromOpacity: 0,
   backgroundGradientToOpacity: 0,
-  color: (opacity = 1) => 'rgb(0, 102, 204)',
+  color: (opacity = 1) => 'rgb(204, 102, 0)',
 };
 
-function WaterLine({navigation}) {
+function BreatheLine({navigation}) {
   const buttonClickedHandler = () => {
     console.log('You have clicked a button!');
     // add to global variable and then compute new percentage
@@ -43,62 +43,25 @@ function WaterLine({navigation}) {
             </Pressable>
 
             <View>
-            <Text style={styles.mainText}>Water Tracking</Text>
+            <Text style={styles.mainText}>Breathe Tracking</Text>
             <Text style={styles.otherText}>
-            Update your Water Progress and Goals!
+            Update your Breathe Progress and Goals!
             </Text>
             </View>
 
-            <Progress.Pie progress={waterProgress} color = {"#80bfff"} size={150} style={styles.pie}/>
-            <Text style={styles.percentText}>{waterProgress*100}%</Text>
+            <Progress.Pie progress={breatheProgress} color = {"#ffbf80"} size={150} style={styles.pie}/>
+            <Text style={styles.percentText}>{breatheProgress*100}%</Text>
 
-            {/* We need to make this a variable and update it with functionality */}
-            <Text style={styles.percentText}>X/64 Ounces</Text>
-            <Text style={styles.percentText}>64-X Ounces to go</Text>
-
-            <View style={styles.container1}>
+            <View style={styles.container1}>     
             <TouchableOpacity 
             onPress={buttonClickedHandler}
             style={styles.roundButton}>
             <Icon
-              name='cup-water'
-              type='material-community'
+              name='self-improvement'
+              type='material-icons'
               color='black'
               size={35}/>
-            <Text style={styles.text}>+8 ounces</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-            onPress={buttonClickedHandler}
-            style={styles.roundButton}>
-            <Icon
-              name='bottle-soda-classic'
-              type='material-community'
-              color='black'
-              size={35}/>
-            <Text style={styles.text}>+16.9 ounces</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-            onPress={buttonClickedHandler}
-            style={styles.roundButton}>
-            <Icon
-              name='bottle-tonic'
-              type='material-community'
-              color='black'
-              size={35}/>
-            <Text style={styles.text}>+32 ounces</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-            onPress={buttonClickedHandler}
-            style={styles.roundButton}>
-            <Icon
-              name='bottle-wine'
-              type='material-community'
-              color='black'
-              size={35}/>
-            <Text style={styles.text}>Other</Text>
+            <Text style={styles.text}>X Minutes</Text>
             </TouchableOpacity>
             </View>
 
@@ -115,24 +78,22 @@ function WaterLine({navigation}) {
 }
 
 const styles = StyleSheet.create({
-
   text: {
-    fontSize: 13,
+    fontSize: 15,
     color: 'black',
   },
 
   roundButton: {
-    width: 95,
-    height: 95,
+    width: 150,
+    height: 90,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 30,
     borderRadius: 100,
-    backgroundColor: '#b3daff',
+    backgroundColor: '#ffdab3',
   },
 
   lineChart:{
-      paddingTop: 30
+      paddingTop: 20
   },
 
   page: {
@@ -146,7 +107,7 @@ const styles = StyleSheet.create({
   },
 
   percentText:{
-    fontSize:20,
+    fontSize:25,
     alignSelf: "center",
   },
 
@@ -174,12 +135,11 @@ const styles = StyleSheet.create({
       textAlign: "center",
     },
 
-  container1: {
-    paddingTop: 20,
-    flexDirection:'row',
-    alignSelf: 'center',
-  },
+    container1: {
+      paddingTop: 10,
+      alignSelf: 'center',
+    },
 
 });
 
-export default WaterLine;
+export default BreatheLine;

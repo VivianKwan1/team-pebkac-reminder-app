@@ -2,7 +2,7 @@ import React, {useState, Component}  from 'react';
 import ReactDOM from "react-dom";
 import { View } from 'react-native';
 import { TextInput } from 'react-native';
-import { Button, SafeAreaView, Text, StyleSheet, KeyboardAvoidingView, TouchableOpacity, Keyboard,Switch, ScrollView, Platform, Image, Dimensions } from 'react-native';
+import { Alert, Button, SafeAreaView, Text, StyleSheet, KeyboardAvoidingView, TouchableOpacity, Keyboard,Switch, ScrollView, Platform, Image, Dimensions } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { useNavigation } from '@react-navigation/native';
 import NewTask from '../components/NewTask'
