@@ -12,13 +12,14 @@ import { Audio } from 'expo-av';
 import firebase from "firebase";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import * as Location from "expo-location";
-
+import { set } from 'react-native-reanimated';
 
 
 export default function NewTaskScreen({ navigation }) {
   let storageRef = firebase.storage().ref();
 
   const [recording, setRecording] = useState();
+  const [show, setShow] = useState();
   
     startRecording = async () => {
       try {
@@ -31,6 +32,7 @@ export default function NewTaskScreen({ navigation }) {
         await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
         await recording.startAsync();
         setRecording(recording);
+        setShow(true);
       } catch (err) {
         Alert.alert('Recording failed to start', err);
       }
@@ -49,17 +51,22 @@ export default function NewTaskScreen({ navigation }) {
     // blob.close()
     const extension = uri.split('.').pop();
     const ref = firebase.storage().ref(`${clientuid}`).child('testing.mp3');
-
     try {
       const response = await fetch(uri);
       const blob = await response.blob();
       await ref.put(blob, {contentType: "audio/mp3"});
+      setShow(false);
     } catch (e) {
       console.log(e);
     }
     
   }
 
+  cancelRecording = async () => {
+    setRecording(undefined);
+    await recording.stopAndUnloadAsync();
+    setShow(false);
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -117,12 +124,18 @@ export default function NewTaskScreen({ navigation }) {
       />
 
       <View style={{ flexDirection:"row" }}>
-      <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => startRecording()}>
+      { !show ? <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => startRecording()}>
           <Text style={styles.texts}>Record</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => stopRecording()}>
+      </TouchableOpacity> : null }
+      
+      { show ? <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => stopRecording()}>
           <Text style={styles.texts}>Stop</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> : null }
+
+      { show ? <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => cancelRecording()}>
+          <Text style={styles.texts}>Cancel</Text>
+      </TouchableOpacity> : null }
+      
       </View>
       </ScrollView>
     </SafeAreaView>
