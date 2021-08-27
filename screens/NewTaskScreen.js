@@ -95,7 +95,7 @@ const NewTaskScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="handled">
         <Image
           source={require("../assets/newTask.png")}
           style={styles.backImage}
@@ -136,14 +136,7 @@ const NewTaskScreen = (props) => {
                 marginBottom: 20,
               },
             }}
-            // currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
-            // currentLocationLabel="Current location"
             nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-            // GoogleReverseGeocodingQuery={
-            //   {
-            //     // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-            //   }
-            // }
             GooglePlacesSearchQuery={{
               // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
               rankby: "distance",
@@ -263,7 +256,10 @@ const height = Dimensions.get("window").height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#756EDC",
+    backgroundColor: "#a88ec0",
+  },
+  addText: {
+    color: "#FFFFFF",
   },
   accountInput: {
     margin: 12,
@@ -291,11 +287,11 @@ const styles = StyleSheet.create({
   cancleBox: {
     width: 110,
     height: 50,
-    backgroundColor: "#F35E5E",
+    backgroundColor: "#ef224b",
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    borderColor: "#C0C0C0",
+    borderColor: "#F35E5E",
     borderWidth: 1,
     position: "absolute",
     top: -200,
@@ -320,9 +316,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     paddingVertical: 10,
     paddingHorizontal: 0,
-    backgroundColor: "#756EDC",
-    borderRadius: 10,
-    borderColor: "#756EDC",
+    borderBottomColor: "#fff",
+    borderBottomWidth: 2,
+    backgroundColor: "#a88ec0",
+    borderRadius: 2,
+    borderColor: "#a88ec0",
     borderWidth: 1,
     width: 320,
     marginLeft: 80,
@@ -349,11 +347,11 @@ const styles = StyleSheet.create({
   addWrapper: {
     width: 110,
     height: 50,
-    backgroundColor: "#759873",
+    backgroundColor: "#56941e",
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    borderColor: "#C0C0C0",
+    borderColor: "#759873",
     borderWidth: 1,
     position: "absolute",
     top: -200,
