@@ -13,6 +13,7 @@ import TaskCategory from "./TaskCategory";
 import FirstPage from "./FirstPage";
 import { useNavigation } from "@react-navigation/native";
 import firebase from "firebase";
+import { ScrollView } from "react-native";
 
 function GroupTasksScreen(props) {
   const navigation = useNavigation();
@@ -34,44 +35,75 @@ function GroupTasksScreen(props) {
     );
   });
 
+  const userId = firebase.auth().currentUser.uid;
   const name = firebase.auth().currentUser.displayName;
 
+  addTempData = () => {
+    const tempTask = {
+      task1: {
+        date: "date created",
+        done: true,
+        label1: false,
+      },
+    };
+    firebase
+      .database()
+      .ref("users/" + userId + "/tasks")
+      .update(tempTask);
+  };
+
+  let taskNum;
+
+  const getTaskNum = firebase
+    .database()
+    .ref("users/" + userId + "/tasks")
+    .on("value", (tasks) => {
+      taskNum = tasks.numChildren();
+      // console.log(tasks.numChildren());
+    });
+
   return (
-    <SafeAreaView style={styles.mainContainer}>
-      <View style={styles.textContainer}>
-        <Text style={styles.mainText}>Hello {name}!</Text>
-        <Text style={styles.otherText}>
-          You are not very busy today are you?
-        </Text>
-        <Text style={styles.otherText}>You have 0 tasks for today.</Text>
-      </View>
+    <ScrollView>
+      <SafeAreaView style={styles.mainContainer}>
+        <View style={styles.textContainer}>
+          <Text style={styles.mainText}>Hello {name}!</Text>
+          <Text style={styles.otherText}>
+            You are not very busy today are you?
+          </Text>
+          <Text style={styles.otherText}>
+            You have {taskNum} tasks for today.
+          </Text>
+        </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.5}
-          onPress={() => navigation.navigate("TaskCategory")}
-        >
-          <Text style={styles.text}>All Tasks</Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.5}
+            onPress={() => navigation.navigate("TaskCategory")}
+          >
+            <Text style={styles.text}>All Tasks</Text>
+          </TouchableOpacity>
+
+          {labelbuttons}
+
+          <TouchableOpacity
+            style={styles.plusButton}
+            activeOpacity={0.5}
+            onPress={() => navigation.navigate("NewTaskScreen")}
+          >
+            <Text style={styles.plusText}>+</Text>
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.dailyTaskText}>Daily Tasks</Text>
+
+        <View style={styles.dailyButtonContainer}>{dailyButtons}</View>
+
+        <TouchableOpacity onPress={() => this.addTempData()}>
+          <Text>addtemptask</Text>
         </TouchableOpacity>
-
-        {labelbuttons}
-
-        <TouchableOpacity
-          style={styles.plusButton}
-          activeOpacity={0.5}
-          onPress={() => navigation.navigate("NewTaskScreen")}
-        >
-          <Text style={styles.plusText}>+</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <Text>Daily Tasks</Text>
-
-        {dailyButtons}
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollView>
   );
 }
 
@@ -104,6 +136,7 @@ const styles = StyleSheet.create({
   plusText: {
     color: "black",
     textAlign: "center",
+    fontSize: 30,
   },
 
   text: {
@@ -129,9 +162,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
+  dailyButtonContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "flex-start",
+    paddingLeft: 50,
+  },
+
   textContainer: {
     padding: 10,
     marginTop: 20,
+  },
+
+  dailyTaskText: {
+    fontWeight: "bold",
+    fontSize: 30,
+    paddingLeft: 10,
   },
 });
 
