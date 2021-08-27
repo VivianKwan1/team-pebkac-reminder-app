@@ -1,52 +1,62 @@
-import React from 'react';
-import {SafeAreaView, Text, StyleSheet, ScrollView, Pressable, TouchableOpacity , Dimensions, View} from 'react-native';
+import React, { useState } from 'react';
+import { Button, Pressable, StatusBar, Image, SafeAreaView, Text, StyleSheet, ScrollView, TouchableOpacity , Dimensions, View} from 'react-native';
 import ActivityRings from "react-native-activity-rings";
 import * as Progress from 'react-native-progress';
 import { useNavigation } from '@react-navigation/native';
+import Dialog from 'react-native-dialog';
 
+// I decided to make these 3 variables global bc I
+// couldn't think of another way to do it (there is another way for sure)
+// so I hard coded them here!! We'll need to make them dynamic for functionality
 
-/* current progress is tracked weekly. currently includes 4 categories: water, exercise
-  sleep and work. right now, random values are used as placeholders for user data.  */
+global.waterProgress = 0.3;
+global.stretchProgress = 0.3;
+global.breatheProgress = 0.3;
 
-
-// activity rings data, color selection and label
 const activityData = [
   {
     label: "Water",
-    value: 0.8,
-    color: "#0080FF",
+    value: waterProgress,
+    color: "#80bfff",
   },
   {
-    label: "Exercise",
-    value: 0.6,
-    color: "#99FF33",
+    label: "Stretch",
+    value: stretchProgress,
+    color: "#cc99ff",
   },
   {
-    label: "Sleep",
-    value: 0.2,
-    color: "#86040f",
+    label: "Breathe",
+    value: breatheProgress,
+    color: "#ffbf80",
   },
-  {
-    label: "Work",
-    value: 0.2,
-    color: "#FF3333",
-  }
 ];
  
- // sizing of the activity rings
- const activityConfig = {
-  width: 180,
+const activityConfig = {
+  width: 200,
   height: 200,
   radius: 20,
-  ringSize: 15,
-}
-
+  ringSize: 20,
+};
 
 function HealthTrack(props) {
   const navigation = useNavigation();
+  const [visible, setVisible] = useState(false);
+  const showDialog = () => {
+    setVisible(true);
+  };
+  const handleClose = () => {
+    setVisible(false);
+  };
   return (
     <SafeAreaView style={styles.page}>
     <ScrollView>
+      <View style={styles.textContainer}>
+      <Text style={styles.mainText}>Health Tracking!</Text>
+      <Text style={styles.otherText}>
+        Check out your Progress & Daily Goals!
+      </Text>
+      </View>
+
       <View style={styles.container}>
         <ActivityRings 
         legend={true} 
@@ -54,22 +64,82 @@ function HealthTrack(props) {
         data={activityData} 
         config={activityConfig}
         />
-        <Text style={styles.text}> Water Goals </Text>
+
+        <Text style={styles.otherText}> Click bars below to update daily progress and get detailed information</Text>
+        {/* idk if it is intuitive to click the progress bars */}
+
+        <Text style={styles.text}> Water Goal</Text>
         <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress = {() => navigation.navigate('WaterLine')}>
-        <Progress.Bar progress={0.3} width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={4}/>
+        <Progress.Bar progress={waterProgress} color = {"#80bfff"} width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={0.3}/>
         </TouchableOpacity>
-        <Text style={styles.text}> Exercise Goals </Text>
-        <TouchableOpacity style={styles.button} activeOpacity={0.5} style = {styles.exerciseButton} onPress = {() => navigation.navigate('ExerciseLine')}>
-        <Progress.Bar progress={0.3} color={"#99FF33"} width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={4}/>
+
+        <Text style={styles.text}> Stretch Goal</Text>
+        <TouchableOpacity style={styles.button} activeOpacity={0.5} style = {styles.exerciseButton} onPress = {() => navigation.navigate('StretchLine')}>
+        <Progress.Bar progress={stretchProgress} color={"#cc99ff"} width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={0.3}/>
         </TouchableOpacity>
-        <Text style={styles.text}> Sleep Goals </Text>
-        <TouchableOpacity style={styles.button} activeOpacity={0.5} style = {styles.exerciseButton} onPress = {() => navigation.navigate('SleepLine')}>
-        <Progress.Bar progress={0.3} color = {"#86040f"}  width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={4}/>
+
+        <Text style={styles.text}> Breathe Goal</Text>
+        <TouchableOpacity style={styles.button} activeOpacity={0.5} style = {styles.exerciseButton} onPress = {() => navigation.navigate('BreatheLine')}>
+        <Progress.Bar progress={breatheProgress} color = {"#ffbf80"}  width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={0.3}/>
         </TouchableOpacity>
-        <Text style={styles.text}> Work Goals </Text>
-        <TouchableOpacity style={styles.button} activeOpacity={0.5} style = {styles.exerciseButton} onPress = {() => navigation.navigate('WorkLine')}>
-        <Progress.Bar progress={0.3} color = {"#FF3333"} width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={4} marginBottom={height*0.07}/>
+
+        <View style={styles.container2}>
+        <TouchableOpacity onPress={showDialog}>
+        <Text style={styles.otherText1}>Click here for: What are we tracking and why?</Text>
         </TouchableOpacity>
+        <Dialog.Container visible={visible}>
+          <Dialog.Title>What and Why Track?</Dialog.Title>
+            <Dialog.Description>
+            <View style={styles.container1}>
+            <Image
+            style={styles.tinyLogo}
+            source={require('../assets/glassWater.gif')}
+            />
+             <View style={styles.container3}>
+            <Text style={styles.subtitle}>Water</Text>
+            <Text style={styles.text1}>
+                  The rule of thumb is the 8x8 rule! Try to drink
+                  eight 8-ounce glasses of water per day, but feel
+                  free to change this quantity to meet your personal goals and/or needs.
+            </Text>
+            </View>
+            </View>
+
+            <View style={styles.container1}>
+            <Image
+            style={styles.tinyLogo}
+            source={require('../assets/stretchGif.gif')}
+            />
+            <View style={styles.container3}>
+            <Text style={styles.subtitle}>Stretch</Text>
+            <Text style={styles.text1}>
+                Stretch just means MOVE! Staying active is very important 
+                for physical health. Dr. Levine says "Sitting is the new smoking"!
+                 Try to avoid being inactive for more than 30-60 mins at a time!
+            </Text>
+            </View>
+            </View>
+
+            <View style={styles.container1}>
+            <Image
+            style={styles.tinyLogo}
+            source={require('../assets/breatheGid.gif')}
+            />
+            <View style={styles.container3}>
+            <Text style={styles.subtitle}>Breathe</Text>
+            <Text style={styles.text1}>
+              Studies show that downtime is essential for mental health. 
+              Take time off at least once a day! Rest, Meditate, Go Outside,
+               Journal or just take time to do nothing at all!
+            </Text>
+            </View>
+            </View>
+
+            </Dialog.Description>
+          <Dialog.Button label="Close" onPress={handleClose} />
+        </Dialog.Container>
+        </View>
+
       </View>
       </ScrollView>
     </SafeAreaView>
@@ -81,20 +151,86 @@ const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 
 const styles = StyleSheet.create({
+  container1: {
+      paddingTop: 10,
+      flexDirection:'row',
+      alignSelf: 'flex-start',
+  },
+
+  container2: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  container3: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  tinyLogo: {
+    width: 55,
+    height: 55,
+  },
+
+  text1: {
+    fontSize: 11,
+    alignSelf: 'flex-start',
+    textAlign: "center",
+    margin: width*0.02
+  },
+
+  subtitle: {
+    fontSize: 15,
+    textAlign: "center",
+    fontStyle: 'italic'
+  },
+
+  mainText: {
+    fontWeight: "bold",
+    fontSize: 45,
+    textAlign: "center",
+  },
+
+  otherText: {
+    opacity: 100,
+    fontSize: 15,
+    textAlign: "center",
+  },
+
+  otherText1: {
+    opacity: 100,
+    fontSize: 15,
+    textAlign: "center",
+    paddingTop: 15
+  },
+
   page: {
     backgroundColor: '#faf0e6',
+    flex:1,
   },
+
   text: {
-    fontSize: 20,
-    margin: height*0.03
+    fontSize: 15,
+    margin: height*0.025,
+    alignSelf: 'flex-start',
+    paddingLeft: 10
   },
+
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#faf0e6',
     marginBottom: height*0.1,
-  }
+  },
+
+  textContainer: {
+    padding: 10,
+    marginTop: 20,
+  },
+
 });
 
 

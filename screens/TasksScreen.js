@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import { Button, KeyboardAvoidingView, StyleSheet, Text, Image, View, TextInput, TouchableOpacity, Keyboard, ScrollView, Platform, SafeAreaView } from 'react-native';
 import Task from '../components/Task'
 import { useNavigation } from '@react-navigation/native';
-import firebase from"firebase"
+import firebase from "firebase"
 import { db } from './firebase';
+import { onChange } from 'react-native-reanimated';
 {/* lottie animation imports */}
 // import Lottie from 'lottie-react-native';
 // import peas from '../assets/20587-peas-playground-of-love.json';
@@ -27,16 +28,20 @@ export default function TaskCategory({}) {
       setTaskItems(itemsCopy)
     }
 
-    function addTodo(e) {
-      e.preventDefault();
+    const addTodo = () => {
+      console.log(
+        "hello is this working ///"
+      )
 
       db.collection("todo").add({
         inprogress: true,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         todo:task,
       });
-      // setTodoInput("");
+      setTask("");
     }
+
+
   return (
     <View style={styles.container}>
      <ScrollView
@@ -70,12 +75,12 @@ export default function TaskCategory({}) {
       </ScrollView>
       <KeyboardAvoidingView behavior = {Platform.OS === "ios"? "padding ": "height"}
                             style ={styles.writeTaskWrapper} >
-       <TextInput style = {styles.input} placeholder = {'Write '} value = {task} onChangeText= {text => setTask(text )}/>
-
-      <TouchableOpacity type = "sumbit" onPress={() => handleAddTask(), addTodo}>
+       <TextInput style = {styles.input} placeholder = {'Write '} value = {task}  onChange = {(e) =>{setTask(e.target.value);console.log("this is working")}} onChangeText= {text => setTask(text )} />
+         
+      <TouchableOpacity type = "sumbit" variant= "contained" onPress={ ()=>addTodo()} > 
         <View style = {styles.addWrapper}>
           <Text style = {styles.addText}>+</Text>
-        </View>
+        </View> 
       </TouchableOpacity>
       </KeyboardAvoidingView>
 
@@ -93,7 +98,7 @@ export default function TaskCategory({}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#51804E',
+    backgroundColor: '#709c6c',
   },
   tasksWrapper: {
     paddingTop: 80,

@@ -1,9 +1,10 @@
 import React , {useState} from 'react';
 import { ReactNative, TextInput } from 'react-native';
-import { Button, SafeAreaView, Text, StyleSheet, Dimensions, Image } from 'react-native';
+import { Button, SafeAreaView, Text, StyleSheet, Dimensions, Image, View, TouchableOpacity } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import CalendarStrip from 'react-native-calendar-strip';
 import { render } from 'react-dom';
+import CalendarTask from '../components/CalendarTask'
 
 
 function CalendarScreen({ navigation }) {
@@ -12,6 +13,9 @@ function CalendarScreen({ navigation }) {
     const [taskList,setTaskList] = useState([]);
     const [start,setStart] = useState();
 
+    const pressed = () => {
+        
+    }
     const clickHandler = (date) => {
         var strDate = date.toISOString();
         var newDate = strDate.substring(0,10);
@@ -25,7 +29,7 @@ function CalendarScreen({ navigation }) {
             }
         }
         if(tempTasks.length==0){
-            tempTasks = ["No tasks on this day."];
+            tempTasks = ["No tasks, just relax!"];
         }
         setTaskList(tempTasks);
         setStart(date);
@@ -34,32 +38,32 @@ function CalendarScreen({ navigation }) {
     var Tasks = [
         {
             Task: 'Walk the dog',
-            Label: '#0000FF',
-            Date: '08/19/2021',
+            Label: '#BFD0CA',
+            Date: '08/26/2021',
             Time: '8:00 AM',
         },
         {
-            Task: 'Midterm Paper, ',
+            Task: 'Midterm Paper',
             Label: '#FF0000',
-            Date: '08/20/2021',
+            Date: '08/28/2021',
             Time: '8:00 AM',
         },
         {
-            Task: 'Call Grandma, ',
-            Label: '#800080',
-            Date: '08/20/2021',
+            Task: 'Call Grandma',
+            Label: '#0F4C81',
+            Date: '08/28/2021',
             Time: '8:00 AM',
         },
         {
             Task: 'Party Hard',
-            Label: '#74ee15',
-            Date: '08/20/2021',
+            Label: '#84ad75',
+            Date: '08/28/2021',
             Time: '9:00 PM',
         },
         {
             Task: 'Throw trash out',
-            Label: '#74ee15',
-            Date: '08/17/2021',
+            Label: '#84ad75',
+            Date: '08/27/2021',
             Time: '8:00 AM',
         },
 
@@ -134,16 +138,27 @@ function CalendarScreen({ navigation }) {
                 scrollable
                 daySelectionAnimation={{type: 'border', duration: 200, borderWidth: 1, borderHighlightColor: 'white'}}
                 style={{height:75, paddingTop: 0, paddingBottom: 0}}
-                calendarColor={'#EAE3C9'}
-                calendarHeaderStyle={{color: 'white'}}
-                dateNumberStyle={{color: 'white'}}
-                dateNameStyle={{color: 'white'}}
+                calendarColor={'#faf0e6'}
+                calendarHeaderStyle={{color: 'black'}}
+                dateNumberStyle={{color: 'black'}}
+                dateNameStyle={{color: 'black'}}
                 iconContainer={{flex: 0.1}}
                 markedDates = {markedDatesArray}
                 onDateSelected={clickHandler}
                 />
-                <Text>{selectedDate}</Text>
-                <Text>{taskList}</Text>
+                <Text style = {styles.header}>{selectedDate}</Text>
+                <View style={styles.items}>
+                    {
+                    taskList.map((item, index) => {
+                    return (
+                        <TouchableOpacity key={index}  onPress={() => pressed}>
+                            <CalendarTask text={item} /> 
+                        </TouchableOpacity>
+                        )
+                    })
+                    }
+                </View>
+
         </SafeAreaView>
     );
 }
@@ -154,13 +169,17 @@ const height = Dimensions.get('window').height
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor: "#EAE3C9",
+        backgroundColor: "#faf0e6",
     },
     accountInput: {
         margin: 12,
         borderWidth: 1,
     },
-
+    header: {
+        fontSize: 20,
+        textAlign: 'center',
+        marginTop: 15,
+    },
     accountText: {
         margin: 5,
         fontWeight: 'bold',
@@ -172,6 +191,9 @@ const styles = StyleSheet.create({
         marginTop: height*0.10,
         marginHorizontal: 0,
         opacity: .3
+      },
+      items: {
+        marginTop: 30,
       },
 
 })

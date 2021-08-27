@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 import { Button, KeyboardAvoidingView, StyleSheet, Text, Image, View, TextInput, TouchableOpacity, Keyboard, ScrollView, Platform, SafeAreaView } from 'react-native';
 import Task from '../components/Task'
 import { useNavigation } from '@react-navigation/native';
+import firebase from "firebase"
+import { db } from './firebase';
+import { onChange } from 'react-native-reanimated';
 {/* lottie animation imports */}
 // import Lottie from 'lottie-react-native';
 // import peas from '../assets/20587-peas-playground-of-love.json';
@@ -10,7 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function TaskCategory({}) {
     const navigation = useNavigation();
-    const [task, setTask] = useState();
+    const [task, setTask] = useState("");
     const [taskItems, setTaskItems] = useState([]);
   
     const handleAddTask = () => {
@@ -24,6 +27,20 @@ export default function TaskCategory({}) {
       itemsCopy.splice(index, 1);
       setTaskItems(itemsCopy)
     }
+
+    const addTodo = () => {
+      console.log(
+        "hello is this working ///"
+      )
+
+      db.collection("todo").add({
+        inprogress: true,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        todo:task,
+      });
+      setTask("");
+    }
+
 
   return (
     <View style={styles.container}>
@@ -58,12 +75,12 @@ export default function TaskCategory({}) {
       </ScrollView>
       <KeyboardAvoidingView behavior = {Platform.OS === "ios"? "padding ": "height"}
                             style ={styles.writeTaskWrapper} >
-       <TextInput style = {styles.input} placeholder = {'Write '} value = {task} onChangeText= {text => setTask(text )}/>
-
-      <TouchableOpacity onPress={() => handleAddTask()}>
+       <TextInput style = {styles.input} placeholder = {'Write '} value = {task}  onChange = {(e) =>{setTask(e.target.value);console.log("this is working")}} onChangeText= {text => setTask(text )} />
+         
+      <TouchableOpacity type = "sumbit" variant= "contained" onPress={ ()=>addTodo()} > 
         <View style = {styles.addWrapper}>
           <Text style = {styles.addText}>+</Text>
-        </View>
+        </View> 
       </TouchableOpacity>
       </KeyboardAvoidingView>
 
