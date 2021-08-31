@@ -39,10 +39,14 @@ const NewTaskScreen = (props) => {
     // setTaskItems([...taskItems, task])
     // setTask(null);
 
-    console.log(task);
+    let today = new Date();
+    let todayString =
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
+    let todayTime = today.getHours();
 
     const tempTask = {
-      date: "date created",
+      date: todayString,
+      time: todayTime,
       done: true,
       label1: false,
     };
