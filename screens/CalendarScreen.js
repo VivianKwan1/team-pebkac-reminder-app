@@ -38,7 +38,7 @@ function CalendarScreen({ navigation }) {
     ]); //replace with labels, how order? a-z? how is it sorted in the edit task screen?
 
     const filter = () => {
-    }
+    } 
 
     return (
         <SafeAreaView style={styles.bgColor}>
