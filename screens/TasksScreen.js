@@ -50,18 +50,18 @@ export default function TaskCategory({}) {
     //   todo:task,
     // });
 
-    const tempTask = {
-      "$task": {
-        date: "date created",
-        done: true,
-        label1: false,
-      },
-    };
+    // const tempTask = {
+    //   "$task": {
+    //     date: "date created",
+    //     done: true,
+    //     label1: false,
+    //   },
+    // };
 
-    firebase
-      .database()
-      .ref("users/" + userId + "/tasks")
-      .update(tempTask);
+    // firebase
+    //   .database()
+    //   .ref("users/" + userId + "/tasks")
+    //   .update(tempTask);
 
     setTask("");
   };

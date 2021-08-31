@@ -119,25 +119,23 @@ const NewTaskScreen = (props) => {
       </SafeAreaView>
 
       {/*today tomorro/ Another Day */}
-      <SafeAreaView>
+      {/* <SafeAreaView>
         <TextInput style={styles.dateToday}> Today </TextInput>
         <TextInput style={styles.dateTomorrow}>Tomorrow</TextInput>
         <TextInput style={styles.dateAnotherDay}>AnotherDay</TextInput>
-      </SafeAreaView>
+      </SafeAreaView> */}
 
       <SafeAreaView>
         <Task></Task>
         {/* <Text style = {styles.sectionTitle}> New Tasks</Text> */}
-        {/* <NewTask></NewTask>
-            {
-            taskItems.map((item, index) => {
-              return (
-                <TouchableOpacity key={index}  onPress={() => completeTask(index)}>
-                  <Task text={item} /> 
-                </TouchableOpacity>
-              )
-            }) */}
-        {/* } */}
+        <NewTask></NewTask>
+        {taskItems.map((item, index) => {
+          return (
+            <TouchableOpacity key={index} onPress={() => completeTask(index)}>
+              <Task text={item} />
+            </TouchableOpacity>
+          );
+        })}
       </SafeAreaView>
 
       <KeyboardAvoidingView
