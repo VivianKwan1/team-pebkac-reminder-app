@@ -20,7 +20,7 @@ function MenuScreen() {
         <Icon
               name='account-multiple-plus'
               type='material-community'
-              color='white'
+              color='#faf0e6'
               size={35}
               style={styles.icon}/>
         <Text style={styles.text}>Friends</Text>
@@ -34,7 +34,7 @@ function MenuScreen() {
         <Icon
               name='cake-variant'
               type='material-community'
-              color='white'
+              color='#faf0e6'
               size={30}
               style={styles.icon}/>
         <Text style={styles.text}>Birthdays</Text>
@@ -48,7 +48,7 @@ function MenuScreen() {
         <Icon
               name='cog'
               type='material-community'
-              color='white'
+              color='#faf0e6'
               size={30}
               style={styles.icon}/>
         <Text style={styles.text}>Settings</Text>
@@ -62,7 +62,7 @@ function MenuScreen() {
         <Icon
               name='account-group-outline'
               type='material-community'
-              color='white'
+              color='#faf0e6'
               size={30}
               style={styles.icon}/>
         <Text style={styles.text}>About us</Text>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginHorizontal: width*0.05,
     paddingVertical: 2,
-    borderColor:"white",
+    borderColor:"#faf0e6", 
     alignItems:"stretch"
   },
 
@@ -94,40 +94,31 @@ const styles = StyleSheet.create({
   },
 
   background:{
-      backgroundColor: '#709c6c',
+      backgroundColor: '#406c34',
       flex:1,
   },
 
   title:{
-    fontSize: 25,
-    fontWeight: '600',
-    color: 'white',
+    fontSize: 40,
+    fontWeight: '400',
+    color: "#faf0e6",
     paddingHorizontal: 45,
-    paddingBottom: 35,
-    paddingTop: 20,
+    paddingBottom: 30,
+    paddingTop: 30,
+    textAlign: "center",
   },
 
   icon:{
-      paddingLeft:25
+      paddingLeft:35
   },
 
   text: {
     fontSize: 17,
-    color: 'white',
+    color: '#faf0e6',
     fontWeight: '500',
     paddingHorizontal: 40,
     paddingBottom: 20,
     paddingTop: 20,
-  },
-
-  accountInput: {
-      margin: 12,
-      borderWidth: 1,
-  },
-
-  accountText: {
-      margin: 5,
-      fontWeight: 'bold',
   },
 
   backImage: {

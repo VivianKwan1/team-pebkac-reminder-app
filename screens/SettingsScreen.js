@@ -6,109 +6,95 @@ import { useNavigation } from '@react-navigation/native';
 import { Icon } from 'react-native-elements'
 
 function SettingsScreen() {
-    const navigation = useNavigation(); 
-    return (
-    <SafeAreaView style={styles.background}>
-        <ScrollView>
-        <View style={styles.view}>
-          <Pressable onPress={() => navigation.goBack('MenuScreen')}>
-          <Icon
-              name='arrow-left'
-              type='material-community'
-              color='white'
-              size={30}
-              style={styles.backButton}/>
-          </Pressable>
-          <Text style={styles.title}>Settings</Text>
-        </View>
-
-        <TouchableOpacity style={styles.button}>
-        <View style={styles.view}>
+  const navigation = useNavigation(); 
+  return (
+  <SafeAreaView style={styles.background}>
+      <ScrollView>
+      <View style={styles.view}>
+        <Pressable onPress={() => navigation.goBack('MenuScreen')}>
         <Icon
-              name='emoticon-excited'
-              type='material-community'
-              color='white'
-              size={35}
-              style={styles.icon}/>
-        <Text style={styles.text}>Appearance</Text>
-        </View>
-        </TouchableOpacity>
+            name='arrow-left'
+            type='material-community'
+            color='#faf0e6'
+            size={30}
+            style={styles.backButton}/>
+        </Pressable>
+        <Text style={styles.title}>Settings</Text>
+      </View>
 
-        <TouchableOpacity style={styles.button}>
-        <View style={styles.view}>
-        <Icon
-              name='bell'
-              type='material-community'
-              color='white'
-              size={30}
-              style={styles.icon}/>
-        <Text style={styles.text}>Notifications</Text>
-        </View>
-          </TouchableOpacity>
+      <SettingsComponent 
+        screen="AppearanceScreen"
+        name="emoticon-excited" 
+        text="Appearance"/>
 
-        <TouchableOpacity style={styles.button}>
-        <View style={styles.view}>
-        <Icon
-              name='security'
-              type='material-community'
-              color='white'
-              size={30}
-              style={styles.icon}/>
-        <Text style={styles.text}>Security and Privacy</Text>
-        </View>
-          </TouchableOpacity>
+      <SettingsComponent 
+        screen="NotificationsScreen"
+        name="bell" 
+        text="Notifications"/>
 
-        <TouchableOpacity style={styles.button}>
-        <View style={styles.view}>
-        <Icon
-              name='transit-connection-variant'
-              type='material-community'
-              color='white'
-              size={30}
-              style={styles.icon}/>
-        <Text style={styles.text}>Connection</Text>
-        </View>
-          </TouchableOpacity>  
+      <SettingsComponent 
+        screen="SecurityScreen"
+        name="security" 
+        text="Security and Privacy"/>
 
-        <TouchableOpacity style={styles.button}>
-        <View style={styles.view}>
-        <Icon
-              name='account-box-outline'
-              type='material-community'
-              color='white'
-              size={30}
-              style={styles.icon}/>
-        <Text style={styles.text}>Account</Text>
-        </View>
-        </TouchableOpacity>  
+      <SettingsComponent 
+        screen="ConnectionScreen"
+        name="transit-connection-variant" 
+        text="Connection"/>
 
-        <TouchableOpacity style={styles.button}>
-        <View style={styles.view}>
-        <Icon
-              name='delete'
-              type='material-community'
-              color='white'
-              size={30}
-              style={styles.icon}/>
-        <Text style={styles.text}>Delete All Tasks</Text>
-        </View>
-        </TouchableOpacity>  
+      <SettingsComponent 
+        screen="AccountScreen"
+        name="account-box-outline" 
+        text="Account"/>
 
-        <TouchableOpacity style={styles.button}>
-        <View style={styles.view}>
-        <Icon
-              name='logout'
-              type='material-community'
-              color='white'
-              size={30}
-              style={styles.icon}/>
-        <Text style={styles.text}>Logout</Text>
-        </View>
-        </TouchableOpacity>  
-        </ScrollView>
-      </SafeAreaView>
-    );
+      <TouchableOpacity style={styles.button}>
+      <View style={styles.view}>
+      <Icon
+        name="delete"
+        type="material-community"
+        color='#faf0e6'
+        size={30}
+        style={styles.icon}/>
+      <Text style={styles.text}>Delete All Tasks</Text>
+       </View>
+      </TouchableOpacity> 
+
+      <TouchableOpacity style={styles.button}>
+      <View style={styles.view}>
+      <Icon
+        name="logout"
+        type="material-community"
+        color='#faf0e6'
+        size={30}
+        style={styles.icon}/>
+      <Text style={styles.text}>Logout</Text>
+       </View>
+      </TouchableOpacity> 
+
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
+
+const SettingsComponent = (props) => {
+const navigation = useNavigation(); 
+return (
+  <TouchableOpacity 
+      onPress={() => navigation.navigate(props.screen)}
+      style={styles.button}>
+  <View style={styles.view}>
+  <Icon
+        name={props.name}
+        type={"material-community"}
+        color={'#faf0e6'}
+        size={30}
+        style={styles.icon}/>
+  <Text style={styles.text}>{props.text}</Text>
+  </View>
+  </TouchableOpacity> 
+);
+}
+
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
@@ -141,7 +127,7 @@ const styles = StyleSheet.create({
     },
 
     background:{
-        backgroundColor: '#709c6c',
+        backgroundColor: '#406c34',
         flex:1,
     },
 

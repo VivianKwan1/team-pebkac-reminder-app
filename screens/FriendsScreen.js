@@ -1,27 +1,35 @@
 import React from 'react';
 import { TextInput } from 'react-native';
-import { Button, SafeAreaView, Text, StyleSheet } from 'react-native';
+import { Image, Dimensions, Button, SafeAreaView, Text, StyleSheet } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 function FriendsScreen({ navigation }) {
     return (
         <SafeAreaView>
-            <Text>Friends Page!!!</Text>
+            <Image source={require('../assets/comingSoon.png')} style = {styles.backImage}/>
+            {/* <Text style={styles.comingSoon}>Coming Soon!</Text> */}
         </SafeAreaView>
     );
 }
 
+
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
+
 const styles = StyleSheet.create({
-    accountInput: {
-        margin: 12,
-        borderWidth: 1,
+    comingSoon:{
+        fontSize: 40,
+        fontWeight: "400",
+        textAlign: "center",
+        paddingTop: 50
     },
-
-    accountText: {
-        margin: 5,
-        fontWeight: 'bold',
-    }
-
+    backImage: {
+        width: '60%', 
+        height: '50%',
+        marginVertical: height*0.09,
+        marginHorizontal: width*0.2,
+        opacity:0.5,
+      },
 })
 
 export default FriendsScreen;

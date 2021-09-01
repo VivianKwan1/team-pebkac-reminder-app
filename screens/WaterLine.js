@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity, Button, TextInput, SafeAreaView, Text, StyleSheet, ScrollView, Pressable, Image, Dimensions, View} from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import * as Progress from 'react-native-progress';
@@ -30,15 +30,27 @@ const chartConfig = {
   color: (opacity = 1) => 'rgb(0, 102, 204)',
 };
 
-function WaterLine({navigation}) {
+function WaterLine({route, navigation}) {
+  const [start,setStart] = useState();
+
   const buttonClickedHandler = () => {
-    console.log('You have clicked a button!');
-    // add to global variable and then compute new percentage
+    waterOunces+= 8;
+    waterPercentProgress = (waterOunces/waterGoalOunces);
+    console.log(waterOunces);
+    setStart(waterOunces);
   };
+
+  const backClick = () => {
+    route.params.refresh();
+    navigation.goBack();
+  };
+
+  let remainderWater = ~~(64-waterOunces+.001);
+
   return (
         <SafeAreaView style={styles.page}>
             <ScrollView>
-            <Pressable style = {styles.cancelButton} onPress={() => navigation.goBack('HealthScreen')}>
+            <Pressable style = {styles.cancelButton} onPress={backClick}>
               <Text style = {styles.cancelText}>X</Text>
             </Pressable>
 
@@ -49,12 +61,11 @@ function WaterLine({navigation}) {
             </Text>
             </View>
 
-            <Progress.Pie progress={waterProgress} color = {"#80bfff"} size={150} style={styles.pie}/>
-            <Text style={styles.percentText}>{waterProgress*100}%</Text>
+            <Progress.Pie progress={waterPercentProgress} color = {"#80bfff"} size={150} style={styles.pie}/>
+            <Text style={styles.percentText}>{~~(waterPercentProgress*100)}%</Text>
 
-            {/* We need to make this a variable and update it with functionality */}
-            <Text style={styles.percentText}>X/64 Ounces</Text>
-            <Text style={styles.percentText}>64-X Ounces to go</Text>
+            <Text style={styles.percentText}>{~~waterOunces}/64 Ounces</Text>
+            <Text style={styles.percentText}>{remainderWater} Ounces to go</Text>
 
             <View style={styles.container1}>
             <TouchableOpacity 
@@ -66,39 +77,6 @@ function WaterLine({navigation}) {
               color='black'
               size={35}/>
             <Text style={styles.text}>+8 ounces</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-            onPress={buttonClickedHandler}
-            style={styles.roundButton}>
-            <Icon
-              name='bottle-soda-classic'
-              type='material-community'
-              color='black'
-              size={35}/>
-            <Text style={styles.text}>+16.9 ounces</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-            onPress={buttonClickedHandler}
-            style={styles.roundButton}>
-            <Icon
-              name='bottle-tonic'
-              type='material-community'
-              color='black'
-              size={35}/>
-            <Text style={styles.text}>+32 ounces</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-            onPress={buttonClickedHandler}
-            style={styles.roundButton}>
-            <Icon
-              name='bottle-wine'
-              type='material-community'
-              color='black'
-              size={35}/>
-            <Text style={styles.text}>Other</Text>
             </TouchableOpacity>
             </View>
 
@@ -117,16 +95,15 @@ function WaterLine({navigation}) {
 const styles = StyleSheet.create({
 
   text: {
-    fontSize: 13,
+    fontSize: 15,
     color: 'black',
   },
 
   roundButton: {
-    width: 95,
-    height: 95,
+    width: 150,
+    height: 90,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 30,
     borderRadius: 100,
     backgroundColor: '#b3daff',
   },
@@ -146,7 +123,7 @@ const styles = StyleSheet.create({
   },
 
   percentText:{
-    fontSize:20,
+    fontSize:25,
     alignSelf: "center",
   },
 
@@ -179,6 +156,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     alignSelf: 'center',
   },
+
 
 });
 

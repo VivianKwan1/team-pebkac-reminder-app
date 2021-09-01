@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    backgroundColor: "#709c6c",
+    backgroundColor: "#406c34",
     borderRadius: 10,
     margin: 30,
     width: 100,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
 
   plusButton: {
-    backgroundColor: "#faf0e6",
+    backgroundColor: "#406c34",
     borderRadius: 10,
     margin: 30,
     width: 100,
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
 
   plusText: {
-    color: "black",
+    color: "white",
     textAlign: "center",
   },
 
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
   mainText: {
     fontWeight: "bold",
     fontSize: 50,
+    fontWeight: "500",
     textAlign: "center",
   },
 

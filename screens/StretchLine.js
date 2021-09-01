@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {TouchableOpacity, Button, TextInput, SafeAreaView, Text, StyleSheet, ScrollView, Pressable, Image, Dimensions, View} from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import * as Progress from 'react-native-progress';
@@ -30,15 +30,27 @@ const chartConfig = {
   color: (opacity = 1) => 'rgb(102, 0, 204)',
 };
 
-function StretchLine({navigation}) {
+function StretchLine({route, navigation}) {
+  const [start,setStart] = useState();
+
   const buttonClickedHandler = () => {
-    console.log('You have clicked a button!');
-    // add to global variable and then compute new percentage
+    stretchMinutes+= 5;
+    stretchPercentProgress = (stretchMinutes/stretchGoalMinutes);
+    console.log(stretchMinutes);
+    setStart(stretchMinutes);
   };
+
+  const backClick = () => {
+    route.params.refresh();
+    navigation.goBack();
+  };
+
+  let remainderStretch = ~~(stretchGoalMinutes-stretchMinutes+.001);
+
   return (
         <SafeAreaView style={styles.page}>
             <ScrollView>
-            <Pressable style = {styles.cancelButton} onPress={() => navigation.goBack('HealthScreen')}>
+            <Pressable style = {styles.cancelButton} onPress={backClick}>
               <Text style = {styles.cancelText}>X</Text>
             </Pressable>
 
@@ -49,8 +61,11 @@ function StretchLine({navigation}) {
             </Text>
             </View>
 
-            <Progress.Pie progress={stretchProgress} color = {"#cc99ff"} size={150} style={styles.pie}/>
-            <Text style={styles.percentText}>{stretchProgress*100}%</Text>
+            <Progress.Pie progress={stretchPercentProgress} color = {"#cc99ff"} size={150} style={styles.pie}/>
+            <Text style={styles.percentText}>{~~(stretchPercentProgress*100)}%</Text>
+
+            <Text style={styles.percentText}>{~~stretchMinutes}/30 Minutes</Text>
+            <Text style={styles.percentText}>{remainderStretch} Minutes to go</Text>
             
             <View style={styles.container1}>     
             <TouchableOpacity 
@@ -61,7 +76,7 @@ function StretchLine({navigation}) {
               type='material-community'
               color='black'
               size={35}/>
-            <Text style={styles.text}>X Minutes</Text>
+            <Text style={styles.text}>+5 Minutes</Text>
             </TouchableOpacity>
             </View>
 

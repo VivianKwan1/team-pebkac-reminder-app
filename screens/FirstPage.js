@@ -32,7 +32,7 @@ function FirstPage({ navigation }) {
         source={require("../assets/firstPage2.png")}
         style={styles.backImage2}
       />
-      <Text style={styles.appName}>Mind / Matter</Text>
+      <Text style={styles.appName}>Mind Space</Text>
 
       <View style={styles.parent}>
         <Pressable

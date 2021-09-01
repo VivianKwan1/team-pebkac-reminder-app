@@ -10,6 +10,7 @@ function AboutScreen() {
     return (
         <SafeAreaView style={styles.background}>
         <ScrollView>
+        <Image source={require('../assets/leaves.png')} style = {styles.backImage}/>
         <View style={styles.view}>
         <Pressable onPress={() => navigation.goBack('MenuScreen')}>
         <Icon
@@ -28,7 +29,7 @@ function AboutScreen() {
         </Text>
         <Text style={styles.p1}>
             The app you are currently using was made by Team Pebkac during the 2021 SDSC Summer Internship 
-            Program. The project was managed by our PM Phillip Tan and built by our group of developers composed
+            Program. The project was managed by Phillip Tan and built by our group of developers composed
             of Subash Katel, Tony Guan, Alice Lu, Mariana Villena, Vivian Kwan and our PO Isaiah Gama.
             We are all currently getting our undergraduate degrees at UC San Diego and UC Santa Barbara.
         </Text>
@@ -36,7 +37,7 @@ function AboutScreen() {
             What prompted us to start this app was our common interest in productivity and wellness.
             We noticed there were many apps focusing on different areas of these, but none that
             combined everything you needed into a single app. We wanted to make an app that we would use.
-            That is why we decided to come up with [InsertNameofApp]!!
+            That is why we decided to come up with MIND SPACE!!
             Here you can receive reminders, make to-do lists, and take care of your health all wrapped up nicely 
             into a single app.
         </Text>
@@ -51,6 +52,16 @@ const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 
 const styles = StyleSheet.create({
+
+    backImage: {
+        width: '100%', 
+        height: '100%',
+        flex:1, 
+        opacity:0.2,
+        position:'absolute',
+        marginTop: height*0.05,
+        marginHorizontal: 0
+      },
 
     backButton:{
         paddingHorizontal: 20,
@@ -69,34 +80,36 @@ const styles = StyleSheet.create({
       },
 
     background:{
-        backgroundColor: '#709c6c',
+        backgroundColor: '#6E8969',
         flex:1,
     },
 
     p1:{
-        fontSize: 14,
-        fontWeight: '400',
-        color: 'white',
+        fontSize: 12.5,
+        fontWeight: '500',
+        color: "#faf0e6",
         paddingHorizontal: 15,
-        justifyContent: 'space-evenly',
+        paddingHorizontal: width*0.1,
+        textAlign:'justify',
         paddingTop: 20,
     },
 
     title:{
-        fontSize: 25,
-        fontWeight: '600',
-        color: 'white',
-        paddingHorizontal: 20,
-        paddingTop: 20,
-        textAlign:'center'
-      },
+        fontSize: 40,
+        fontWeight: '400',
+        color: "#faf0e6",
+        paddingHorizontal: width*0.01,
+        paddingBottom: height*0.001,
+        paddingTop: height*0.05,
+        textAlign:'justify'
+    },
 
       title1:{
         fontSize: 20,
         fontWeight: '500',
-        color: 'white',
-        paddingHorizontal: 15,
-        paddingTop: 30,
+        color: "#faf0e6",
+        paddingHorizontal: 25,
+        paddingTop: 20,
       },
 
     accountInput: {
@@ -111,12 +124,11 @@ const styles = StyleSheet.create({
 
     ourImage: {
         width: '100%', 
-        height: '37%',
+        height: '38%',
         flex:1, 
-        opacity:0.9,
+        opacity:0.85,
         position:'absolute',
         marginTop: height*0.60,
-        marginHorizontal: width*0.01,
         justifyContent: 'center',
         alignItems:"stretch"
       },

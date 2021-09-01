@@ -53,10 +53,7 @@ export default function TaskCategory({}) {
 
       {/* Today's Tasks */}
       <View style={styles.tasksWrapper}>
-      <TouchableOpacity activeOpacity = {0.5} onPress = {() => navigation.navigate('GroupTasksScreen')}>
-        <Image source = {require ('../assets/arrow.png')} style = {styles.ImageIconStyle}  />
         <Text style={styles.sectionTitle}>Today's tasks</Text>
-      </TouchableOpacity>
         
         <View style={styles.items}>
           {/* This is where the tasks will go! */}
@@ -98,7 +95,7 @@ export default function TaskCategory({}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#709c6c',
+    backgroundColor: '#406c34',
   },
   tasksWrapper: {
     paddingTop: 80,

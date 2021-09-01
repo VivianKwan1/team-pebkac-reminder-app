@@ -1,32 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Pressable, StatusBar, Image, SafeAreaView, Text, StyleSheet, ScrollView, TouchableOpacity , Dimensions, View} from 'react-native';
 import ActivityRings from "react-native-activity-rings";
 import * as Progress from 'react-native-progress';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused} from '@react-navigation/native';
 import Dialog from 'react-native-dialog';
 
-// I decided to make these 3 variables global bc I
-// couldn't think of another way to do it (there is another way for sure)
-// so I hard coded them here!! We'll need to make them dynamic for functionality
+global.waterOunces = .001;
+global.stretchMinutes = .001;
+global.breatheMinutes = .001;
 
-global.waterProgress = 0.3;
-global.stretchProgress = 0.3;
-global.breatheProgress = 0.3;
+//hard coded goals
+global.waterGoalOunces = 64;
+global.stretchGoalMinutes = 30;
+global.breatheGoalMinutes = 30;
 
-const activityData = [
+global.waterPercentProgress = (waterOunces/waterGoalOunces);
+global.stretchPercentProgress = (stretchMinutes/stretchGoalMinutes);
+global.breathePercentProgress = (breatheMinutes/breatheGoalMinutes);
+
+
+
+var activityData = [
   {
     label: "Water",
-    value: waterProgress,
+    value: waterPercentProgress,
     color: "#80bfff",
   },
   {
     label: "Stretch",
-    value: stretchProgress,
+    value: stretchPercentProgress,
     color: "#cc99ff",
   },
   {
     label: "Breathe",
-    value: breatheProgress,
+    value: breathePercentProgress,
     color: "#ffbf80",
   },
 ];
@@ -38,6 +45,7 @@ const activityConfig = {
   ringSize: 20,
 };
 
+
 function HealthTrack(props) {
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
@@ -47,6 +55,71 @@ function HealthTrack(props) {
   const handleClose = () => {
     setVisible(false);
   };
+  const [start, setStart] = useState();
+  const refreshFunctionWater = () =>{
+    console.log("refresh worked");
+    activityData = [
+      {
+        label: "Water",
+        value: waterPercentProgress,
+        color: "#80bfff",
+      },
+      {
+        label: "Stretch",
+        value: stretchPercentProgress,
+        color: "#cc99ff",
+      },
+      {
+        label: "Breathe",
+        value: breathePercentProgress,
+        color: "#ffbf80",
+      },
+    ];
+    setStart(waterOunces);
+  };
+  const refreshFunctionStretch = () =>{
+    console.log("refresh worked");
+    activityData = [
+      {
+        label: "Water",
+        value: waterPercentProgress,
+        color: "#80bfff",
+      },
+      {
+        label: "Stretch",
+        value: stretchPercentProgress,
+        color: "#cc99ff",
+      },
+      {
+        label: "Breathe",
+        value: breathePercentProgress,
+        color: "#ffbf80",
+      },
+    ];
+    setStart(stretchMinutes);
+  };
+  const refreshFunctionBreathe = () =>{
+    console.log("refresh worked");
+    activityData = [
+      {
+        label: "Water",
+        value: waterPercentProgress,
+        color: "#80bfff",
+      },
+      {
+        label: "Stretch",
+        value: stretchPercentProgress,
+        color: "#cc99ff",
+      },
+      {
+        label: "Breathe",
+        value: breathePercentProgress,
+        color: "#ffbf80",
+      },
+    ];
+    setStart(breatheMinutes);
+  };
+
   return (
     <SafeAreaView style={styles.page}>
     <ScrollView>
@@ -69,18 +142,18 @@ function HealthTrack(props) {
         {/* idk if it is intuitive to click the progress bars */}
 
         <Text style={styles.text}> Water Goal</Text>
-        <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress = {() => navigation.navigate('WaterLine')}>
-        <Progress.Bar progress={waterProgress} color = {"#80bfff"} width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={0.3}/>
+        <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress = {() => {navigation.navigate('WaterLine', {refresh: refreshFunctionWater})}}>
+        <Progress.Bar progress={waterPercentProgress} color = {"#80bfff"} width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={0.3}/>
         </TouchableOpacity>
 
         <Text style={styles.text}> Stretch Goal</Text>
-        <TouchableOpacity style={styles.button} activeOpacity={0.5} style = {styles.exerciseButton} onPress = {() => navigation.navigate('StretchLine')}>
-        <Progress.Bar progress={stretchProgress} color={"#cc99ff"} width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={0.3}/>
+        <TouchableOpacity style={styles.button} activeOpacity={0.5} style = {styles.exerciseButton} onPress = {() => {navigation.navigate('StretchLine', {refresh: refreshFunctionStretch})}}>
+        <Progress.Bar progress={stretchPercentProgress} color={"#cc99ff"} width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={0.3}/>
         </TouchableOpacity>
 
         <Text style={styles.text}> Breathe Goal</Text>
-        <TouchableOpacity style={styles.button} activeOpacity={0.5} style = {styles.exerciseButton} onPress = {() => navigation.navigate('BreatheLine')}>
-        <Progress.Bar progress={breatheProgress} color = {"#ffbf80"}  width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={0.3}/>
+        <TouchableOpacity style={styles.button} activeOpacity={0.5} style = {styles.exerciseButton} onPress = {() => {navigation.navigate('BreatheLine', {refresh: refreshFunctionBreathe})}}>
+        <Progress.Bar progress={breathePercentProgress} color = {"#ffbf80"}  width={width*0.8} height={height*0.03} borderRadius={9} borderColor={'black'} borderWidth={0.3}/>
         </TouchableOpacity>
 
         <View style={styles.container2}>
@@ -178,7 +251,8 @@ const styles = StyleSheet.create({
     fontSize: 11,
     alignSelf: 'flex-start',
     textAlign: "center",
-    margin: width*0.02
+    margin: width*0.03,
+    textAlign: 'justify'
   },
 
   subtitle: {

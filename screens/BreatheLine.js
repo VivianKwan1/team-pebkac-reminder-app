@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity, Button, TextInput, SafeAreaView, Text, StyleSheet, ScrollView, Pressable, Image, Dimensions, View} from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import * as Progress from 'react-native-progress';
@@ -30,15 +30,27 @@ const chartConfig = {
   color: (opacity = 1) => 'rgb(204, 102, 0)',
 };
 
-function BreatheLine({navigation}) {
+function BreatheLine({route, navigation}) {
+  const [start,setStart] = useState();
+
   const buttonClickedHandler = () => {
-    console.log('You have clicked a button!');
-    // add to global variable and then compute new percentage
+    breatheMinutes+= 5;
+    breathePercentProgress = (breatheMinutes/breatheGoalMinutes);
+    console.log(breatheMinutes);
+    setStart(breatheMinutes);
   };
+
+  const backClick = () => {
+    route.params.refresh();
+    navigation.goBack();
+  };
+
+  let remainderBreathe = ~~(breatheGoalMinutes-breatheMinutes+.001);
+
   return (
         <SafeAreaView style={styles.page}>
             <ScrollView>
-            <Pressable style = {styles.cancelButton} onPress={() => navigation.goBack('HealthScreen')}>
+            <Pressable style = {styles.cancelButton} onPress={backClick}>
               <Text style = {styles.cancelText}>X</Text>
             </Pressable>
 
@@ -49,8 +61,11 @@ function BreatheLine({navigation}) {
             </Text>
             </View>
 
-            <Progress.Pie progress={breatheProgress} color = {"#ffbf80"} size={150} style={styles.pie}/>
-            <Text style={styles.percentText}>{breatheProgress*100}%</Text>
+            <Progress.Pie progress={breathePercentProgress} color = {"#ffbf80"} size={150} style={styles.pie}/>
+            <Text style={styles.percentText}>{~~(breathePercentProgress*100)}%</Text>
+
+            <Text style={styles.percentText}>{~~breatheMinutes}/30 Minutes</Text>
+            <Text style={styles.percentText}>{remainderBreathe} Minutes to go</Text>
 
             <View style={styles.container1}>     
             <TouchableOpacity 
@@ -61,7 +76,7 @@ function BreatheLine({navigation}) {
               type='material-icons'
               color='black'
               size={35}/>
-            <Text style={styles.text}>X Minutes</Text>
+            <Text style={styles.text}>+5 Minutes</Text>
             </TouchableOpacity>
             </View>
 
