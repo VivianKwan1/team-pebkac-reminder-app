@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    backgroundColor: "#709c6c",
+    backgroundColor: "#6E8969",
     borderRadius: 10,
     margin: 30,
     width: 100,
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
   mainText: {
     fontWeight: "bold",
     fontSize: 50,
+    fontWeight: "500",
     textAlign: "center",
   },
 

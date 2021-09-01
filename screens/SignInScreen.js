@@ -158,7 +158,6 @@ export default class SignIn extends Component {
         >
           <Text style={styles.texts}>Don't have an account? Sign up here</Text>
         </Pressable>
-
         <Text style={styles.accountText}>Email</Text>
         <TextInput
           style={styles.accountInput}
@@ -208,11 +207,12 @@ const height = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   texts: {
-    fontSize: 15,
+    fontSize: 18,
+    fontWeight: "400",
     marginHorizontal: width * 0.05,
     marginTop: height * 0.01,
     marginBottom: height * 0.01,
-    color: "#3399FF",
+    color: "#4E6A94",
   },
   signupButton: {
     marginBottom: 5,
@@ -223,22 +223,22 @@ const styles = StyleSheet.create({
     marginLeft: width * 0.25,
   },
   forgotText: {
+    fontWeight: "400",
     fontSize: 18,
     marginHorizontal: width * 0.045,
     marginTop: height * 0.01,
-    color: "#3399FF",
+    color: "#4E6A94",
   },
   signButton: {
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 18,
-    backgroundColor: "#8A873B",
+    backgroundColor: "#6E8969",
     marginBottom: 15,
     marginHorizontal: width * 0.1,
     borderRadius: 10,
     marginTop: 30,
   },
-
   cancelButton: {
     alignItems: "flex-end",
     paddingVertical: 18,
@@ -246,60 +246,53 @@ const styles = StyleSheet.create({
     marginHorizontal: width * 0.1,
     borderRadius: 10,
   },
-
   googButton: {
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 18,
     elevation: 3,
-    backgroundColor: "#8A873B",
+    backgroundColor: "#6E8969",
     marginBottom: 15,
     marginHorizontal: width * 0.1,
     borderRadius: 10,
   },
-
   fbButton: {
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 18,
     elevation: 3,
-    backgroundColor: "#8A873B",
+    backgroundColor: "#6E8969",
     marginBottom: 300,
     marginHorizontal: width * 0.1,
     borderRadius: 10,
   },
-
   text: {
     fontSize: 18,
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: "white",
   },
-
   accountInput: {
     marginHorizontal: width * 0.1,
+    marginVertical: height * 0.005,
     borderWidth: 1,
-    //borderRadius:10,
+    borderRadius:8,
+    paddingVertical: height * 0.005,
     fontSize: 20,
   },
-
   accountText: {
-    fontWeight: "bold",
-    margin: 10,
+    fontWeight: "400",
     fontSize: 18,
     marginHorizontal: width * 0.1,
   },
-
   cancelText: {
-    fontSize: height * 0.03,
+    fontSize: height * 0.035,
     fontWeight: "bold",
-    color: "red",
+    color: "black",
   },
-
   page: {
     backgroundColor: "#faf0e6",
   },
-
   backImage: {
     width: "90%",
     height: "60%",
@@ -309,7 +302,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     marginTop: height * 0.3,
   },
-
   accountText: {
     margin: 2,
     fontSize: 18,

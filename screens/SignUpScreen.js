@@ -123,12 +123,12 @@ const height = Dimensions.get('window').height
 
 const styles = StyleSheet.create({
 texts: {
-  fontSize:18,
-  marginHorizontal: width*0.05,
-  marginBottom: height*0.01,
-  color: '#3399FF'
-  },
-
+  fontSize: 18,
+  fontWeight: "400",
+  marginHorizontal: width * 0.1,
+  marginBottom: height * 0.02,
+  color: "#4E6A94",
+},
   signinButton: {
     marginBottom: 5,
     marginHorizontal: width*0.05,
@@ -137,13 +137,12 @@ texts: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: height*0.025,
-    backgroundColor: '#8A873B',
+    backgroundColor: '#6E8969',
     marginBottom: height*0.9,
     marginHorizontal: width*0.1,
     borderRadius:10,
     marginTop: 30
   },
-
   cancelButton: {
     alignItems: 'flex-end',
     paddingVertical: 18,
@@ -151,44 +150,39 @@ texts: {
     marginHorizontal: width*0.1,
     borderRadius:10
   },
-
   text: {
-  fontSize:18,
-  fontWeight: 'bold',
-  letterSpacing: 0.25,
-  color: 'white',
+    fontSize:18,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
   },
-
   accountInput: {
-      marginHorizontal: width*0.1,
-      borderWidth: 1,
-      fontSize:15,
+    marginHorizontal: width * 0.1,
+    marginVertical: height * 0.005,
+    borderWidth: 1,
+    borderRadius:8,
+    paddingVertical: height * 0.004,
+    fontSize: 20,
   },
-
   accountText: {
-      fontWeight: 'bold',
-      margin: height*0.005, 
-      fontSize:height*0.025,
-      marginHorizontal: width*0.1,
+    fontWeight: "400",
+    fontSize: 18,
+    marginHorizontal: width * 0.065,
   },
-
   cancelText: {
-  fontSize:height*0.03,
-  fontWeight: 'bold',
-  color: 'red',
+    fontSize: height * 0.035,
+    fontWeight: "bold",
+    color: "black",
   },
-
   page: {
-  backgroundColor: '#FFFFE2'
+    backgroundColor: "#faf0e6",
   },
-
   backImage: {
-  width: '90%', height: '60%', flex: 1, resizeMode: 'stretch', 
-  alignContent:'center',
-  position:'absolute',
-  marginTop: height*0.3
+    width: '90%', height: '60%', flex: 1, resizeMode: 'stretch', 
+    alignContent:'center',
+    position:'absolute',
+    marginTop: height*0.3
   },
-
   preloader: {
     left: 0,
     right: 0,

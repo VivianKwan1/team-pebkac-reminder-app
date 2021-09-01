@@ -22,6 +22,12 @@ import AboutScreen from './screens/AboutScreen';
 import WaterLine from './screens/WaterLine';
 import StretchLine from './screens/StretchLine';
 import BreatheLine from './screens/BreatheLine';
+import AppearanceScreen from './screens/AppearanceScreen';
+import NotificationsScreen from './screens/NotificationsScreen';
+import SecurityScreen from './screens/SecurityScreen';
+import ConnectionScreen from './screens/ConnectionScreen';
+import AccountScreen from './screens/AccountScreen';
+
 
 
 const Stack = createStackNavigator();
@@ -99,6 +105,12 @@ export default function App() {
         <Stack.Screen name="WaterLine" component={WaterLine} options={{ headerShown: false }} />
         <Stack.Screen name="StretchLine" component={StretchLine} options={{ headerShown: false }} />
         <Stack.Screen name="BreatheLine" component={BreatheLine} options={{ headerShown: false }} />
+
+        <Stack.Screen name="AppearanceScreen" component={AppearanceScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="NotificationsScreen" component={NotificationsScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="SecurityScreen" component={SecurityScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="ConnectionScreen" component={ConnectionScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="AccountScreen" component={AccountScreen} options={{ headerShown: false }} />
 
       </Stack.Navigator>
     </NavigationContainer>

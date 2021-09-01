@@ -13,12 +13,12 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 const MyComponent = ({navigation}) => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'home', title: 'Home', icon: 'home' , color: '#b29c6f'},
-    { key: 'calendar', title: 'Calendar', icon: 'calendar-month' , color: '#b29c6f'},
-    { key: 'newtask', title: 'New Task', icon: 'pencil-plus' , color: '#b29c6f'},
-    { key: 'tasks', title: 'Tasks', icon: 'checkbox-marked-outline' , color: '#b29c6f'},
-    { key: 'health', title: 'Health', icon: 'heart' , color: '#b29c6f'},
-    { key: 'settings', title: 'Menu', icon: 'menu' , color: '#b29c6f'},
+    { key: 'home', title: 'Home', icon: 'home' , color: '#C1B18C'},
+    { key: 'calendar', title: 'Calendar', icon: 'calendar-month' , color: '#C1B18C'},
+    { key: 'newtask', title: 'New Task', icon: 'pencil-plus' , color: '#C1B18C'},
+    { key: 'tasks', title: 'Tasks', icon: 'checkbox-marked-outline' , color: '#C1B18C'},
+    { key: 'health', title: 'Health', icon: 'heart' , color: '#C1B18C'},
+    { key: 'settings', title: 'Menu', icon: 'menu' , color: '#C1B18C'},
   ]);
 
   const renderScene = BottomNavigation.SceneMap({

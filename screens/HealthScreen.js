@@ -190,6 +190,7 @@ const styles = StyleSheet.create({
   mainText: {
     fontWeight: "bold",
     fontSize: 45,
+    fontWeight: "500",
     textAlign: "center",
   },
 

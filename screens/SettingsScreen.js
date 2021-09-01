@@ -10,104 +10,90 @@ function SettingsScreen() {
     return (
     <SafeAreaView style={styles.background}>
         <ScrollView>
+        <Image source={require('../assets/leaves.png')} style = {styles.backImage}/>
         <View style={styles.view}>
           <Pressable onPress={() => navigation.goBack('MenuScreen')}>
           <Icon
               name='arrow-left'
               type='material-community'
-              color='white'
+              color='#faf0e6'
               size={30}
               style={styles.backButton}/>
           </Pressable>
           <Text style={styles.title}>Settings</Text>
         </View>
 
-        <TouchableOpacity style={styles.button}>
-        <View style={styles.view}>
-        <Icon
-              name='emoticon-excited'
-              type='material-community'
-              color='white'
-              size={35}
-              style={styles.icon}/>
-        <Text style={styles.text}>Appearance</Text>
-        </View>
-        </TouchableOpacity>
+        <SettingsComponent 
+          screen="AppearanceScreen"
+          name="emoticon-excited" 
+          text="Appearance"/>
+
+        <SettingsComponent 
+          screen="NotificationsScreen"
+          name="bell" 
+          text="Notifications"/>
+
+        <SettingsComponent 
+          screen="SecurityScreen"
+          name="security" 
+          text="Security and Privacy"/>
+
+        <SettingsComponent 
+          screen="ConnectionScreen"
+          name="transit-connection-variant" 
+          text="Connection"/>
+
+        <SettingsComponent 
+          screen="AccountScreen"
+          name="account-box-outline" 
+          text="Account"/>
 
         <TouchableOpacity style={styles.button}>
         <View style={styles.view}>
         <Icon
-              name='bell'
-              type='material-community'
-              color='white'
-              size={30}
-              style={styles.icon}/>
-        <Text style={styles.text}>Notifications</Text>
-        </View>
-          </TouchableOpacity>
-
-        <TouchableOpacity style={styles.button}>
-        <View style={styles.view}>
-        <Icon
-              name='security'
-              type='material-community'
-              color='white'
-              size={30}
-              style={styles.icon}/>
-        <Text style={styles.text}>Security and Privacy</Text>
-        </View>
-          </TouchableOpacity>
-
-        <TouchableOpacity style={styles.button}>
-        <View style={styles.view}>
-        <Icon
-              name='transit-connection-variant'
-              type='material-community'
-              color='white'
-              size={30}
-              style={styles.icon}/>
-        <Text style={styles.text}>Connection</Text>
-        </View>
-          </TouchableOpacity>  
-
-        <TouchableOpacity style={styles.button}>
-        <View style={styles.view}>
-        <Icon
-              name='account-box-outline'
-              type='material-community'
-              color='white'
-              size={30}
-              style={styles.icon}/>
-        <Text style={styles.text}>Account</Text>
-        </View>
-        </TouchableOpacity>  
-
-        <TouchableOpacity style={styles.button}>
-        <View style={styles.view}>
-        <Icon
-              name='delete'
-              type='material-community'
-              color='white'
-              size={30}
-              style={styles.icon}/>
+          name="delete"
+          type="material-community"
+          color='#faf0e6'
+          size={30}
+          style={styles.icon}/>
         <Text style={styles.text}>Delete All Tasks</Text>
-        </View>
-        </TouchableOpacity>  
+         </View>
+        </TouchableOpacity> 
 
         <TouchableOpacity style={styles.button}>
         <View style={styles.view}>
         <Icon
-              name='logout'
-              type='material-community'
-              color='white'
-              size={30}
-              style={styles.icon}/>
+          name="logout"
+          type="material-community"
+          color='#faf0e6'
+          size={30}
+          style={styles.icon}/>
         <Text style={styles.text}>Logout</Text>
-        </View>
-        </TouchableOpacity>  
+         </View>
+        </TouchableOpacity> 
+
         </ScrollView>
       </SafeAreaView>
     );
+}
+
+const SettingsComponent = (props) => {
+  const navigation = useNavigation(); 
+  return (
+    <TouchableOpacity 
+        onPress={() => navigation.navigate(props.screen)}
+        style={styles.button}>
+    <View style={styles.view}>
+    <Icon
+          name={props.name}
+          type={"material-community"}
+          color={'#faf0e6'}
+          size={30}
+          style={styles.icon}/>
+    <Text style={styles.text}>{props.text}</Text>
+    </View>
+    </TouchableOpacity> 
+  );
 }
 
 const width = Dimensions.get('window').width
@@ -130,7 +116,7 @@ const styles = StyleSheet.create({
       marginBottom: 10,
       marginHorizontal: width*0.05,
       paddingVertical: 2,
-      borderColor:"white",
+      borderColor:"#faf0e6", 
       alignItems:"stretch"
     },
   
@@ -141,22 +127,21 @@ const styles = StyleSheet.create({
     },
 
     background:{
-        backgroundColor: '#709c6c',
+        backgroundColor: '#6E8969',
         flex:1,
     },
 
     title:{
-      fontSize: 25,
-      fontWeight: '600',
-      color: 'white',
-      paddingHorizontal: 20,
-      paddingBottom: 35,
+      fontSize: 35,
+      fontWeight: '400',
+      color: "#faf0e6",
+      paddingHorizontal: width*0.03,
+      paddingBottom: 30,
       paddingTop: 30,
     },
-
     text: {
       fontSize: 17,
-      color: 'white',
+      color: "#faf0e6",
       fontWeight: '500',
       paddingHorizontal: 40,
       paddingBottom: 20,
@@ -178,7 +163,16 @@ const styles = StyleSheet.create({
     accountText: {
         margin: 5,
         fontWeight: 'bold',
-    }
+    },
+    backImage: {
+      width: '100%', 
+      height: '100%',
+      flex:1, 
+      opacity:0.2,
+      position:'absolute',
+      marginTop: height*0.05,
+      marginHorizontal: 0
+    },
 
 })
 

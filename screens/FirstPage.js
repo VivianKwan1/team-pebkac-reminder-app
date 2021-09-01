@@ -32,7 +32,7 @@ function FirstPage({ navigation }) {
         source={require("../assets/firstPage2.png")}
         style={styles.backImage2}
       />
-      <Text style={styles.appName}>Mind / Matter</Text>
+      <Text style={styles.appName}>Mind Space</Text>
 
       <View style={styles.parent}>
         <Pressable
@@ -58,37 +58,34 @@ const height = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   appName: {
-    fontWeight: "bold",
-    fontSize: height * 0.07,
-    marginBottom: height * 0.43,
-    marginTop: height * 0.07,
+    flex: 1,
+    fontWeight: "400",
+    fontSize: height * 0.09,
+    marginBottom: height * 0.4,
+    marginTop: height * 0.08,
     textAlign: "center",
-    color: "white",
+    color: "#faf0e6",
     marginHorizontal: width * 0.01,
   },
-
   signInbutton: {
     alignItems: "center",
     justifyContent: "center",
-    height: height * 0.06,
+    height: height * 0.09,
     backgroundColor: "#faf0e6",
-    marginBottom: height * 0.02,
-    marginHorizontal: width * 0.05,
+    marginBottom: height * 0.05,
+    marginHorizontal: width * 0.075,
     borderRadius: 50,
-    width: width * 0.25,
+    width: width * 0.35,
   },
-
   signUpbutton: {
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#faf0e6",
-    marginBottom: height * 0.02,
-    //marginHorizontal: width*0.35,
+    marginBottom: height * 0.05,
     borderRadius: 50,
-    height: height * 0.06,
-    width: width * 0.25,
+    height: height * 0.09,
+    width: width * 0.35,
   },
-
   text: {
     fontSize: 20,
     lineHeight: 27,
@@ -97,14 +94,15 @@ const styles = StyleSheet.create({
     color: "gray",
   },
   page: {
-    backgroundColor: "#406c34",
+    backgroundColor: "#496944",
     width: width,
     height: height,
   },
   backImage1: {
     width: "100%",
-    height: "60%",
+    height: "75%",
     flex: 1,
+    opacity: 0.75,
     resizeMode: "stretch",
     position: "absolute",
     marginTop: height * 0.3,
@@ -119,6 +117,7 @@ const styles = StyleSheet.create({
   backImage2: {
     width: "40%",
     height: "50%",
+    opacity: 0.75,
     flex: 1,
     resizeMode: "stretch",
     position: "absolute",
