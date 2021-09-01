@@ -1,5 +1,4 @@
 import React from "react";
-import { View } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
@@ -8,12 +7,15 @@ import {
   Text,
   StyleSheet,
   Pressable,
+  View,
 } from "react-native";
 import TaskCategory from "./TaskCategory";
 import FirstPage from "./FirstPage";
 import { useNavigation } from "@react-navigation/native";
 import firebase from "firebase";
 import { ScrollView } from "react-native";
+import NewTask from "../components/NewTask";
+import { Image } from "react-native";
 
 function GroupTasksScreen(props) {
   const navigation = useNavigation();
@@ -112,7 +114,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#faf0e6",
   },
-
   button: {
     backgroundColor: "#709c6c",
     borderRadius: 10,
@@ -178,6 +179,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 30,
     paddingLeft: 10,
+  },
+  signButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 18,
+    elevation: 3,
+    backgroundColor: "#8A873B",
+    marginBottom: 15,
+    borderRadius: 10,
+    marginTop: 30,
   },
 });
 

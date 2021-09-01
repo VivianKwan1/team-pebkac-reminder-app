@@ -58,7 +58,10 @@ export default class SignIn extends Component {
             firebase
               .database()
               .ref("/users/" + result.user.uid)
-              .set({ gmail: result.user.email, name: result.user.displayName });
+              .update({
+                gmail: result.user.email,
+                name: result.user.displayName,
+              });
             this.props.navigation.navigate("HomeScreen");
           });
 

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Button, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
+import GroupTasksScreen from '../screens/GroupTasksScreen';
 import { SafeAreaView } from 'react-navigation';
 
 
