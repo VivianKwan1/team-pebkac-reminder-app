@@ -40,22 +40,22 @@ const NewTaskScreen = (props) => {
     {
       label: 'Work', value: 'work',
       icon: () => <Icon name='circle' size={20}
-        type='material-community' color='purple' />
+        type='material-community' color='#84ad75' />
     }, //set colors to the labels color
     {
       label: 'School', value: 'school',
       icon: () => <Icon name='circle' size={20}
-        type='material-community' color='blue' />
+        type='material-community' color='#FF0000' />
     },
     {
       label: 'Social', value: 'social',
       icon: () => <Icon name='circle' size={20}
-        type='material-community' color='green' />
+        type='material-community' color='#0F4C81' />
     },
     {
       label: 'Personal', value: 'personal',
       icon: () => <Icon name='circle' size={20}
-        type='material-community' color='red' />
+        type='material-community' color='#BFD0CA' />
     }
   ]);
   const [recording, setRecording] = useState();
