@@ -12,6 +12,7 @@ import FirstPage from "./screens/FirstPage";
 import SignUpScreen from "./screens/SignUpScreen";
 import HomeScreen from "./screens/HomeScreen";
 import TaskCategory from "./screens/TaskCategory";
+import TasksScreen from "./screens/TasksScreen";
 import GroupTasksScreen from "./screens/GroupTasksScreen";
 import HealthScreen from "./screens/HealthScreen";
 import SettingsScreen from "./screens/SettingsScreen";
@@ -111,6 +112,11 @@ export default function App() {
         <Stack.Screen
           name="TaskCategory"
           component={TaskCategory}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="TaskScreen"
+          component={TasksScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
