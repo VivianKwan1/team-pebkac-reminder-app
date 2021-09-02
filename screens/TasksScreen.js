@@ -5,8 +5,8 @@ import { Button, SafeAreaView, Text, Dimensions, StyleSheet, ScrollView, Touchab
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 var today = new Date();
-var todayString = today.getMonth()+1 +"/"+today.getDate()+"/"+ today.getFullYear() + " " + today.getTime();
-var todayHours = today.getHours();
+var todayString = today.getMonth()+1 +"/"+today.getDate()+"/"+ today.getFullYear();
+today = new Date(todayString);
 var yesterday = new Date(today);
 yesterday.setDate(yesterday.getDate()-1)
 var tomorrow = new Date(today);
@@ -36,7 +36,7 @@ var Tasks = [
     Task: 'Party Hard',
     Label: '#74ee15',
     Date: todayString,
-    Time: todayHours,
+    Time: '8:00 AM',
     },
     {
     Task: 'Throw trash out',
@@ -51,7 +51,7 @@ function pastTasks() {
     var today = new Date();
     var tempTasks = [];
     for(const x of Tasks){
-        if (new Date(x.Date+" "+ x.Time).getTime() < today.getTime()) {
+        if (new Date(x.Date+" "+ x.Time).getTime() <= yesterday.getTime()) {
             tempTasks.push(x);
         }
     }
@@ -64,9 +64,7 @@ function currTasks() {
     for(const x of Tasks){
         if (new Date(x.Date+" "+ x.Time).getTime() > yesterday.getTime())  {
             if (new Date(x.Date+" "+ x.Time).getTime() < tomorrow.getTime()) {
-                if (new Date(x.Date).getYear() == today.getYear()) {
-                    tempTasks.push(x);
-                }
+                tempTasks.push(x);
             }
         }
     }
@@ -110,7 +108,7 @@ function TasksScreen({ navigation }) {
     return (
         <ScrollView style={styles.container}>
             <Text style = {styles.todayText}>Today</Text>
-            {past.map((prop) => {
+            {current.map((prop) => {
                 return (
                     <TouchableOpacity style={styles.button}>
                         <Text style={styles.taskText}> {prop.Time}   {prop.Task}
@@ -140,6 +138,15 @@ function TasksScreen({ navigation }) {
                     );
                 }
                 
+            })}
+            <Text style = {styles.todayText}>Past Tasks</Text>
+            {past.map((prop) => {
+                return (
+                    <TouchableOpacity style={styles.button}>
+                        <Text style={styles.taskText}> {prop.Date}   {prop.Task}
+                        </Text>
+                    </TouchableOpacity>
+                );
             })}
         </ScrollView>
     );
