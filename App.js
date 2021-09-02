@@ -15,14 +15,15 @@ import TaskCategory from "./screens/TaskCategory";
 import GroupTasksScreen from "./screens/GroupTasksScreen";
 import HealthScreen from "./screens/HealthScreen";
 import SettingsScreen from "./screens/SettingsScreen";
-import MenuScreen from './screens/MenuScreen';
-import FriendsScreen from './screens/FriendsScreen';
-import BirthdayScreen from './screens/BirthdayScreen';
-import AboutScreen from './screens/AboutScreen';
-import WaterLine from './screens/WaterLine';
-import WorkLine from './screens/WorkLine';
-import ExerciseLine from './screens/ExerciseLine';
-import SleepLine from './screens/SleepLine';
+import MenuScreen from "./screens/MenuScreen";
+import FriendsScreen from "./screens/FriendsScreen";
+import BirthdayScreen from "./screens/BirthdayScreen";
+import AboutScreen from "./screens/AboutScreen";
+import WaterLine from "./screens/WaterLine";
+import WorkLine from "./screens/WorkLine";
+import ExerciseLine from "./screens/ExerciseLine";
+import SleepLine from "./screens/SleepLine";
+import NewTaskScreen from "./screens/NewTaskScreen";
 
 const Stack = createStackNavigator();
 
@@ -82,28 +83,96 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="FirstPage">
-        <Stack.Screen name="FirstPage" component={FirstPage} options={{ headerShown: false }}/>
-        <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="GroupTasksScreen" component={GroupTasksScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="TaskCategory" component={TaskCategory} options={{ headerShown: false }} />
+        <Stack.Screen
+          name="FirstPage"
+          component={FirstPage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SignInScreen"
+          component={SignInScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SignUpScreen"
+          component={SignUpScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="GroupTasksScreen"
+          component={GroupTasksScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="TaskCategory"
+          component={TaskCategory}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="NewTaskScreen"
+          component={NewTaskScreen}
+          options={{ headerShown: false }}
+        />
 
-        <Stack.Screen name="MenuScreen" component={MenuScreen} options={{ headerShown: true }} />
-        <Stack.Screen name="FriendsScreen" component={FriendsScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="BirthdayScreen" component={BirthdayScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="SettingsScreen" component={SettingsScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="AboutScreen" component={AboutScreen} options={{ headerShown: false }} />
+        <Stack.Screen
+          name="MenuScreen"
+          component={MenuScreen}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="FriendsScreen"
+          component={FriendsScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="BirthdayScreen"
+          component={BirthdayScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SettingsScreen"
+          component={SettingsScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AboutScreen"
+          component={AboutScreen}
+          options={{ headerShown: false }}
+        />
 
-        <Stack.Screen name="HealthScreen" component={HealthScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="WaterLine" component={WaterLine} options={{ headerShown: false }} />
-        <Stack.Screen name="ExerciseLine" component={ExerciseLine} options={{ headerShown: false }} />
-        <Stack.Screen name="SleepLine" component={SleepLine} options={{ headerShown: false }} />
-        <Stack.Screen name="WorkLine" component={WorkLine} options={{ headerShown: false }} />
+        <Stack.Screen
+          name="HealthScreen"
+          component={HealthScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="WaterLine"
+          component={WaterLine}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ExerciseLine"
+          component={ExerciseLine}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SleepLine"
+          component={SleepLine}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="WorkLine"
+          component={WorkLine}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
-
 }
 
 const styles = StyleSheet.create({

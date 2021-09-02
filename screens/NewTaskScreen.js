@@ -47,14 +47,22 @@ const NewTaskScreen = (props) => {
     const tempTask = {
       date: todayString,
       time: todayTime,
-      done: true,
-      label1: false,
+      done: false,
+      // labels: {
+
+      // },
+      personal: false,
+      work: false,
+      social: true,
     };
 
     firebase
       .database()
       .ref("users/" + userId + "/tasks/" + task)
-      .update(tempTask);
+      .update(tempTask)
+      .then(() => {
+        console.log("added task " + task);
+      });
   };
 
   const completeTask = (index) => {
@@ -128,14 +136,14 @@ const NewTaskScreen = (props) => {
       <SafeAreaView>
         <Task></Task>
         {/* <Text style = {styles.sectionTitle}> New Tasks</Text> */}
-        <NewTask></NewTask>
-        {taskItems.map((item, index) => {
+        {/* <NewTask></NewTask> */}
+        {/* {taskItems.map((item, index) => {
           return (
             <TouchableOpacity key={index} onPress={() => completeTask(index)}>
               <Task text={item} />
             </TouchableOpacity>
           );
-        })}
+        })} */}
       </SafeAreaView>
 
       <KeyboardAvoidingView
