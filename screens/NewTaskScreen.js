@@ -15,7 +15,9 @@ import {
   Platform,
   Image,
   Dimensions,
+  Pressable,
 } from "react-native";
+import { Icon } from 'react-native-elements';
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import { useNavigation } from "@react-navigation/native";
 import NewTask from "../components/NewTask";
@@ -23,6 +25,7 @@ import TaskCategory from "./TaskCategory";
 import Task from "../components/Task";
 import { Audio } from "expo-av";
 import firebase from "firebase";
+import DropDownPicker from "react-native-dropdown-picker";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import * as Location from "expo-location";
 
@@ -32,28 +35,52 @@ const NewTaskScreen = (props) => {
   const [taskLocation, setTaskLocation] = useState();
   const [taskNotes, setTaskNotes] = useState();
   const [taskItems, setTaskItems] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState();
+  const [items, setItems] = useState([
+    {
+      label: 'Work', value: 'work',
+      icon: () => <Icon name='circle' size={20}
+        type='material-community' color='purple' />
+    }, //set colors to the labels color
+    {
+      label: 'School', value: 'school',
+      icon: () => <Icon name='circle' size={20}
+        type='material-community' color='blue' />
+    },
+    {
+      label: 'Social', value: 'social',
+      icon: () => <Icon name='circle' size={20}
+        type='material-community' color='green' />
+    },
+    {
+      label: 'Personal', value: 'personal',
+      icon: () => <Icon name='circle' size={20}
+        type='material-community' color='red' />
+    }
+  ]);
 
   let storageRef = firebase.storage().ref();
 
   const [recording, setRecording] = useState();
   const [show, setShow] = useState();
-  
-    startRecording = async () => {
-      try {
-        await Audio.requestPermissionsAsync();
-        await Audio.setAudioModeAsync({
-          allowsRecordingIOS: true,
-          playsInSilentModeIOS: true,
-        }); 
-        const recording = new Audio.Recording();
-        await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
-        await recording.startAsync();
-        setRecording(recording);
-        setShow(true);
-      } catch (err) {
-        Alert.alert('Recording failed to start', err);
-      }
+
+  startRecording = async () => {
+    try {
+      await Audio.requestPermissionsAsync();
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+      const recording = new Audio.Recording();
+      await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
+      await recording.startAsync();
+      setRecording(recording);
+      setShow(true);
+    } catch (err) {
+      Alert.alert('Recording failed to start', err);
     }
+  }
 
   stopRecording = async () => {
     setRecording(undefined);
@@ -71,12 +98,12 @@ const NewTaskScreen = (props) => {
     try {
       const response = await fetch(uri);
       const blob = await response.blob();
-      await ref.put(blob, {contentType: "audio/mp3"});
+      await ref.put(blob, { contentType: "audio/mp3" });
       setShow(false);
     } catch (e) {
       console.log(e);
     }
-    
+
   }
 
   cancelRecording = async () => {
@@ -87,10 +114,46 @@ const NewTaskScreen = (props) => {
 
 
   const handleAddTask = () => {
-    Keyboard.dismiss();
-    setTaskItems([...taskItems, task]);
-    setTask(null);
-  };
+    let today = new Date();
+    let todayString =
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
+    let todayTime = today.getHours();
+
+    let tempPersonal = false;
+    let tempWork = false;
+    let tempSocial = false;
+    let tempSchool = false;
+    if (value == 'personal') {
+      tempPersonal = true;
+    } else if (value == 'work') {
+      tempWork = true;
+    } else if (value == 'social') {
+      tempSocial = true;
+    } else if (value == 'school') {
+      tempSchool = true;
+    }
+
+    const tempTask = {
+      date: todayString,
+      time: todayTime,
+      done: false,
+      labels: {
+        personal: tempPersonal,
+        work: tempWork,
+        social: tempSocial,
+        school: tempSchool
+      },
+    };
+
+    firebase
+      .database()
+      .ref("users/" + userId + "/tasks/" + task)
+      .update(tempTask)
+      .then(() => {
+        console.log("added task " + task);
+      });
+  }
+
 
   const completeTask = (index) => {
     let itemsCopy = [...taskItems];
@@ -103,76 +166,94 @@ const NewTaskScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <Image
+      {/* <Image
           source={require("../assets/newTask.png")}
           style={styles.backImage}
+        /> */}
+      {/* <Image
+        source={require("../assets/newtaskicon.png")}
+        style={styles.ImageIconStyle}
+      /> */}
+      <View style={[styles.iconAndText, styles.topRow]}>
+        <Icon name='format-list-checkbox' size={40}
+          type='material-community' color="#b59c83" />
+        <TextInput
+          style={styles.inputTask}
+          placeholder={"Task Name"}
+          value={task}
+          onChangeText={(text) => setTask(text)}
         />
-        <SafeAreaView></SafeAreaView>
+      </View>
+      {/*Location  */}
+      <View style={styles.iconAndText}>
+        <Icon name='map-marker' size={40}
+          type='material-community' color="#b59c83" />
+        <GooglePlacesAutocomplete
+          placeholder="Location"
+          minLength={2} // minimum length of text to search
+          autoFocus={false}
+          returnKeyType={"search"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+          listViewDisplayed="auto" // true/false/undefined
+          fetchDetails={true}
+          enablePoweredByContainer={false}
+          renderDescription={(row) => row.description} // custom description render
+          onPress={(data, details = null) => {
+            console.log(data);
+            console.log(details);
+          }}
+          getDefaultValue={() => {
+            return ""; // text input default value
+          }}
+          query={{
+            // available options: https://developers.google.com/places/web-service/autocomplete
+            key: "AIzaSyCeY0yEUBWLbsXilFD3N3nIeuZV-SuIom8",
+            language: "en", // language of the results
+          }}
+          styles={{
+            textInput: {
+              borderBottomColor: "#b59c83",
+              borderBottomWidth: 2,
+              backgroundColor: "#fffdf9",
+              marginLeft: "2%",
+              marginRight: "5%",
+              marginTop: "11%",
+              width: 260,
+              // top: -480,
+              fontSize: 20,
+              marginBottom: 20,
+            },
+          }}
+          // currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+          // currentLocationLabel="Current location"
+          nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+          // GoogleReverseGeocodingQuery={
+          //   {
+          //     // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+          //   }
+          // }
+          GooglePlacesSearchQuery={{
+            // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+            rankby: "distance",
+          }}
+          debounce={200}
+        />
+      </View>
+      {/*Notes  */}
+      {/* <Text style={styles.notes}> Notes </Text> */}
+      <View style={styles.iconAndText}>
+        <Icon name='file-text' size={35}
+          type='feather' color="#b59c83"
+          style={{ marginLeft: "1%" }} />
+        <TextInput
+          style={styles.inputNotes}
+          placeholder={"Notes"}
+          value={taskNotes}
+          onChangeText={(text) => setTaskNotes(text)}
+        />
+      </View>
 
-        {/*Location  */}
-        <SafeAreaView>
-          <GooglePlacesAutocomplete
-            placeholder="Location"
-            minLength={2} // minimum length of text to search
-            autoFocus={false}
-            returnKeyType={"search"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-            listViewDisplayed="auto" // true/false/undefined
-            fetchDetails={true}
-            enablePoweredByContainer={false}
-            renderDescription={(row) => row.description} // custom description render
-            onPress={(data, details = null) => {
-              console.log(data);
-              console.log(details);
-            }}
-            getDefaultValue={() => {
-              return ""; // text input default value
-            }}
-            query={{
-              // available options: https://developers.google.com/places/web-service/autocomplete
-              key: "AIzaSyCeY0yEUBWLbsXilFD3N3nIeuZV-SuIom8",
-              language: "en", // language of the results
-            }}
-            styles={{
-              textInput: {
-                borderBottomColor: "#fff",
-                borderBottomWidth: 2,
-                marginLeft: 80,
-                width: 260,
-                top: -480,
-                fontSize: 20,
-                marginBottom: 20,
-              },
-            }}
-            // currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
-            // currentLocationLabel="Current location"
-            nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-            // GoogleReverseGeocodingQuery={
-            //   {
-            //     // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-            //   }
-            // }
-            GooglePlacesSearchQuery={{
-              // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-              rankby: "distance",
-            }}
-            debounce={200}
-          />
-        </SafeAreaView>
-
-        {/*Notes  */}
-        <SafeAreaView>
-          <Text style={styles.notes}> Notes </Text>
-          <TextInput
-            style={styles.inputLocation}
-            placeholder={"Your notes please"}
-            value={taskNotes}
-            onChangeText={(text) => setTaskNotes(text)}
-          />
-        </SafeAreaView>
-
-        {/*Switch All Day  */}
-        <SafeAreaView>
+      {/*Switch All Day  */}
+      {/* <SafeAreaView>
           <Text style={styles.switchtext}>All Day</Text>
           <Switch
             style={styles.switch}
@@ -182,84 +263,90 @@ const NewTaskScreen = (props) => {
             onValueChange={toggleSwitch}
             value={isEnabled}
           />
-        </SafeAreaView>
+        </SafeAreaView> */}
+ <View style={styles.iconAndText}>
+        <Icon name='tag-outline' size={35}
+          type='material-community' color="#b59c83"
+          style={{ marginLeft: "1%", paddingTop: 20 }} />
+      <View style={styles.dropdownContainer}>
+        <DropDownPicker
+          open={open}
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          placeholder="Select label"
+          style={styles.dropdown}
+          placeholderStyle={{ color: "grey" }}
+          dropDownContainerStyle={{ borderColor: "#b59c83" }}
+        />
+      </View>
+      </View>
 
-        {/* Drop down not done yet need to implement drop down for now is just a box */}
-        <SafeAreaView>
-          <TextInput style={styles.dropDownStyle} placeholder={"Drop Down"} />
-        </SafeAreaView>
-
-        {/*Category */}
-        <SafeAreaView>
+      {/*Category */}
+      {/* <SafeAreaView>
           <TextInput style={styles.categoryStyle} placeholder={"Category"} />
-        </SafeAreaView>
+        </SafeAreaView> */}
 
-        {/*today tomorro/ Another Day */}
-        <SafeAreaView>
+      {/*today tomorro/ Another Day */}
+      {/* <SafeAreaView>
           <TextInput style={styles.dateToday}> Today </TextInput>
           <TextInput style={styles.dateTomorrow}>Tomorrow</TextInput>
           <TextInput style={styles.dateAnotherDay}>AnotherDay</TextInput>
-        </SafeAreaView>
+        </SafeAreaView> */}
 
-        <SafeAreaView>
-          {/* <Text style = {styles.sectionTitle}> New Tasks</Text> */}
-          <NewTask></NewTask>
-          {taskItems.map((item, index) => {
-            return (
-              <TouchableOpacity key={index} onPress={() => completeTask(index)}>
-                <Task text={item} />
-              </TouchableOpacity>
-            );
-          })}
-        </SafeAreaView>
-
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding " : "height"}
-        >
-          <Image
-            source={require("../assets/newtaskicon.png")}
-            style={styles.ImageIconStyle}
-          />
-          <TextInput
-            style={styles.inputTask}
-            placeholder={"Task Name "}
-            value={task}
-            onChangeText={(text) => setTask(text)}
-          />
-
-          <TouchableOpacity onPress={() => handleAddTask()}>
-            <View style={styles.addWrapper}>
-              <Text style={styles.addText}>Create</Text>
-            </View>
+      {/* <Text style = {styles.sectionTitle}> New Tasks</Text> */}
+      {/* <NewTask></NewTask> */}
+      {taskItems.map((item, index) => {
+        return (
+          <TouchableOpacity key={index} onPress={() => completeTask(index)}>
+            <Task text={item} />
           </TouchableOpacity>
+        );
+      })}
 
-          <View style={styles.cancleBox}>
-            <TouchableOpacity
-              style={styles.button}
-              activeOpacity={0.5}
-              onPress={() => navigation.navigate("GroupTasksScreen")}
-            >
-              <Text style={styles.addText}> Cancel {props.text}</Text>
-            </TouchableOpacity>
-          </View>
-        </KeyboardAvoidingView>
+      {/* <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding " : "height"}
+        > */}
 
-        <View style={{ flexDirection:"row" }}>
-      { !show ? <TouchableOpacity style={styles.button2} activeOpacity={0.5} onPress={() => startRecording()}>
-          <Text style={styles.texts}>Record</Text>
-      </TouchableOpacity> : null }
-      
-      { show ? <TouchableOpacity style={styles.button2} activeOpacity={0.5} onPress={() => stopRecording()}>
-          <Text style={styles.texts}>Stop</Text>
-      </TouchableOpacity> : null }
 
-      { show ? <TouchableOpacity style={styles.button2} activeOpacity={0.5} onPress={() => cancelRecording()}>
-          <Text style={styles.texts}>Cancel</Text>
-      </TouchableOpacity> : null }
-      
+
+      {/* </KeyboardAvoidingView> */}
+
+      <View style={styles.recordingContainer}>
+        <Icon name='volume-high' size={35}
+          type='material-community' color="#b59c83"
+          style={{ marginLeft: "1%", paddingTop: 15 }} />
+        {!show ? <TouchableOpacity style={[styles.recordingButtons, styles.buttons]} activeOpacity={0.5} onPress={() => startRecording()}>
+          <Text style={styles.recordingButtonsText}>Record</Text>
+        </TouchableOpacity> : null}
+
+        {show ? <TouchableOpacity style={[styles.recordingButtons, styles.buttons]} activeOpacity={0.5} onPress={() => stopRecording()}>
+          <Text style={styles.recordingButtonsText}>Stop</Text>
+        </TouchableOpacity> : null}
+
+        {show ? <TouchableOpacity style={[styles.recordingButtons, styles.buttons]} activeOpacity={0.5} onPress={() => cancelRecording()}>
+          <Text style={styles.recordingButtonsText}>Cancel</Text>
+        </TouchableOpacity> : null}
+
+      </View>
+      <View style={styles.buttonsContainer}>
+        <Pressable style={[styles.confirmButton, styles.buttons]} onPress={() => handleAddTask()}>
+          {/* <View style={styles.addWrapper}> */}
+          <Text style={styles.addText}>Create</Text>
+          {/* </View> */}
+        </Pressable>
+        <Pressable
+          style={[styles.cancelButton, styles.buttons]}
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate("GroupTasksScreen")}>
+
+          <Text style={styles.addText}> Cancel {props.text}</Text>
+        </Pressable>
       </View>
 
-      </ScrollView>
+
     </View>
   );
 };
@@ -270,11 +357,100 @@ const height = Dimensions.get("window").height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#a88ec0",
+    backgroundColor: "#faf0e6",
   },
-  addText:{
-    color: '#FFFFFF',
+  iconAndText: {
+    flexDirection: "row",
+    marginLeft: "2%",
+    // marginTop: "20%",
+    alignItems: "center"
   },
+  topRow: {
+    marginTop: "20%",
+  },
+  inputTask: {
+    fontSize: 25,
+    fontWeight: "bold",
+    // top: "8%",
+    // position: "absolute",
+    // marginTop: "20%",
+    borderBottomColor: "#b59c83",
+    borderBottomWidth: 2,
+    // backgroundColor: "#d6c4b3",
+    backgroundColor: "#fffdf9",
+    borderRadius: 3,
+    // borderColor: "#a88ec0",
+    // borderWidth: 1,
+    // width: 320,
+    marginLeft: "2%",
+    marginRight: "5%",
+    flex: 1,
+    padding: 8,
+  },
+  inputNotes: {
+    borderBottomColor: "#b59c83",
+    borderBottomWidth: 2,
+    marginLeft: "2%",
+    marginRight: "5%",
+    marginTop: "5%",
+    // width: 260,
+    // top: -480,
+    fontSize: 20,
+    marginBottom: 20,
+    paddingLeft: 5,
+    flex: 1,
+    borderRadius: 3,
+  },
+  dropdown: {
+    borderWidth: 1,
+    borderColor: "#b59c83",
+  },
+  dropdownContainer: {
+    // flex: 0.8,
+    marginLeft: "2%",
+    marginRight: "50%",
+    marginTop: "7%",
+  },
+  ImageIconStyle: {
+    // top: -833,
+    // position: "absolute",
+    marginLeft: 20,
+    color: "#b59c83",
+  },
+  recordingContainer: {
+    flexDirection: "row",
+    marginLeft: "2%",
+    marginTop: "7%",
+  },
+  recordingButtons: {
+    backgroundColor: '#b59c83',
+  },
+  buttons: {
+    margin: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 18,
+    paddingVertical: 8,
+    borderRadius: 5
+  },
+  recordingButtonsText: {
+    color: "#fffdf9",
+  },
+  buttonsContainer: {
+    marginTop: "2%",
+    flexDirection: "row",
+    justifyContent: "center"
+  },
+  confirmButton: {
+    backgroundColor: '#80b58c',
+  },
+  cancelButton: {
+    backgroundColor: '#fe9a9a',
+  },
+  addText: {
+    color: '#fffdf9',
+  },
+  // ends here
   accountInput: {
     margin: 12,
     borderWidth: 1,
@@ -284,21 +460,21 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     paddingLeft: 60,
-    paddingTop: 30,
+    // paddingTop: 30,
   },
   accountText: {
     margin: 5,
     fontWeight: "bold",
   },
   writeTaskWrapper: {
-    position: "absolute",
-    bottom: 10,
+    // position: "absolute",
+    // bottom: 10,
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
   },
-  cancleBox: {
+  cancelBox: {
     width: 110,
     height: 50,
     backgroundColor: "#ef224b",
@@ -307,13 +483,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#F35E5E",
     borderWidth: 1,
-    position: "absolute",
-    top: -200,
-    left: 280,
+    // position: "absolute",
+    // top: -200,
+    // left: 280,
   },
   input: {
-    position: "absolute",
-    top: 100,
+    // position: "absolute",
+    // top: 100,
     paddingVertical: 15,
     paddingHorizontal: 15,
     backgroundColor: "#FFF",
@@ -322,41 +498,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: 360,
     marginLeft: 20,
-  },
-  inputTask: {
-    fontSize: 28,
-    fontWeight: "bold",
-    top: -870,
-    position: "absolute",
-    paddingVertical: 10,
-    paddingHorizontal: 0,
-    borderBottomColor: "#fff",
-    borderBottomWidth: 2,
-    backgroundColor: "#a88ec0",
-    borderRadius: 2,
-    borderColor: "#a88ec0",
-    borderWidth: 1,
-    width: 320,
-    marginLeft: 80,
-  },
-  inputLocation: {
-    borderBottomColor: "#fff",
-    borderBottomWidth: 2,
-    marginLeft: 80,
-    width: 260,
-    top: -480,
-    fontSize: 20,
-    marginBottom: 20,
-  },
-
-  inputNotes: {
-    borderBottomColor: "#fff",
-    borderBottomWidth: 2,
-    marginLeft: 80,
-    width: 260,
-    top: 0,
-    fontSize: 20,
-    marginBottom: 20,
   },
   addWrapper: {
     width: 110,
@@ -367,13 +508,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#759873",
     borderWidth: 1,
-    position: "absolute",
-    top: -200,
+    // position: "absolute",
+    // top: -200,
     left: 20,
   },
   switch: {
-    top: -160,
-    position: "absolute",
+    // top: -160,
+    // position: "absolute",
     marginLeft: 160,
   },
 
@@ -381,15 +522,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     color: "#fff",
-    top: -160,
-    position: "absolute",
+    // top: -160,
+    // position: "absolute",
     marginLeft: 80,
   },
 
   notes: {
     marginLeft: 80,
     width: 260,
-    top: -475,
+    // top: -475,
     fontSize: 20,
     marginBottom: 20,
     color: "white",
@@ -405,8 +546,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#C0C0C0",
     borderWidth: 1,
-    position: "absolute",
-    top: -480,
+    // position: "absolute",
+    // top: -480,
     marginLeft: 80,
   },
   dateTomorrow: {
@@ -419,8 +560,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#C0C0C0",
     borderWidth: 1,
-    position: "absolute",
-    top: -480,
+    // position: "absolute",
+    // top: -480,
     marginLeft: 190,
   },
   dateAnotherDay: {
@@ -433,18 +574,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#C0C0C0",
     borderWidth: 1,
-    position: "absolute",
-    top: -430,
+    // position: "absolute",
+    // top: -430,
     marginLeft: 80,
   },
   ImageIconStyle: {
-    top: -833,
-    position: "absolute",
+    // top: -833,
+    // position: "absolute",
     marginLeft: 20,
   },
   backImage: {
     right: 450,
-    top: 120,
+    // top: 120,
   },
   categoryStyle: {
     width: 140,
@@ -456,8 +597,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#C0C0C0",
     borderWidth: 1,
-    position: "absolute",
-    top: -320,
+    // position: "absolute",
+    // top: -320,
     marginLeft: 80,
   },
   dropDownStyle: {
@@ -470,21 +611,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#C0C0C0",
     borderWidth: 1,
-    position: "absolute",
-    top: -375,
-    marginLeft: 80,
+    // position: "absolute",
+    // top: -375,
+    marginLeft: "10%",
   },
-  button2: {
-    marginTop: height*0.1,
-    marginBottom: height*0.01,
-    marginHorizontal: width*0.05,
-    height: 30,
-    borderRadius:10,
-    backgroundColor: '#ff0000',
-    borderColor: '#000000',
-    borderWidth: 2
 
-  },
+
 });
 
 export default NewTaskScreen;
