@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Dimensions } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {
   Button,
@@ -115,6 +115,7 @@ function GroupTasksScreen(props) {
   return (
     <ScrollView style = {styles.mainContainer}>
       <SafeAreaView style={styles.mainContainer}>
+      <Image source={require('../assets/image.png')} style = {styles.backImage}/>
         <View style={styles.textContainer}>
           <Text style={styles.mainText}>Hello {name}!</Text>
           <Text style={styles.otherText}>
@@ -156,6 +157,9 @@ function GroupTasksScreen(props) {
     </ScrollView>
   );
 }
+
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -237,6 +241,14 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     borderRadius: 10,
     marginTop: 30,
+  },
+  backImage: {
+    width: '100%', height: '125%', flex: 1, resizeMode: 'contain',
+    position:'absolute',
+    alignContent:'center',
+    marginTop: height*0.30,
+    marginHorizontal: 0,
+    opacity: .3
   },
 });
 

@@ -191,6 +191,7 @@ function CalendarScreen({ navigation }) {
 
     return (
         <SafeAreaView style = {styles.mainContainer}>
+            <Image source={require('../assets/thirdPage.png')} style = {styles.backImage}/>
                 <CalendarStrip
                 scrollable
                 daySelectionAnimation={{type: 'border', duration: 200, borderWidth: 1, borderHighlightColor: 'white'}}

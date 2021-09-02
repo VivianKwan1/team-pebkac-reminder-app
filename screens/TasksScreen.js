@@ -1,157 +1,188 @@
-import React, {useState} from 'react';
-import { Button, KeyboardAvoidingView, StyleSheet, Text, Image, View, TextInput, TouchableOpacity, Keyboard, ScrollView, Platform, SafeAreaView } from 'react-native';
-import Task from '../components/Task'
-import { useNavigation } from '@react-navigation/native';
-import firebase from "firebase"
-import { db } from './firebase';
-import { onChange } from 'react-native-reanimated';
-{/* lottie animation imports */}
-// import Lottie from 'lottie-react-native';
-// import peas from '../assets/20587-peas-playground-of-love.json';
+import React, {useState, Fragment} from 'react';
+import { Alert } from 'react-native';
+import { TextInput } from 'react-native';
+import { Button, SafeAreaView, Text, Dimensions, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
+var today = new Date();
+var todayString = today.getMonth()+1 +"/"+today.getDate()+"/"+ today.getFullYear();
+today = new Date(todayString);
+var yesterday = new Date(today);
+yesterday.setDate(yesterday.getDate()-1)
+var tomorrow = new Date(today);
+tomorrow.setDate(tomorrow.getDate()+1);
+const bgColor = '#406c34';
 
+var Tasks = [
+    {
+    Task: 'Walk the dog',
+    Label: '#0000FF',
+    Date: '08/27/2021',
+    Time: '8:00 AM',
+    },
+    {
+    Task: 'Midterm Paper',
+    Label: '#FF0000',
+    Date: '09/02/2021',
+    Time: '10:00 AM',
+    },
+    {
+    Task: 'Call Grandma',
+    Label: '#800080',
+    Date: '09/20/2021',
+    Time: '8:00 AM',
+    },
+    {
+    Task: 'Party Hard',
+    Label: '#74ee15',
+    Date: todayString,
+    Time: '8:00 AM',
+    },
+    {
+    Task: 'Throw trash out',
+    Label: '#74ee15',
+    Date: '09/02/2021',
+    Time: '8:00 AM',
+    },
 
-export default function TaskCategory({}) {
-    const navigation = useNavigation();
-    const [task, setTask] = useState("");
-    const [taskItems, setTaskItems] = useState([]);
-  
-    const handleAddTask = () => {
-      Keyboard.dismiss();
-      setTaskItems([...taskItems, task])
-      setTask(null);
+];
+
+function pastTasks() {
+    var today = new Date();
+    var tempTasks = [];
+    for(const x of Tasks){
+        if (new Date(x.Date+" "+ x.Time).getTime() <= yesterday.getTime()) {
+            tempTasks.push(x);
+        }
     }
-  
-    const completeTask = (index) => {
-      let itemsCopy = [...taskItems];
-      itemsCopy.splice(index, 1);
-      setTaskItems(itemsCopy)
-    }
-
-    const addTodo = () => {
-      console.log(
-        "hello is this working ///"
-      )
-
-      db.collection("todo").add({
-        inprogress: true,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        todo:task,
-      });
-      setTask("");
-    }
-
-
-  return (
-    <View style={styles.container}>
-     <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1
-        }}
-        keyboardShouldPersistTaps='handled'
-      >
-
-      {/* Today's Tasks */}
-      <View style={styles.tasksWrapper}>
-        <Text style={styles.sectionTitle}>Today's tasks</Text>
-        
-        <View style={styles.items}>
-          {/* This is where the tasks will go! */}
-          {
-            taskItems.map((item, index) => {
-              return (
-                <TouchableOpacity key={index}  onPress={() => completeTask(index)}>
-                  <Task text={item} /> 
-                </TouchableOpacity>
-              )
-            })
-          }
-        </View>
-      </View>
-
-      </ScrollView>
-      <KeyboardAvoidingView behavior = {Platform.OS === "ios"? "padding ": "height"}
-                            style ={styles.writeTaskWrapper} >
-       <TextInput style = {styles.input} placeholder = {'Write '} value = {task}  onChange = {(e) =>{setTask(e.target.value);console.log("this is working")}} onChangeText= {text => setTask(text )} />
-         
-      <TouchableOpacity type = "sumbit" variant= "contained" onPress={ ()=>addTodo()} > 
-        <View style = {styles.addWrapper}>
-          <Text style = {styles.addText}>+</Text>
-        </View> 
-      </TouchableOpacity>
-      </KeyboardAvoidingView>
-
-     {/* Reward animation peas */}
-      {/* <SafeAreaView style = {styles.gifstyle}>
-        <Lottie resizeMode = "contain" autoSize source = {peas} autoPlay loop/>
-      </SafeAreaView>
-     */}
-
-    </View>
-    
-  );
+    return tempTasks
 }
+
+function currTasks() {
+    var today = new Date();
+    var tempTasks = [];
+    for(const x of Tasks){
+        if (new Date(x.Date+" "+ x.Time).getTime() > yesterday.getTime())  {
+            if (new Date(x.Date+" "+ x.Time).getTime() < tomorrow.getTime()) {
+                tempTasks.push(x);
+            }
+        }
+    }
+    return tempTasks
+}
+
+function futureTasks() {
+    var today = new Date();
+    var tempTasks = [];
+    for(const x of Tasks){
+        if (new Date(x.Date+" "+ x.Time).getTime() > today.getTime()) {
+            tempTasks.push(x);
+        }
+    }
+    return tempTasks
+}
+
+var tempPast = pastTasks()
+
+var past = tempPast.sort((a,b) => {
+    return new Date(a.Date+" "+ a.Time).getTime() - 
+    new Date(b.Date+" "+b.Time).getTime()
+})
+
+var tempCurrent = currTasks()
+
+var current = tempCurrent.sort((a,b) => {
+    return new Date(a.Date+" "+ a.Time).getTime() - 
+    new Date(b.Date+" "+b.Time).getTime()
+})
+
+var tempFuture = futureTasks()
+
+var future = tempFuture.sort((a,b) => {
+    return new Date(a.Date+" "+ a.Time).getTime() - 
+    new Date(b.Date+" "+b.Time).getTime()
+})
+
+function TasksScreen({ navigation }) {
+    var dateReturned = [];
+    return (
+        <ScrollView style={styles.container}>
+            <Text style = {styles.todayText}>Today</Text>
+            {current.map((prop) => {
+                return (
+                    <TouchableOpacity style={styles.button}>
+                        <Text style={styles.taskText}> {prop.Time}   {prop.Task}
+                        </Text>
+                    </TouchableOpacity>
+                );
+            })}
+            {future.map((prop) => {
+                if (dateReturned.indexOf(prop.Date) > -1) {
+                    return (
+                        <TouchableOpacity style={styles.button}>
+                            <Text style={styles.taskText}> {prop.Time}  {prop.Task}
+                            </Text>
+                        </TouchableOpacity>   
+                    );
+                }
+                else {
+                    dateReturned.push(prop.Date)
+                    return (
+                        <Fragment>
+                            <Text style = {styles.dateText}>{prop.Date}</Text>
+                            <TouchableOpacity style={styles.button}>
+                            <Text style={styles.taskText}> {prop.Time}  {prop.Task}
+                            </Text>
+                            </TouchableOpacity>
+                        </Fragment>       
+                    );
+                }
+                
+            })}
+            <Text style = {styles.todayText}>Past Tasks</Text>
+            {past.map((prop) => {
+                return (
+                    <TouchableOpacity style={styles.button}>
+                        <Text style={styles.taskText}> {prop.Date}   {prop.Task}
+                        </Text>
+                    </TouchableOpacity>
+                );
+            })}
+        </ScrollView>
+    );
+}
+
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#406c34',
+    backgroundColor: bgColor,
   },
-  tasksWrapper: {
-    paddingTop: 80,
-    paddingHorizontal: 20,
-  },
-  ImageIconStyle: {
-    paddingLeft: 12,
-    marginLeft: 10,
-    height: 15,
-    width: 10,
-    resizeMode: 'stretch',
-  },
-  sectionTitle: {
-    marginTop:-22,
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginLeft: 40,
-  },
-  gifstyle:{
-    flex: 1, 
-    justifyContent: 'center', 
+  button: {
+    opacity: 0.1,
     alignItems: 'center',
-    top: -200,
-    left: 100,
-    
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    borderRadius: 50,
   },
-
-  items: {
-    marginTop: 30,
+  taskText: {
+    color: "#000000",
+    fontSize: 15
   },
-  writeTaskWrapper: {
-    position: 'absolute',
-    bottom: 60,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center'
+  todayText: {
+    color: "#FFFFFF",
+    fontSize: 20,
+    marginTop: height*0.05,
+    marginLeft: width*0.05
   },
-  input: {
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    backgroundColor: '#FFF',
-    borderRadius: 60,
-    borderColor: '#C0C0C0',
-    borderWidth: 1,
-    width: 250,
-  },
-  addWrapper: {
-    width: 60,
-    height: 60,
-    backgroundColor: '#FFF',
-    borderRadius: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: '#C0C0C0',
-    borderWidth: 1,
-  },
-  addText: {},
+  dateText: {
+    color: "#FFFFFF",
+    fontSize: 20,
+    marginTop: height*0.03,
+    marginLeft: width*0.05
+  }
 });
+
+export default TasksScreen;
