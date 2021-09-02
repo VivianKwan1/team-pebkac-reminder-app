@@ -5,6 +5,9 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import CalendarStrip from 'react-native-calendar-strip';
 import { render } from 'react-dom';
 import CalendarTask from '../components/CalendarTask'
+import firebase from "firebase";
+
+
 
 
 function CalendarScreen({ navigation }) {
@@ -12,6 +15,18 @@ function CalendarScreen({ navigation }) {
     const [selectedDate,setSelectedDate] = useState(["No date selected"]);
     const [taskList,setTaskList] = useState([]);
     const [start,setStart] = useState();
+
+    const userId = firebase.auth().currentUser.uid;
+    var taskNum = []
+    
+    const getTaskNum = firebase
+    .database()
+    .ref("users/" + userId + "/tasks")
+    .on("value", (tasks) => {
+      taskNum = tasks;
+      console.log(tasks);
+    });
+
 
     const pressed = () => {
         
