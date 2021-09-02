@@ -47,14 +47,6 @@ var Tasks = [
 
 ];
 
-function sortTasks(tasks) {
-    var temp = tasks.sort((a,b) => {
-        return new Date(a.Date+" "+ a.Time).getTime() - 
-            new Date(b.Date+" "+b.Time).getTime()
-    })
-    return temp;
-}
-
 function pastTasks() {
     var today = new Date();
     var tempTasks = [];
