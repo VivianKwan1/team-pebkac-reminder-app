@@ -14,10 +14,10 @@ const MyComponent = ({navigation}) => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'home', title: 'Home', icon: 'home' , color: '#406c34'},
-    { key: 'calendar', title: 'Calendar', icon: 'calendar-month' , color: '#1c2e4a'},
-    { key: 'newtask', title: 'New Task', icon: 'pencil-plus' , color: '#190f3e'},
+    { key: 'calendar', title: 'Calendar', icon: 'calendar-month' , color: '#406c34'},
+    { key: 'newtask', title: 'New Task', icon: 'pencil-plus' , color: '#406c34'},
     { key: 'tasks', title: 'Tasks', icon: 'checkbox-marked-outline' , color: '#406c34'},
-    { key: 'health', title: 'Health', icon: 'heart' , color: '#710c04'},
+    { key: 'health', title: 'Health', icon: 'heart' , color: '#406c34'},
     { key: 'settings', title: 'Menu', icon: 'menu' , color: '#406c34'},
   ]);
 3
