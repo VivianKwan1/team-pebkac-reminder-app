@@ -26,7 +26,7 @@ export default class SignUp extends Component {
   }
 
   registerUser = async() => {
-    if((this.state.email === '') || (this.state.password === '')) {
+    if((this.state.email === '') || (this.state.password === '') || (this.state.firstName === '') || (this.state.lastName === '')) {
       Alert.alert('Enter details to signup!')
       return;
     } else if (this.state.password !== this.state.confirmPassword) {
