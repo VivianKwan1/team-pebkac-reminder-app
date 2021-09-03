@@ -1,12 +1,58 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { TextInput } from 'react-native';
-import { Dimensions, Image, ScrollView, TouchableOpacity, View, Button, SafeAreaView, Text, StyleSheet, Pressable } from 'react-native';
+import { Modal, Dimensions, Image, ScrollView, TouchableOpacity, View, Button, SafeAreaView, Text, StyleSheet, Pressable } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { useNavigation } from '@react-navigation/native';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
+import firebase from 'firebase'
+require('firebase/auth')
+import { getAuth, signOut } from "firebase/auth";
 
 function SettingsScreen() {
-    const navigation = useNavigation(); 
+  // const auth = getAuth();
+  
+  // const user = auth.currentUser;
+    const navigation = useNavigation();
+    const [isModalVisible, setModalVisible] = useState(false);
+  
+    const [inputValue, setInputValue] = useState("");
+    const [displayInput, setDisplayInput] = useState(false);
+    const [text, setText] = useState("");
+    const [screen, setScreen] = useState("");
+  
+    const toggleModalVisibility = () => {
+      setModalVisible(!isModalVisible);
+    };
+
+    const confirm = (prompt, nav, display) => {
+      setText(prompt);
+      setScreen(nav);
+      setDisplayInput(display);
+      setModalVisible(!isModalVisible);
+    }
+  
+    const logOut = () => {
+      confirm('log out?', 'FirstPage', false);
+      firebase.auth().signOut().then(() => {
+           console.log('sign out success')
+           // Sign-out successful.
+         }).catch((error) => {
+           console.log('L')
+           // An error happened.
+         });
+    }
+  
+    const deleteAccount = () => {
+      confirm('delete your account? All data will be permanently deleted.', 'FirstPage', true)
+      deleteUser(user).then(() => {
+        // User deleted.
+      }).catch((error) => {
+        // An error ocurred
+        // ...
+      });
+    }
+
+
     return (
     <SafeAreaView style={styles.background}>
         <ScrollView>
@@ -82,7 +128,7 @@ function SettingsScreen() {
         </View>
         </TouchableOpacity>  
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => confirm('delete all tasks? This action cannot be undone.', 'GroupTasksScreen', true)}>
         <View style={styles.view}>
         <Icon
               name='delete'
@@ -94,7 +140,20 @@ function SettingsScreen() {
         </View>
         </TouchableOpacity>  
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => deleteAccount()}>
+        {/* <TouchableOpacity style={styles.button} onPress={() => confirm('delete your account? All data will be permanently deleted.', 'FirstPage', true)}> */}
+          <View style={styles.view}>
+            <Icon
+              name='account-cancel-outline'
+              type='material-community'
+              color='white'
+              size={30}
+              style={styles.icon} />
+            <Text style={styles.text}>Delete Account</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={() => logOut()}>
         <View style={styles.view}>
         <Icon
               name='logout'
@@ -106,8 +165,42 @@ function SettingsScreen() {
         </View>
         </TouchableOpacity>  
         </ScrollView>
+
+        <Modal animationType="slide"
+        transparent visible={isModalVisible}
+        presentationStyle="overFullScreen"
+        onDismiss={() => toggleModalVisibility}>
+        <View style={styles.viewWrapper}>
+          <View style={styles.modalView}>
+          {/* <View style={[styles.modalView, displayInput ? styles.modalWithInput : styles.modalNoInput]}> */}
+            <Text style={styles.modalText}>
+              Are you sure you want to {text}
+            </Text>
+            <Conditional displayInput={displayInput} inputValue={inputValue} />
+            <View style={styles.buttonContainer}>
+              <Pressable onPress={() => setModalVisible(!isModalVisible)} style={[styles.buttons, styles.cancelButton]}>
+                <Text>Cancel</Text>
+              </Pressable>
+              <Pressable onPress={() => navigation.navigate(screen)} style={[styles.buttons, styles.confirmButton]}>
+                <Text>Confirm</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
       </SafeAreaView>
     );
+}
+
+function Conditional(props) {
+  if (props.displayInput == true) {
+    return (
+      <TextInput placeholder="Enter your password to confirm."
+        value={props.inputValue} style={styles.textInput}
+        onChangeText={(value) => setInputValue(value)} />
+    )
+  }
+  return null;
 }
 
 const width = Dimensions.get('window').width
@@ -178,7 +271,70 @@ const styles = StyleSheet.create({
     accountText: {
         margin: 5,
         fontWeight: 'bold',
-    }
+    },
+    
+  buttonContainer: {
+    flexDirection: 'row'
+  },
+  buttons: {
+    margin: 10,
+    backgroundColor: '#709C6C',
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    borderRadius: 5
+  },
+  confirmButton: {
+    backgroundColor: '#80bc8c',
+  },
+  cancelButton: {
+    backgroundColor: '#feaeae',
+  },
+  modalText: {
+    marginBottom: 10,
+    padding: 10,
+    // paddingTop: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingLeft: 20,
+  },
+  screen: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+  },
+  viewWrapper: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+  },
+  modalView: {
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    elevation: 5,
+    transform: [{ translateX: -(width * 0.4) },
+    { translateY: -90 }],
+    // height: 210,
+    width: width * 0.8,
+    backgroundColor: "#fff",
+    borderRadius: 7,
+    paddingVertical: 20,
+  },
+  textInput: {
+    width: "80%",
+    borderRadius: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderColor: "rgba(0, 0, 0, 0.2)",
+    borderWidth: 1,
+    marginBottom: 8,
+  },
 
 })
 
