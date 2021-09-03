@@ -1,160 +1,243 @@
-import React, {useState} from 'react';
-import { Button, KeyboardAvoidingView, StyleSheet, Text, Image, View, TextInput, TouchableOpacity, Keyboard, ScrollView, Platform, SafeAreaView } from 'react-native';
-import Task from '../components/Task'
-import { useNavigation } from '@react-navigation/native';
-import firebase from "firebase"
-import { db } from './firebase';
-import { onChange } from 'react-native-reanimated';
-{/* lottie animation imports */}
-// import Lottie from 'lottie-react-native';
-// import peas from '../assets/20587-peas-playground-of-love.json';
+import React, {useState, Fragment} from 'react';
+import { Alert } from 'react-native';
+import { TextInput } from 'react-native';
+import { Button, SafeAreaView, Text, Dimensions, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { createStackNavigator, createAppContainer } from "react-navigation";
+import { useNavigation } from "@react-navigation/native";
+import firebase from "firebase";
 
+var today = new Date();
+var todayString = today.getMonth()+1 +"/"+today.getDate()+"/"+ today.getFullYear();
+today = new Date(todayString)
+var yesterday = new Date(today);
+yesterday.setDate(yesterday.getDate()-1)
+var tomorrow = new Date(today);
+tomorrow.setDate(tomorrow.getDate()+1);
+const bgColor = '#406c34';
+var myTasks = [];
+var tmpTask = {};
+var colorHex = '';
 
-
-export default function TaskCategory({}) {
-    const navigation = useNavigation();
-    const [task, setTask] = useState("");
-    const [taskItems, setTaskItems] = useState([]);
+function TaskCategory({ navigation }) {
+  const userId = firebase.auth().currentUser.uid;
+  firebase
+      .database()
+      .ref("users/" + userId + "/tasks")
+      .on("value", (tasks) => {
+        tasks.forEach((childTask) =>{
   
-    const handleAddTask = () => {
-      Keyboard.dismiss();
-      setTaskItems([...taskItems, task])
-      setTask(null);
-    }
-  
-    const completeTask = (index) => {
-      let itemsCopy = [...taskItems];
-      itemsCopy.splice(index, 1);
-      setTaskItems(itemsCopy)
-    }
-
-    const addTodo = () => {
-      console.log(
-        "hello is this working ///"
-      )
-
-      db.collection("todo").add({
-        inprogress: true,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        todo:task,
-      });
-      setTask("");
-    }
-
-
-  return (
-    <View style={styles.container}>
-     <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1
-        }}
-        keyboardShouldPersistTaps='handled'
-      >
-
-      {/* Today's Tasks */}
-      <View style={styles.tasksWrapper}>
-      <TouchableOpacity activeOpacity = {0.5} onPress = {() => navigation.goBack('GroupTasksScreen')}>
-        <Image source = {require ('../assets/arrow.png')} style = {styles.ImageIconStyle}  />
-        <Text style={styles.sectionTitle}>Today's tasks</Text>
-      </TouchableOpacity>
-        
-        <View style={styles.items}>
-          {/* This is where the tasks will go! */}
-          {
-            taskItems.map((item, index) => {
-              return (
-                <TouchableOpacity key={index}  onPress={() => completeTask(index)}>
-                  <Task text={item} /> 
-                </TouchableOpacity>
-              )
-            })
+          //finding out which label it has
+          //personal
+          if (childTask.child('labels').child('personal').toJSON().toString() ==='true') {
+              colorHex = '#BFD0CA';
+          } //work
+          else if (childTask.child('labels').child('work').toJSON().toString() === 'true') {
+              colorHex = '#84ad75';
+          } //school
+          else if (childTask.child('labels').child('school').toJSON().toString() ==='true') {
+              colorHex = '#FF0000';
+          } //social
+          else if (childTask.child('labels').child('social').toJSON().toString() ==='true') {
+              colorHex = '#0F4C81';
           }
-        </View>
-      </View>
+  
+          //
+          tmpTask = {
+              Task: childTask.child('taskName').val(),
+              Label: colorHex,
+              Date: childTask.child('date').val(),
+              Time: childTask.child('time').val()
+          }
+  
+          myTasks.push(tmpTask)
+  
+        });
+        
+      });
+  
+      var markedDatesArray = [];
 
-      </ScrollView>
-      <KeyboardAvoidingView behavior = {Platform.OS === "ios"? "padding ": "height"}
-                            style ={styles.writeTaskWrapper} >
-       <TextInput style = {styles.input} placeholder = {'Write '} value = {task}  onChange = {(e) =>{setTask(e.target.value);console.log("this is working")}} onChangeText= {text => setTask(text )} />
-         
-      <TouchableOpacity type = "sumbit" variant= "contained" onPress={ ()=>addTodo()} > 
-        <View style = {styles.addWrapper}>
-          <Text style = {styles.addText}>+</Text>
-        </View> 
-      </TouchableOpacity>
-      </KeyboardAvoidingView>
-
-     {/* Reward animation peas */}
-      {/* <SafeAreaView style = {styles.gifstyle}>
-        <Lottie resizeMode = "contain" autoSize source = {peas} autoPlay loop/>
-      </SafeAreaView>
-     */}
-
-    </View>
-    
-  );
+      function setMarkedDatesArray(){
+          if(myTasks === []){
+              return [];
+          }
+          else{
+              for(x in myTasks){
+  
+                  var temp = {
+                                  date: myTasks[x].Date,
+                                  dots: [
+                                        {
+                                        color: myTasks[x].Label
+                                        }
+                                        ]
+                              };
+  
+                  markedDatesArray.push(temp);
+              }
+          }
+      }
+  
+      function combineLabels(){
+          var date = [];
+          var tags = [];
+          //for each task, find out if there is another task with the same day. Tag/Day is pushed to tags if there are.
+          for(x in myTasks){
+              if(date.includes(myTasks[x].Date)){
+                  tags.push([myTasks[x].Label,myTasks[x].Date]);
+              }else{
+                  date.push(myTasks[x].Date);
+              }
+          }
+          //for each task with the same day, adjust the tag in the colors array.
+          for( i in tags){
+              for(j in markedDatesArray){
+                  if(markedDatesArray[j].date == tags[i][1]){
+  
+                      if(markedDatesArray[j].dots[0].color == tags[i][0]){
+                          continue;
+                      }else{
+                          markedDatesArray[j].dots.push({color: tags[i][0]});
+                      }
+                  }
+              }
+          }
+      }
+  
+      setMarkedDatesArray();
+      combineLabels();
+  
+  function pastTasks() {
+      var tempTasks = [];
+      for(const x of myTasks){
+          if (new Date(x.Date).getTime() < today.getTime()) {
+              tempTasks.push(x);
+          }
+      }
+      return tempTasks
+  }
+  
+  function currTasks() {
+      var tempTasks = [];
+      for(const x of myTasks){
+          if (new Date(x.Date).getTime() >= today.getTime())  {
+            if (new Date(x.Date).getTime() < tomorrow.getTime()) {
+              tempTasks.push(x);
+            }
+          }
+      }
+      return tempTasks
+  }
+  
+  function futureTasks() {
+      var tempTasks = [];
+      for(const x of myTasks){
+          if (new Date(x.Date).getTime() >= tomorrow.getTime()) {
+              tempTasks.push(x);
+          }
+      }
+      return tempTasks
+  }
+  
+  var tempPast = pastTasks()
+  
+  var past = tempPast.sort((a,b) => {
+      return new Date(a.Date+" "+ a.Time).getTime() - 
+      new Date(b.Date+" "+b.Time).getTime()
+  })
+  
+  var tempCurrent = currTasks()
+  
+  var current = tempCurrent.sort((a,b) => {
+      return new Date(a.Date+" "+ a.Time).getTime() - 
+      new Date(b.Date+" "+b.Time).getTime()
+  })
+  
+  var tempFuture = futureTasks()
+  
+  var future = tempFuture.sort((a,b) => {
+      return new Date(a.Date+" "+ a.Time).getTime() - 
+      new Date(b.Date+" "+b.Time).getTime()
+  })
+    var dateReturned = [];
+  return (
+        <ScrollView style={styles.container}>
+            <Text style = {styles.todayText}>Today</Text>
+            {current.map((prop) => {
+                return (
+                    <TouchableOpacity style={styles.button}>
+                        <Text style={styles.taskText}> {prop.Time}   {prop.Task}
+                        </Text>
+                    </TouchableOpacity>
+                );
+            })}
+            {future.map((prop) => {
+                if (dateReturned.indexOf(prop.Date) > -1) {
+                    return (
+                        <TouchableOpacity style={styles.button}>
+                            <Text style={styles.taskText}> {prop.Time}  {prop.Task}
+                            </Text>
+                        </TouchableOpacity>   
+                    );
+                }
+                else {
+                    dateReturned.push(prop.Date)
+                    return (
+                        <Fragment>
+                            <Text style = {styles.dateText}>{prop.Date}</Text>
+                            <TouchableOpacity style={styles.button}>
+                            <Text style={styles.taskText}> {prop.Time}  {prop.Task}
+                            </Text>
+                            </TouchableOpacity>
+                        </Fragment>       
+                    );
+                }
+                
+            })}
+            <Text style = {styles.todayText}>Past Tasks</Text>
+            {past.map((prop) => {
+                return (
+                    <TouchableOpacity style={styles.button}>
+                        <Text style={styles.taskText}> {prop.Date}   {prop.Task}
+                        </Text>
+                    </TouchableOpacity>
+                );
+            })}
+        </ScrollView>
+    );
 }
+
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#406c34',
+    backgroundColor: bgColor,
   },
-  tasksWrapper: {
-    paddingTop: 80,
-    paddingHorizontal: 20,
-  },
-  ImageIconStyle: {
-    paddingLeft: 12,
-    marginLeft: 10,
-    height: 15,
-    width: 10,
-    resizeMode: 'stretch',
-  },
-  sectionTitle: {
-    marginTop:-22,
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginLeft: 40,
-  },
-  gifstyle:{
-    flex: 1, 
-    justifyContent: 'center', 
+  button: {
+    activeOpacity: 0.1,
     alignItems: 'center',
-    top: -200,
-    left: 100,
-    
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    borderRadius: 50,
   },
-
-  items: {
-    marginTop: 30,
+  taskText: {
+    color: "#000000",
+    fontSize: 15
   },
-  writeTaskWrapper: {
-    position: 'absolute',
-    bottom: 60,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center'
+  todayText: {
+    color: "#FFFFFF",
+    fontSize: 20,
+    marginTop: height*0.05,
+    marginLeft: width*0.05
   },
-  input: {
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    backgroundColor: '#FFF',
-    borderRadius: 60,
-    borderColor: '#C0C0C0',
-    borderWidth: 1,
-    width: 250,
-  },
-  addWrapper: {
-    width: 60,
-    height: 60,
-    backgroundColor: '#FFF',
-    borderRadius: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: '#C0C0C0',
-    borderWidth: 1,
-  },
-  addText: {},
+  dateText: {
+    color: "#FFFFFF",
+    fontSize: 20,
+    marginTop: height*0.03,
+    marginLeft: width*0.05
+  }
 });
+
+export default TaskCategory;
