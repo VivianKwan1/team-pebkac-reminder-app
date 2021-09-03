@@ -24,6 +24,7 @@ import Task from '../components/Task';
 import firebase from 'firebase';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 const NewTaskScreen = (props) => {
   var date = new Date();
@@ -256,6 +257,51 @@ const NewTaskScreen = (props) => {
           placeholder={'Notes'}
           value={taskNotes}
           onChangeText={(text) => setTaskNotes(text)}
+        />
+      </View>
+
+      {/*Location  */}
+
+      <View style={styles.iconAndText}>
+        <Icon
+          name="map"
+          size={35}
+          type="feather"
+          color="#b59c83"
+          style={{ marginLeft: '1%', marginRight: '2%' }}
+        />
+        <GooglePlacesAutocomplete
+          placeholder="Location"
+          minLength={2} // minimum length of text to search
+          autoFocus={false}
+          returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+          listViewDisplayed="auto" // true/false/undefined
+          fetchDetails={true}
+          enablePoweredByContainer={false}
+          renderDescription={(row) => row.description} // custom description render
+          onPress={(data, details = null) => {
+            console.log(data);
+            console.log(details);
+          }}
+          getDefaultValue={() => {
+            return ''; // text input default value
+          }}
+          query={{
+            // available options: https://developers.google.com/places/web-service/autocomplete
+            key: 'AIzaSyCeY0yEUBWLbsXilFD3N3nIeuZV-SuIom8',
+            language: 'en', // language of the results
+          }}
+          styles={{
+            container: {
+              paddingRight: 20,
+            },
+          }}
+          nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+          GooglePlacesSearchQuery={{
+            // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+            rankby: 'distance',
+          }}
+          debounce={200}
         />
       </View>
 
