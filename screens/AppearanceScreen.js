@@ -169,14 +169,12 @@ const styles = StyleSheet.create({
     },
 
     backImage: {
-        width: '100%', 
-        height: '100%',
-        flex:1, 
-        opacity:0.2,
-        position:'absolute',
-        marginTop: height*0.05,
-        marginHorizontal: 0
-      },
+      width: width, 
+      height: height,
+      flex:1, 
+      opacity:0.2,
+      position:'absolute',
+    },
 
 })
 export default AppearanceScreen;

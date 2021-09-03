@@ -246,9 +246,8 @@ const styles = StyleSheet.create({
         width: '100%', height: '100%', flex: 1, resizeMode: 'stretch',
         position:'absolute',
         alignContent:'center',
-        marginTop: height*0.10,
-        marginHorizontal: 0,
-        opacity: .3
+        marginTop: height*0.04,
+        opacity: .5
       },
       items: {
         marginTop: 30,

@@ -180,14 +180,9 @@ const NewTaskScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      {/* <Image
-          source={require("../assets/newTask.png")}
-          style={styles.backImage}
-        /> */}
-      {/* <Image
-        source={require("../assets/newtaskicon.png")}
-        style={styles.ImageIconStyle}
-      /> */}
+      <Image
+          source={require("../assets/mergethisnewTask.png")}
+          style={styles.backImage}/>
       <View style={[styles.iconAndText, styles.topRow]}>
         <Icon name='format-list-checkbox' size={40}
           type='material-community' color="#b59c83" />
@@ -329,7 +324,6 @@ const styles = StyleSheet.create({
   iconAndText: {
     flexDirection: "row",
     marginLeft: "2%",
-    // marginTop: "20%",
     alignItems: "center"
   },
   topRow: {
@@ -551,8 +545,13 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   backImage: {
-    flex: 1,
-    position: "absolute",
+    width: "75%", 
+    height: "80%",
+    flex:1, 
+    opacity:0.6,
+    position:'absolute',
+    marginLeft: width*0.5,
+    marginTop: width*0.35
   },
   categoryStyle: {
     width: 140,

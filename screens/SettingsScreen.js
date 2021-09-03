@@ -9,6 +9,7 @@ function SettingsScreen() {
   const navigation = useNavigation(); 
   return (
   <SafeAreaView style={styles.background}>
+      <Image source={require('../assets/leaves.png')} style = {styles.backImage}/>
       <ScrollView>
       <View style={styles.view}>
         <Pressable onPress={() => navigation.goBack('MenuScreen')}>
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
       marginBottom: 10,
       marginHorizontal: width*0.05,
       paddingVertical: 2,
-      borderColor:"white",
+      borderColor:"#faf0e6",
       alignItems:"stretch"
     },
   
@@ -132,17 +133,17 @@ const styles = StyleSheet.create({
     },
 
     title:{
-      fontSize: 25,
-      fontWeight: '600',
-      color: 'white',
-      paddingHorizontal: 20,
-      paddingBottom: 35,
-      paddingTop: 30,
-    },
+      fontSize: 40,
+      fontWeight: '400',
+      color: "#faf0e6",
+      paddingHorizontal: width*0.01,
+      paddingBottom: height*0.04,
+      paddingTop: height*0.05,
+  },
 
     text: {
       fontSize: 17,
-      color: 'white',
+      color: '#faf0e6',
       fontWeight: '500',
       paddingHorizontal: 40,
       paddingBottom: 20,
@@ -164,7 +165,15 @@ const styles = StyleSheet.create({
     accountText: {
         margin: 5,
         fontWeight: 'bold',
-    }
+    },
+
+    backImage: {
+      width: width, 
+      height: height,
+      flex:1, 
+      opacity:0.2,
+      position:'absolute',
+    },
 
 })
 

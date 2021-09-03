@@ -243,12 +243,11 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   backImage: {
-    width: '100%', height: '125%', flex: 1, resizeMode: 'contain',
+    width: '150%', height: '115%', flex: 1, resizeMode: 'contain',
     position:'absolute',
     alignContent:'center',
-    marginTop: height*0.30,
-    marginHorizontal: 0,
-    opacity: .3
+    marginTop: height*0.2,
+    opacity: .4
   },
 });
 

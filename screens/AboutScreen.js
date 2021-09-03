@@ -9,8 +9,8 @@ function AboutScreen() {
     const navigation = useNavigation(); 
     return (
         <SafeAreaView style={styles.background}>
-        <ScrollView>
         <Image source={require('../assets/leaves.png')} style = {styles.backImage}/>
+        <ScrollView>
         <View style={styles.view}>
         <Pressable onPress={() => navigation.goBack('MenuScreen')}>
         <Icon
@@ -54,13 +54,11 @@ const height = Dimensions.get('window').height
 const styles = StyleSheet.create({
 
     backImage: {
-        width: '100%', 
-        height: '100%',
+        width: width, 
+        height: height,
         flex:1, 
         opacity:0.2,
         position:'absolute',
-        marginTop: height*0.05,
-        marginHorizontal: 0
       },
 
     backButton:{
@@ -80,7 +78,7 @@ const styles = StyleSheet.create({
       },
 
     background:{
-        backgroundColor: '#6E8969',
+        backgroundColor: '#406c34',
         flex:1,
     },
 
