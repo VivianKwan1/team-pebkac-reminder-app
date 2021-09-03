@@ -15,7 +15,7 @@ const CalendarTask = (props) => {
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: '#d1a3a4',
+    backgroundColor: '#99C4D3',
     padding: 15,
     borderRadius: 10,
     flexDirection: 'row',
