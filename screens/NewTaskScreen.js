@@ -61,8 +61,25 @@ const NewTaskScreen = (props) => {
   const [recording, setRecording] = useState();
   const [show, setShow] = useState();
 
-  var dateString = '';
-  var dateTime = '';
+  const convertTime = (t) => { 
+    var tempHours = t.getHours();
+    var minutes = t.getMinutes();
+    var timeDay = "AM";
+    var hours = tempHours;
+    if (hours >= 12) {
+      hours = tempHours - 12;
+      timeDay = "PM";
+    }
+    if (hours == 0) {
+      hours = 12;
+    } 
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    time = hours+":"+minutes+" "+timeDay;
+    return time;
+  };
+
+  var dateString = date.getMonth()+1+"/"+date.getDate()+"/"+date.getFullYear()
+  var dateTime = convertTime(date);
 
   startRecording = async () => {
     try {
