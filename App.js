@@ -28,6 +28,7 @@ import SecurityScreen from './screens/SecurityScreen';
 import ConnectionScreen from './screens/ConnectionScreen';
 import AccountScreen from './screens/AccountScreen';
 import NewTaskScreen from "./screens/NewTaskScreen";
+import TasksScreen from "./screens/TasksScreen";
 
 
 const Stack = createStackNavigator();
@@ -102,6 +103,7 @@ export default function App() {
         <Stack.Screen name="BirthdayScreen" component={BirthdayScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SettingsScreen" component={SettingsScreen} options={{ headerShown: false }} />
         <Stack.Screen name="AboutScreen" component={AboutScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="TasksScreen" component={TasksScreen} options={{ headerShown: false }} />
 
         <Stack.Screen name="HealthScreen" component={HealthScreen} options={{ headerShown: false }} />
         <Stack.Screen name="WaterLine" component={WaterLine} options={{ headerShown: false }} />

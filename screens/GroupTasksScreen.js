@@ -130,7 +130,7 @@ function GroupTasksScreen(props) {
           <TouchableOpacity
             style={styles.button}
             activeOpacity={0.5}
-            onPress={() => navigation.navigate('TaskCategory')}
+            onPress={() => navigation.navigate('TasksScreen')}
           >
             <Text style={styles.text}>All Tasks</Text>
           </TouchableOpacity>
