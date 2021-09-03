@@ -245,7 +245,14 @@ const NewTaskScreen = (props) => {
           placeholder="Select label"
           style={styles.dropdown}
           placeholderStyle={{ color: "grey" }}
-          dropDownContainerStyle={{ borderColor: "#b59c83" }}
+          listMode="MODAL"
+          closeAfterSelecting={true}
+          modalProps={{
+            animationType: "fade"
+          }}
+          modalContentContainerStyle={{
+            backgroundColor: "#faf0e6"
+          }}
         />
       </View>
       </View>
